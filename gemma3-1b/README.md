@@ -4,17 +4,32 @@ This directory contains everything you need to run Google's Gemma 3 1B model lay
 
 ## Setup
 
-### 1. Activate the virtual environment
+### Quick Setup (Recommended)
 
 ```bash
+cd gemma3-1b
+./setup.sh
+```
+
+This will:
+1. Create the virtual environment
+2. Install all dependencies
+3. Install the gemma_pytorch package
+
+### Manual Setup
+
+```bash
+# 1. Activate the virtual environment
 source venv/bin/activate
-```
 
-### 2. Install dependencies (if not already done)
-
-```bash
+# 2. Install dependencies
 pip install -r requirements.txt
+
+# 3. Install gemma_pytorch package (IMPORTANT!)
+pip install -e gemma_pytorch/
 ```
+
+**Note:** The `pip install -e gemma_pytorch/` step is required to make the `gemma` module importable.
 
 ## Usage
 
