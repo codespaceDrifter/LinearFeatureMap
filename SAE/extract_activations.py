@@ -1,15 +1,18 @@
 """
 Extract activations from Gemma model for SAE training.
 
-For each MLP layer, we extract:
-1. Activations BEFORE the MLP (mlp_in)
-2. Activations AFTER the MLP (mlp_out)
-3. Input token that produced this activation
-4. Predicted output token from this activation
+For each MLP layer, we extract PURE MLP activations using forward hooks:
+1. mlp_input: Activation going INTO the MLP (after attention, before MLP)
+2. mlp_output: Activation coming OUT of the MLP (after down_proj)
+3. input_token_id: Token that produced this activation
+4. predicted_token_id: Token predicted from this activation
 
 This data is used to train:
 - SAE: Sparse Autoencoder on all activations
 - LFM: Linear Feature Map from input_features -> output_features
+
+Implementation: Uses transformers library with forward hooks on model.model.layers[i].mlp
+to capture pure MLP transformations (not full layer with attention).
 """
 
 import torch
@@ -77,51 +80,66 @@ class ActivationExtractor:
 
         samples = []
 
-        with torch.no_grad():
-            # Forward pass - get all hidden states
-            outputs = self.model(
-                **inputs,
-                output_hidden_states=True,
-                return_dict=True
+        # Storage for MLP activations captured by hooks
+        mlp_captures = {}
+
+        def make_hook(layer_idx):
+            """Create hook function for specific layer."""
+            def hook_fn(module, input, output):
+                # input is tuple, output is tensor
+                mlp_captures[layer_idx] = {
+                    'input': input[0].detach().cpu().float(),  # [batch, seq_len, hidden_dim]
+                    'output': output.detach().cpu().float()     # [batch, seq_len, hidden_dim]
+                }
+            return hook_fn
+
+        # Register hooks on all MLP layers
+        hooks = []
+        for layer_idx in range(self.num_layers):
+            hook = self.model.model.layers[layer_idx].mlp.register_forward_hook(
+                make_hook(layer_idx)
             )
+            hooks.append(hook)
 
-            # outputs.hidden_states is tuple of (num_layers+1) tensors
-            # [0] = embeddings, [1] = after layer 0, ..., [26] = after layer 25
-            hidden_states = outputs.hidden_states  # Tuple of [batch=1, seq_len, hidden_dim]
-            logits = outputs.logits[0]  # [seq_len, vocab_size]
+        try:
+            with torch.no_grad():
+                # Forward pass - hooks will capture MLP activations
+                outputs = self.model(
+                    **inputs,
+                    return_dict=True
+                )
 
-            # For each layer
-            for layer_idx in range(self.num_layers):
-                # Get activations BEFORE and AFTER this layer's MLP
-                # Note: hidden_states[layer_idx] is BEFORE layer_idx processes it
-                # hidden_states[layer_idx+1] is AFTER layer_idx processes it
-                before_layer = hidden_states[layer_idx][0]      # [seq_len, hidden_dim]
-                after_layer = hidden_states[layer_idx + 1][0]   # [seq_len, hidden_dim]
+                logits = outputs.logits[0]  # [seq_len, vocab_size]
 
-                # For each position in sequence
-                for pos in range(seq_len):
-                    # Get input token at this position
-                    input_token_id = input_ids[pos].item()
+                # Process captured activations
+                for layer_idx in range(self.num_layers):
+                    mlp_data = mlp_captures[layer_idx]
+                    mlp_in = mlp_data['input'][0]   # [seq_len, hidden_dim]
+                    mlp_out = mlp_data['output'][0]  # [seq_len, hidden_dim]
 
-                    # Get predicted token at this position
-                    predicted_token_id = torch.argmax(logits[pos]).item()
+                    # For each position in sequence
+                    for pos in range(seq_len):
+                        # Get input token at this position
+                        input_token_id = input_ids[pos].item()
 
-                    # Get MLP input/output activations
-                    # NOTE: The difference between layers includes both attention AND MLP
-                    # For pure MLP isolation, we'd need to hook inside the layer
-                    # For now, this gives us the residual stream before/after the full layer
-                    mlp_in = before_layer[pos].cpu().float().numpy()   # [hidden_dim]
-                    mlp_out = after_layer[pos].cpu().float().numpy()   # [hidden_dim]
+                        # Get predicted token at this position
+                        predicted_token_id = torch.argmax(logits[pos]).item()
 
-                    sample = ActivationSample(
-                        layer_idx=layer_idx,
-                        position=pos,
-                        input_token_id=input_token_id,
-                        predicted_token_id=predicted_token_id,
-                        mlp_input=mlp_in,
-                        mlp_output=mlp_out
-                    )
-                    samples.append(sample)
+                        # Get MLP input/output for this position
+                        sample = ActivationSample(
+                            layer_idx=layer_idx,
+                            position=pos,
+                            input_token_id=input_token_id,
+                            predicted_token_id=predicted_token_id,
+                            mlp_input=mlp_in[pos].numpy(),   # [hidden_dim]
+                            mlp_output=mlp_out[pos].numpy()  # [hidden_dim]
+                        )
+                        samples.append(sample)
+
+        finally:
+            # Clean up hooks
+            for hook in hooks:
+                hook.remove()
 
         return samples
 
