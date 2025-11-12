@@ -1,127 +1,60 @@
-# Gemma 3 1B - Layer by Layer Inference
+# Gemma 3 1B - Chat & Layer Access
 
-This directory contains everything you need to run Google's Gemma 3 1B model layer-by-layer in PyTorch with full access to activations.
+Simple setup for running Google's Gemma 3 1B model in PyTorch.
 
-## Setup
-
-### Quick Setup (Recommended)
+## Quick Start
 
 ```bash
+# 1. Setup
 cd gemma3-1b
 ./setup.sh
-```
 
-This will:
-1. Create the virtual environment
-2. Install all dependencies
-3. Install the gemma_pytorch package
-
-### Manual Setup
-
-```bash
-# 1. Activate the virtual environment
+# 2. Download weights (one time)
 source venv/bin/activate
+huggingface-cli download google/gemma-3-1b-pt --local-dir weights/
 
-# 2. Install dependencies
-pip install -r requirements.txt
-
-# 3. Install gemma_pytorch package (IMPORTANT!)
-pip install -e gemma_pytorch/
+# 3. Chat!
+python chat.py
 ```
 
-**Note:** The `pip install -e gemma_pytorch/` step is required to make the `gemma` module importable.
+## What's Here
 
-## Usage
+### Main Files
+- **`chat.py`** - Simple chat interface (just run this!)
+- **`gemma_pytorch/`** - Official Google implementation with actual source code
 
-### Quick Test
+### Key Source Files (Read the actual code!)
+- `gemma_pytorch/gemma/model.py` - THE REAL MODEL (RMSNorm, Attention, MLP)
+- `gemma_pytorch/gemma/config.py` - Model configuration
+- `gemma_pytorch/gemma/tokenizer.py` - Tokenizer
 
-Run the simple test to verify everything is working:
+## Architecture
 
-```bash
-python simple_test.py
-```
+- **26 layers** (5 local + 1 global attention, repeating)
+- **Hidden size:** 1152
+- **8 attention heads**, 2 KV heads (Grouped Query Attention)
+- **Vocab:** 256K tokens
+- **Max context:** 32K tokens
 
-### Layer-by-Layer Inference
-
-The main script `layer_by_layer_inference.py` provides a comprehensive interface for running Gemma 3 1B with access to every layer's activations.
-
-```bash
-python layer_by_layer_inference.py
-```
-
-## Key Features
-
-### 1. Access Layer Activations
+## For Layer-by-Layer Access
 
 ```python
-from layer_by_layer_inference import LayerByLayerGemma
+from transformers import AutoModelForCausalLM
 
-model = LayerByLayerGemma(model_id="google/gemma-3-1b-pt")
-result = model.run_layer_by_layer("The capital of France is")
+model = AutoModelForCausalLM.from_pretrained("./weights", output_hidden_states=True)
 
-# Access activations from each layer
-for layer_output in result['layer_outputs']:
-    print(f"Layer {layer_output['layer_idx']}: {layer_output['hidden_states'].shape}")
+# Get all layer outputs
+outputs = model(**inputs, output_hidden_states=True)
+all_layers = outputs.hidden_states  # Tuple of (layer0, layer1, ..., layer26)
 ```
 
-### 2. Modify Activations
+Or read `gemma_pytorch/gemma/model.py` to see how each layer works!
 
-```python
-def modify_activations(layer_idx, hidden_states):
-    """Amplify activations at specific layers"""
-    if layer_idx == 10:
-        return hidden_states * 1.5
-    return hidden_states
+## Files Explained
 
-result = model.run_with_intermediate_modifications(
-    "Hello world",
-    modify_fn=modify_activations
-)
-```
-
-### 3. Token-by-Token Generation
-
-```python
-generated = model.generate_token_by_token(
-    "Once upon a time",
-    max_new_tokens=10,
-    temperature=0.7
-)
-```
-
-## Model Architecture
-
-- **Layers**: 26 transformer layers
-- **Hidden Size**: 2304
-- **Intermediate Size**: 9216
-- **Attention Heads**: 8
-- **Key-Value Heads**: 4 (Grouped Query Attention)
-- **Context Length**: 128K tokens
-
-## Files
-
-- `layer_by_layer_inference.py` - Main script with LayerByLayerGemma class
-- `simple_test.py` - Quick test to verify model loading
+- `setup.sh` - One-command setup
+- `chat.py` - Main chat script
 - `requirements.txt` - Python dependencies
-- `venv/` - Virtual environment directory
-
-## HuggingFace Access
-
-You'll need to accept Google's license for Gemma models on HuggingFace:
-1. Visit https://huggingface.co/google/gemma-3-1b-pt
-2. Accept the license agreement
-3. Login with `huggingface-cli login` if needed
-
-## Model Variants
-
-- `google/gemma-3-1b-pt` - Pretrained model
-- `google/gemma-3-1b-it` - Instruction-tuned model
-
-## Use Cases
-
-This setup is perfect for:
-- Analyzing internal representations
-- Feature extraction and probing
-- Activation steering and circuit analysis
-- Linear feature map experiments
-- Understanding model behavior at each layer
+- `gemma_pytorch/` - Official Google code
+- `venv/` - Virtual environment (created by setup.sh)
+- `weights/` - Model weights (you download these)
