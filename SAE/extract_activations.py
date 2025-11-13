@@ -57,9 +57,17 @@ class ActivationExtractor:
         )
         self.model.eval()
 
-        # Get model config
-        self.num_layers = self.model.config.num_hidden_layers  # 26 for Gemma 3 1B
-        self.hidden_dim = self.model.config.hidden_size        # 1152 for Gemma 3 1B
+        # Get model config - Gemma3 multimodal has nested text_config
+        if hasattr(self.model.config, 'text_config'):
+            text_config = self.model.config.text_config
+            self.text_model = self.model.language_model  # Multimodal: text decoder is nested
+            print("✓ Detected multimodal Gemma3 model")
+        else:
+            text_config = self.model.config
+            self.text_model = self.model
+
+        self.num_layers = text_config.num_hidden_layers
+        self.hidden_dim = text_config.hidden_size
 
         print(f"✓ Model loaded: {self.num_layers} layers, hidden_dim={self.hidden_dim}")
 
@@ -96,7 +104,7 @@ class ActivationExtractor:
         # Register hooks on all MLP layers
         hooks = []
         for layer_idx in range(self.num_layers):
-            hook = self.model.model.layers[layer_idx].mlp.register_forward_hook(
+            hook = self.text_model.model.layers[layer_idx].mlp.register_forward_hook(
                 make_hook(layer_idx)
             )
             hooks.append(hook)
