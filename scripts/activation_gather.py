@@ -71,11 +71,11 @@ for i in range(start, total, BATCH_SIZE):
         files[f"layer_{layer}_post"].write(post_acts.tobytes())
     
     # progress + sanity check
-    if i % 50 == 0:
+    if i % 100 == 0:
         pct = 100 * i / total
         print(f"[{pct:.1f}%] Example {i}/{total}")
         print(f"  Input: {prompts[0][:100]}...")
-        print(f"  Output: {responses[0][:100]}...")
+        print(f"  Output: {responses[0]}")
 
 # close files
 for f in files.values():
