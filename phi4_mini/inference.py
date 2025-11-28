@@ -54,7 +54,10 @@ class Phi4Inference:
         generated_ids = inputs["input_ids"].clone().to(self.device)
         attention_mask = inputs["attention_mask"].clone().to(self.device)
 
+        # before the loop
+        stopped = torch.zeros(generated_ids.shape[0], dtype=torch.bool, device=self.device)
 
+        # inside the loop
         for _ in range(max_new_tokens):
             with torch.no_grad():
                 outputs = self.model(
@@ -68,13 +71,18 @@ class Phi4Inference:
             attention_mask = torch.cat([attention_mask, torch.ones_like(next_token)], dim=-1)
             
             for l in self.layers:
-                all_pre[l].append(self.activations[f"layer_{l}_pre"][:, -1:, :].cpu())
-                all_post[l].append(self.activations[f"layer_{l}_post"][:, -1:, :].cpu())
+                pre = self.activations[f"layer_{l}_pre"][:, -1:, :].cpu()
+                post = self.activations[f"layer_{l}_post"][:, -1:, :].cpu()
+                # if already stopped set added activation to 0 vector
+                pre[stopped] = 0
+                post[stopped] = 0
+                all_pre[l].append(pre)
+                all_post[l].append(post)
             
-            if (next_token == self.tokenizer.eos_token_id).all():
+            stopped = stopped | (next_token.squeeze(-1) == self.tokenizer.eos_token_id)
+            if stopped.all():
                 break
-        
-        # decode responses (only new tokens)
+
         responses = []
         for i in range(generated_ids.shape[0]):
             response = self.tokenizer.decode(generated_ids[i, prompt_len:], skip_special_tokens=True)
