@@ -64,8 +64,8 @@ for i in range(start, total, BATCH_SIZE):
         pre_idx = layer_idx * 2
         post_idx = layer_idx * 2 + 1
         
-        pre_acts = activations[:, :, pre_idx, :].reshape(-1, embed_dim).numpy().astype(np.float32)
-        post_acts = activations[:, :, post_idx, :].reshape(-1, embed_dim).numpy().astype(np.float32)
+        pre_acts = activations[:, :, pre_idx, :].reshape(-1, embed_dim).float().numpy()
+        post_acts = activations[:, :, post_idx, :].reshape(-1, embed_dim).float().numpy()
         
         files[f"layer_{layer}_pre"].write(pre_acts.tobytes())
         files[f"layer_{layer}_post"].write(post_acts.tobytes())
