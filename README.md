@@ -66,6 +66,13 @@ we are training one LFW for each MLP so we gather activations pre and post each 
 this SAE is per layer pre and post MLP for LFW training.  
 we will do 24576 for the SAE hidden_dim since the model embed_dim is 3072 embed_dim and we go for a 8x.  
 we label SAE with the following series of structured information  
+data/features/
+  layer_8_pre/
+    feature_0.json
+    feature_1.json
+    ...
+  layer_8_post/
+    ...
 
 {
     top unembedding cosine similarity tokens: if we artifically put that activation to a high number and decode it and produce a embedding, what token embeddings is it most similar to
@@ -82,6 +89,11 @@ we label SAE with the following series of structured information
 then we prompt a llm like claude opus 4.5 to interpret the features if possible. 
 
 due to compute and time limitations we start with 4 layers of MLP not all layers: we pick layer 8, 16, 24, 31. 
+
+for each we label the ones that fire > 0.5 only. many features will not be labeled.
+we get a list of ids of all labeled features.
+
+when training LFMs, we zero out ALL unlabeled features. 
 
 for activations we are using the first 75% as training and last 25% as test. 
 

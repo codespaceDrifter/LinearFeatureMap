@@ -10,8 +10,8 @@ from phi4_mini.inference import Phi4Inference
 LAYERS = [8, 16, 24, 31]
 BATCH_SIZE = 4
 MAX_NEW_TOKENS = 64
-SAVE_DIR = "./data/activations"
-SPLIT = (0, 0.75)
+SAVE_DIR = "./data/test/activations"
+SPLIT = (0.75, 1.0)
 
 os.makedirs(SAVE_DIR, exist_ok=True)
 dataset = load_from_disk("./data/alpaca/train")
