@@ -8,12 +8,12 @@ from SAE.SAE import SAE
 
 # config
 EMBED_DIM = 3072
-EXPANSION = 8
+EXPANSION = 4
 HIDDEN_DIM = EMBED_DIM * EXPANSION
-BATCH_SIZE = 4096
+BATCH_SIZE = 16384
 LR = 1e-4
-LAMBDA_SPARSE = 1e-3
-EPOCHS = 5
+LAMBDA_SPARSE = 1
+EPOCHS = 20
 DEVICE = "cuda"
 
 os.makedirs("./weights/SAE", exist_ok=True)
@@ -35,7 +35,6 @@ def train_layer(layer, pre_post):
     optimizer = torch.optim.Adam(sae.parameters(), lr=LR)
     
     num_batches = total_tokens // BATCH_SIZE
-    
     for epoch in range(EPOCHS):
         print(f"--- Epoch {epoch + 1}/{EPOCHS} ---")
         
@@ -55,14 +54,18 @@ def train_layer(layer, pre_post):
             loss.backward()
             optimizer.step()
             
-            if batch_idx % 100 == 0:
-                avg_active = (z > 0).float().mean().item() * HIDDEN_DIM
+            if batch_idx % 50 == 0:
+                any_active = (z > 0).float().mean().item() * HIDDEN_DIM
+                small_active = (z > 0.1).float().mean().item() * HIDDEN_DIM
+                mid_active = (z > 0.5).float().mean().item() * HIDDEN_DIM
+                big_active = (z > 1).float().mean().item() * HIDDEN_DIM
                 r_squared = 1 - (x - x_hat).pow(2).sum() / x.pow(2).sum()
-                print(f"  [{batch_idx}/{num_batches}] loss: {loss.item():.4f} R²: {r_squared.item():.4f} active: {avg_active:.0f}")
+                print(f"  [{batch_idx}/{num_batches}] loss: {loss.item():.4f} R²: {r_squared.item():.4f} any active: {any_active:.0f} small_active: {small_active: .0f} mid active: {mid_active:.0f} big active: {big_active:.0f}")
         
         torch.save(sae.state_dict(), save_path)
         print(f"  Saved epoch {epoch + 1} to {save_path}")
     
+
     print(f"Done with layer {layer} {pre_post}\n")
 
 if __name__ == "__main__":
