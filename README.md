@@ -83,6 +83,8 @@ then we prompt a llm like claude opus 4.5 to interpret the features if possible.
 
 due to compute and time limitations we start with 4 layers of MLP not all layers: we pick layer 8, 16, 24, 31. 
 
+for activations we are using the first 75% as training and last 25% as test. 
+
 
 ### potential problems:
 
