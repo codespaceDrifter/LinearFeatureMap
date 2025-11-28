@@ -50,7 +50,7 @@ for i in range(start, end, BATCH_SIZE):
         files[f"layer_{layer}_pre"].write(pre_acts.tobytes())
         files[f"layer_{layer}_post"].write(post_acts.tobytes())
     
-    if i % 100 == 0:
+    if (i-start) % 100 == 0:
         print(f"[{100*i/total:.1f}%] {i}/{total} | {prompts[0][:60]}... -> {responses[0][:60]}...")
 
 for f in files.values():
