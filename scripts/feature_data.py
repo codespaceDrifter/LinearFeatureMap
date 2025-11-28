@@ -53,7 +53,7 @@ for i in range(end_idx):
     
     for layer_idx, layer in enumerate(LAYERS):
         for pos_idx, pos in enumerate(["pre", "post"]):
-            acts = activations[0, :, layer_idx * 2 + pos_idx, :].to(DEVICE)
+            acts = activations[0, :, layer_idx * 2 + pos_idx, :].float().to(DEVICE)
 
             # z shape: (seq_len, hidden_dim) e.g. (64, 12288)
             z = torch.relu(saes[f"{layer}_{pos}"].encoder(acts))
