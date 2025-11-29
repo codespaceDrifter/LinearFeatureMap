@@ -40,7 +40,7 @@ for i in range(start, end, BATCH_SIZE):
     prompts = [format_prompt({"instruction": inst, "input": inp}) 
                for inst, inp in zip(batch["instruction"], batch["input"])]
     
-    responses, activations = phi.generate(prompts, max_new_tokens=MAX_NEW_TOKENS)
+    responses, _, activations = phi.generate(prompts, max_new_tokens=MAX_NEW_TOKENS)
     batch_size, seq_len, _, embed_dim = activations.shape
     total_tokens += batch_size * seq_len
     

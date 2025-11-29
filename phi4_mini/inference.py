@@ -24,83 +24,77 @@ class Phi4Inference:
             self.activations[f"layer_{layer_idx}_post"] = output.detach()
         return hook
     
-    def generate(self, prompts, max_new_tokens=128):
-        """
-        Args:
-            prompts: list of strings (user questions)
-            max_new_tokens: how many tokens to generate
+def generate(self, prompts, max_new_tokens=128):
+    # format as chat
+    formatted = []
+    for p in prompts:
+        messages = [{"role": "user", "content": p}]
+        formatted.append(self.tokenizer.apply_chat_template(
+            messages, tokenize=False, add_generation_prompt=True
+        ))
+    
+    # tokenize
+    inputs = self.tokenizer(formatted, return_tensors="pt", padding=True).to(self.model.device)
+    prompt_len = inputs["input_ids"].shape[1]
+    
+    # starts empty for each layer
+    all_pre = {l: [] for l in self.layers}
+    all_post = {l: [] for l in self.layers}
+    
+    # generate token by token to collect activations
+    generated_ids = inputs["input_ids"].clone().to(self.device)
+    attention_mask = inputs["attention_mask"].clone().to(self.device)
+    stopped = torch.zeros(generated_ids.shape[0], dtype=torch.bool, device=self.device)
+    
+    for _ in range(max_new_tokens):
+        with torch.no_grad():
+            outputs = self.model(
+                input_ids=generated_ids,
+                attention_mask=attention_mask,
+            )
         
-        Returns:
-            responses: list of strings
-            activations: (batch, seq_len, num_layers*2, embed_dim)
-        """
-        # format as chat
-        formatted = []
-        for p in prompts:
-            messages = [{"role": "user", "content": p}]
-            formatted.append(self.tokenizer.apply_chat_template(
-                messages, tokenize=False, add_generation_prompt=True
-            ))
+        next_token = outputs.logits[:, -1, :].argmax(dim=-1, keepdim=True)
         
-        # tokenize
-        inputs = self.tokenizer(formatted, return_tensors="pt", padding=True).to(self.model.device)
-        prompt_len = inputs["input_ids"].shape[1]
+        generated_ids = torch.cat([generated_ids, next_token], dim=-1)
+        attention_mask = torch.cat([attention_mask, torch.ones_like(next_token)], dim=-1)
         
-        # starts empty for each layer
-        all_pre = {l: [] for l in self.layers}
-        all_post = {l: [] for l in self.layers}
-        
-        # generate token by token to collect activations
-        generated_ids = inputs["input_ids"].clone().to(self.device)
-        attention_mask = inputs["attention_mask"].clone().to(self.device)
-
-        # before the loop
-        stopped = torch.zeros(generated_ids.shape[0], dtype=torch.bool, device=self.device)
-
-        # inside the loop
-        for _ in range(max_new_tokens):
-            with torch.no_grad():
-                outputs = self.model(
-                    input_ids=generated_ids,
-                    attention_mask=attention_mask,
-                )
-            
-            next_token = outputs.logits[:, -1, :].argmax(dim=-1, keepdim=True)
-            
-            generated_ids = torch.cat([generated_ids, next_token], dim=-1)
-            attention_mask = torch.cat([attention_mask, torch.ones_like(next_token)], dim=-1)
-            
-            for l in self.layers:
-                pre = self.activations[f"layer_{l}_pre"][:, -1:, :].cpu()
-                post = self.activations[f"layer_{l}_post"][:, -1:, :].cpu()
-                # if already stopped set added activation to 0 vector
-                pre[stopped] = 0
-                post[stopped] = 0
-                all_pre[l].append(pre)
-                all_post[l].append(post)
-            
-            stopped = stopped | (next_token.squeeze(-1) == self.tokenizer.eos_token_id)
-            if stopped.all():
-                break
-
-        responses = []
-        for i in range(generated_ids.shape[0]):
-            response = self.tokenizer.decode(generated_ids[i, prompt_len:], skip_special_tokens=True)
-            responses.append(response)
-        
-        # stack activations: (batch, seq_len, num_layers*2, embed_dim)
-        stacked = []
         for l in self.layers:
-            pre = torch.cat(all_pre[l], dim=1)   # (batch, seq_len, embed_dim)
-            post = torch.cat(all_post[l], dim=1) # (batch, seq_len, embed_dim)
-            stacked.append(pre)
-            stacked.append(post)
+            pre = self.activations[f"layer_{l}_pre"][:, -1:, :].cpu()
+            post = self.activations[f"layer_{l}_post"][:, -1:, :].cpu()
+            pre[stopped] = 0
+            post[stopped] = 0
+            all_pre[l].append(pre)
+            all_post[l].append(post)
         
-        # (batch, seq_len, num_layers*2, embed_dim)
-        activations = torch.stack(stacked, dim=2)
-        
-        return responses, activations
+        stopped = stopped | (next_token.squeeze(-1) == self.tokenizer.eos_token_id)
+        if stopped.all():
+            break
+    
+    # decode full responses
+    responses = []
+    for i in range(generated_ids.shape[0]):
+        response = self.tokenizer.decode(generated_ids[i, prompt_len:], skip_special_tokens=True)
+        responses.append(response)
+    
+    # decode individual tokens
+    tokens = []
+    for i in range(generated_ids.shape[0]):
+        toks = [self.tokenizer.decode([t]) for t in generated_ids[i, prompt_len:].tolist()]
+        tokens.append(toks)
+    
+    # stack activations
+    stacked = []
+    for l in self.layers:
+        pre = torch.cat(all_pre[l], dim=1)
+        post = torch.cat(all_post[l], dim=1)
+        stacked.append(pre)
+        stacked.append(post)
+    
+    activations = torch.stack(stacked, dim=2)
 
+    assert all(len(toks) == activations.shape[1] for toks in tokens), f"token/activation mismatch"
+    
+    return responses, tokens, activations
 
 # test
 if __name__ == "__main__":

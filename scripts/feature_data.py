@@ -38,11 +38,13 @@ def format_prompt(example):
         text += "\n" + example["input"]
     return text
 
-# open all files in append mode
+examples_file = open("./data/features/examples.jsonl", "a")
 files = {}
 for layer in LAYERS:
     for pos in ["pre", "post"]:
         files[f"{layer}_{pos}"] = open(f"./data/features/layer_{layer}_{pos}.jsonl", "a")
+
+example_id = 0
 
 print(f"Processing {end_idx} examples...")
 
@@ -51,9 +53,11 @@ for i in range(0, end_idx, BATCH_SIZE):
     prompts = [format_prompt(ex) for ex in batch]
     
     with torch.no_grad():
-        responses, activations = phi.generate(prompts, max_new_tokens=MAX_NEW_TOKENS)
+        responses, tokens, activations = phi.generate(prompts, max_new_tokens=MAX_NEW_TOKENS)
     
     for b in range(len(prompts)):
+        examples_file.write(json.dumps({"id": example_id, "input": prompts[b], "output": responses[b]}) + "\n")
+        
         for layer_idx, layer in enumerate(LAYERS):
             for pos_idx, pos in enumerate(["pre", "post"]):
                 acts = activations[b, :, layer_idx * 2 + pos_idx, :].float().to(DEVICE)
@@ -63,20 +67,17 @@ for i in range(0, end_idx, BATCH_SIZE):
                 
                 feature_fires = defaultdict(list)
                 for token_idx, feature_idx in fired:
-                    feature_fires[feature_idx].append((token_idx, round(z[token_idx, feature_idx].item(), 3)))
+                    feature_fires[feature_idx].append((token_idx, tokens[b][token_idx], round(z[token_idx, feature_idx].item(), 3)))
                 
                 for feature_idx, fires in feature_fires.items():
-                    line = json.dumps({
-                        "feature_id": feature_idx,
-                        "input": prompts[b],
-                        "output": responses[b],
-                        "activations": fires
-                    })
-                    files[f"{layer}_{pos}"].write(line + "\n")
+                    files[f"{layer}_{pos}"].write(json.dumps({"feature_id": feature_idx, "example_id": example_id, "activations": fires}) + "\n")
+        
+        example_id += 1
     
-    if i % BATCH_SIZE == 20:
+    if i % 100 < BATCH_SIZE:
         print(f"[{100*i/end_idx:.1f}%] {i}/{end_idx}")
 
+examples_file.close()
 for f in files.values():
     f.close()
 
