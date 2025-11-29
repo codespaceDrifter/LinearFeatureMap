@@ -33,7 +33,7 @@ for layer in LAYERS:
             feature_vector = decoder[:, int(fid)]  # (3072,) - adjust indexing if needed
             feature_norm = feature_vector / feature_vector.norm()
             
-            similarities = embed_norm @ feature_norm  # (vocab_size,)
+            similarities = embed_norm.float() @ feature_norm  # (vocab_size,)
             top_k = similarities.topk(TOP_K)
             
             top_tokens = [phi.tokenizer.decode([i]) for i in top_k.indices.tolist()]
