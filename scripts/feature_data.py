@@ -15,6 +15,7 @@ HIDDEN_DIM = 12288
 THRESHOLD = 0.5
 DEVICE = "cuda"
 MAX_NEW_TOKENS = 64
+BATCH_SIZE = 4
 
 os.makedirs("./data/features", exist_ok=True)
 
@@ -37,47 +38,46 @@ def format_prompt(example):
         text += "\n" + example["input"]
     return text
 
-# {layer_pos: {feature_id: [contexts]}}
-all_features = {f"{l}_{p}": defaultdict(list) for l in LAYERS for p in ["pre", "post"]}
+# open all files in append mode
+files = {}
+for layer in LAYERS:
+    for pos in ["pre", "post"]:
+        files[f"{layer}_{pos}"] = open(f"./data/features/layer_{layer}_{pos}.jsonl", "a")
 
 print(f"Processing {end_idx} examples...")
 
-for i in range(end_idx):
-    example = dataset[i]
-    prompt = format_prompt(example)
+for i in range(0, end_idx, BATCH_SIZE):
+    batch = [dataset[j] for j in range(i, min(i + BATCH_SIZE, end_idx))]
+    prompts = [format_prompt(ex) for ex in batch]
     
     with torch.no_grad():
-        responses, activations = phi.generate([prompt], max_new_tokens=MAX_NEW_TOKENS)
+        responses, activations = phi.generate(prompts, max_new_tokens=MAX_NEW_TOKENS)
     
-    output = responses[0]
+    for b in range(len(prompts)):
+        for layer_idx, layer in enumerate(LAYERS):
+            for pos_idx, pos in enumerate(["pre", "post"]):
+                acts = activations[b, :, layer_idx * 2 + pos_idx, :].to(DEVICE)
+                z = torch.relu(saes[f"{layer}_{pos}"].encoder(acts))
+                
+                fired = (z > THRESHOLD).nonzero().tolist()
+                
+                feature_fires = defaultdict(list)
+                for token_idx, feature_idx in fired:
+                    feature_fires[feature_idx].append((token_idx, round(z[token_idx, feature_idx].item(), 3)))
+                
+                for feature_idx, fires in feature_fires.items():
+                    line = json.dumps({
+                        "feature_id": feature_idx,
+                        "input": prompts[b],
+                        "output": responses[b],
+                        "activations": fires
+                    })
+                    files[f"{layer}_{pos}"].write(line + "\n")
     
-    for layer_idx, layer in enumerate(LAYERS):
-        for pos_idx, pos in enumerate(["pre", "post"]):
-            acts = activations[0, :, layer_idx * 2 + pos_idx, :].float().to(DEVICE)
-
-            # z shape: (seq_len, hidden_dim) e.g. (64, 12288)
-            z = torch.relu(saes[f"{layer}_{pos}"].encoder(acts))
-            
-            # z > threshold: (seq_len, hidden_dim) e.g. (64, 12288)
-            # nonzero returns coords of true values (token_idx, feature_idx)
-            fired = (z > THRESHOLD).nonzero().tolist()
-            
-            # default dict allows append into non existing keys into a list
-            feature_fires = defaultdict(list)
-            for token_idx, feature_idx in fired:
-                # for each feature that fired append the tuple of token index that fired and the activation value
-                feature_fires[feature_idx].append((token_idx, round(z[token_idx, feature_idx].item(), 3)))
-            
-            for feature_idx, fires in feature_fires.items():
-                all_features[f"{layer}_{pos}"][feature_idx].append({
-                    "input": prompt,
-                    "output": output,
-                    "activations": fires
-                })
-    
-    if i % 100 == 0:
+    if i % BATCH_SIZE == 20:
         print(f"[{100*i/end_idx:.1f}%] {i}/{end_idx}")
 
-print("Saving...")
-with open("./data/features/all_features.json", "w") as f:
-    json.dump(all_features, f)
+for f in files.values():
+    f.close()
+
+print("Done!")
