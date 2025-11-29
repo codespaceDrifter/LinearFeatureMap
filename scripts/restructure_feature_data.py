@@ -4,7 +4,7 @@ import os
 
 LAYERS = [8, 16, 24]
 
-os.makedirs("./data/features_organized", exist_ok=True)
+os.makedirs("./data/features", exist_ok=True)
 
 for layer in LAYERS:
     for pos in ["pre", "post"]:
@@ -12,7 +12,7 @@ for layer in LAYERS:
         
         features = defaultdict(lambda: {"contexts": [], "decoding": None, "interpretation": None})
         
-        with open(f"./data/features/layer_{layer}_{pos}.jsonl", "r") as f:
+        with open(f"./data/features_jsonl/layer_{layer}_{pos}.jsonl", "r") as f:
             for line in f:
                 entry = json.loads(line)
                 fid = entry["feature_id"]
@@ -23,7 +23,7 @@ for layer in LAYERS:
         
         features = {k: dict(v) for k, v in features.items()}
         
-        with open(f"./data/features_organized/layer_{layer}_{pos}.json", "w") as f:
+        with open(f"./data/features/layer_{layer}_{pos}.json", "w") as f:
             json.dump(features, f)
         
         print(f"  {len(features)} features saved")

@@ -17,7 +17,7 @@ DEVICE = "cuda"
 MAX_NEW_TOKENS = 64
 BATCH_SIZE = 4
 
-os.makedirs("./data/features", exist_ok=True)
+os.makedirs("./data/features_jsonl", exist_ok=True)
 
 phi = Phi4Inference(layers=LAYERS, device=DEVICE)
 
@@ -38,11 +38,11 @@ def format_prompt(example):
         text += "\n" + example["input"]
     return text
 
-examples_file = open("./data/features/examples.jsonl", "a")
+examples_file = open("./data/features_jsonl/examples.jsonl", "a")
 files = {}
 for layer in LAYERS:
     for pos in ["pre", "post"]:
-        files[f"{layer}_{pos}"] = open(f"./data/features/layer_{layer}_{pos}.jsonl", "a")
+        files[f"{layer}_{pos}"] = open(f"./data/features_jsonl/layer_{layer}_{pos}.jsonl", "a")
 
 example_id = 0
 

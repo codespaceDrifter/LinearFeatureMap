@@ -75,7 +75,7 @@ data/features/
     ...
 
 {
-    top unembedding cosine similarity tokens: if we artifically put that activation to a high number and decode it and produce a embedding, what token embeddings is it most similar to
+    top unembedding cosine similarity tokens: the decoder for that feature normalized doted with all normalized tokem embeddings
 
     a series of contexts based on activations above a certain threshold
     {
