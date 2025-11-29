@@ -56,7 +56,7 @@ for i in range(0, end_idx, BATCH_SIZE):
     for b in range(len(prompts)):
         for layer_idx, layer in enumerate(LAYERS):
             for pos_idx, pos in enumerate(["pre", "post"]):
-                acts = activations[b, :, layer_idx * 2 + pos_idx, :].to(DEVICE)
+                acts = activations[b, :, layer_idx * 2 + pos_idx, :].float().to(DEVICE)
                 z = torch.relu(saes[f"{layer}_{pos}"].encoder(acts))
                 
                 fired = (z > THRESHOLD).nonzero().tolist()
