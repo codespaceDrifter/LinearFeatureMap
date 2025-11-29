@@ -6,7 +6,7 @@ from pathlib import Path
 sys.path.append(str(Path(__file__).parent.parent))
 from SAE.SAE import SAE
 
-LAYERS = [8, 16, 24, 31]
+LAYERS = [8, 16, 24]
 EMBED_DIM = 3072
 EXPANSION = 4
 HIDDEN_DIM = EMBED_DIM * EXPANSION

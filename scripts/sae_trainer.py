@@ -69,7 +69,7 @@ def train_layer(layer, pre_post):
     print(f"Done with layer {layer} {pre_post}\n")
 
 if __name__ == "__main__":
-    LAYERS = [8, 16, 24, 31]
+    LAYERS = [8, 16, 24]
     
     for layer in LAYERS:
         train_layer(layer, "pre")

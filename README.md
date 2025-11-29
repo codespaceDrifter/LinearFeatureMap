@@ -88,7 +88,7 @@ data/features/
 
 then we prompt a llm like claude opus 4.5 to interpret the features if possible. 
 
-due to compute and time limitations we start with 4 layers of MLP not all layers: we pick layer 8, 16, 24, 31. 
+due to compute and time limitations we start with 3 layers of MLP not all layers: we pick layer 8, 16, 24
 
 for each we label the ones that fire > 0.5 only. many features will not be labeled.
 we get a list of ids of all labeled features.

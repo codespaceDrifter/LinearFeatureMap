@@ -7,7 +7,7 @@ from pathlib import Path
 sys.path.append(str(Path(__file__).parent.parent))
 from phi4_mini.inference import Phi4Inference
 
-LAYERS = [8, 16, 24, 31]
+LAYERS = [8, 16, 24]
 BATCH_SIZE = 4
 MAX_NEW_TOKENS = 64
 SAVE_DIR = "./data/test/activations"

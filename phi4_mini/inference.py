@@ -2,7 +2,7 @@ import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
 class Phi4Inference:
-    def __init__(self, model_path="./weights/phi4-mini", layers=[8, 16, 24, 31], device="cuda"):
+    def __init__(self, model_path="./weights/phi4-mini", layers=[8, 16, 24], device="cuda"):
         self.model = AutoModelForCausalLM.from_pretrained(
             model_path, dtype=torch.bfloat16, trust_remote_code=False
         ).to(device)
@@ -98,7 +98,7 @@ class Phi4Inference:
 
 # test
 if __name__ == "__main__":
-    phi = Phi4Inference(layers=[8, 16, 24, 31])
+    phi = Phi4Inference(layers=[8, 16, 24])
         
     prompts = ["What is 2+2?", "Name a fruit."]
     responses, acts = phi.generate(prompts, max_new_tokens=32)
