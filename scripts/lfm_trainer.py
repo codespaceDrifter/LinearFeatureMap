@@ -2,11 +2,11 @@ import torch
 import torch.nn as nn
 import numpy as np
 import os
-from interp_algo.SAE import SAE
-from interp_algo.LFM import LFM
 import sys
 from pathlib import Path
 sys.path.append(str(Path(__file__).parent.parent))
+from interp_algo.SAE import SAE
+from interp_algo.LFM import LFM
 
 LAYERS = [8, 16, 24]
 EMBED_DIM = 3072
