@@ -2,6 +2,7 @@ import json
 import copy
 import anthropic
 import os
+import time
 
 LAYERS = [8, 16, 24]
 client = anthropic.Anthropic()
@@ -69,21 +70,27 @@ for layer in LAYERS:
             user_msg = f"Feature {fid} | layer {layer} {pos}-MLP\n\n{json.dumps(hydrated, indent=2)}"
 
             #print(user_msg)
-            
-            response = client.messages.create(
-                model="claude-sonnet-4-5-20250929",
-                max_tokens=4200,
-                thinking={
-                    "type": "enabled",
-                    "budget_tokens": 4000
-                },
-                system=[{
-                    "type": "text",
-                    "text": SYSTEM_PROMPT,
-                    "cache_control": {"type": "ephemeral"}
-                }],
-                messages=[{"role": "user", "content": user_msg}]
-            )
+
+            while True:            
+                try:
+                    response = client.messages.create(
+                        model="claude-sonnet-4-5-20250929",
+                        max_tokens=4200,
+                        thinking={
+                            "type": "enabled",
+                            "budget_tokens": 4000
+                        },
+                        system=[{
+                            "type": "text",
+                            "text": SYSTEM_PROMPT,
+                            "cache_control": {"type": "ephemeral"}
+                        }],
+                        messages=[{"role": "user", "content": user_msg}]
+                    )
+                    break
+                except anthropic.RateLimitError:
+                    print("Rate limit error, waiting 60 seconds")
+                    time.sleep(60)
             
             interp = ""
             #for block in response.content:
