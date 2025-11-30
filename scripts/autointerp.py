@@ -89,7 +89,7 @@ for layer in LAYERS:
             # Print out 'thinking' blocks if present
             for block in response.content:
                 if block.type == "thinking":
-                    print("[THINKING]", block.text.strip())
+                    print("[THINKING]", block.thinking.strip())
             for block in response.content:
                 if block.type == "text":
                     interp = block.text.strip()
