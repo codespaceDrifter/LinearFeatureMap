@@ -3,7 +3,8 @@ import torch.nn as nn
 import numpy as np
 import os
 import sys
-sys.path.append(".")
+from pathlib import Path
+sys.path.append(str(Path(__file__).parent.parent))
 from interp_algo.SAE import SAE
 
 # config
