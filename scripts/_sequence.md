@@ -9,3 +9,4 @@ in the experiment we run the scripts by this sequence:
 7: feature_data
 8: restructure_feature_data
 9: decoding_similarity
+10: autointerp.py

@@ -7,7 +7,7 @@ import sys
 from pathlib import Path
 sys.path.append(str(Path(__file__).parent.parent))
 from phi4_mini.inference import Phi4Inference
-from SAE.SAE import SAE
+from interp_algo.SAE import SAE
 
 LAYERS = [8, 16, 24, 31]
 EMBED_DIM = 3072

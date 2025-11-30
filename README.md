@@ -63,6 +63,7 @@ we are using the phi4-mini-it model with 3.8b parameters
 we are going to print the architecture and inject SAEs with just the autocausalllm import  
 we are going to train SAEs over the structured dataset Alphaca and we train only on the activation of the model generating (so not reading the question)  
 we are training one LFW for each MLP so we gather activations pre and post each MLP    
+for activations we are using the first 75% as training and last 25% as test. 
 this SAE is per layer pre and post MLP for LFW training.  
 we will do 24576 for the SAE hidden_dim since the model embed_dim is 3072 embed_dim and we go for a 8x.  
 we label SAE with the following series of structured information  
@@ -96,7 +97,10 @@ we get a list of ids of all labeled features.
 
 when training LFMs, we zero out ALL unlabeled features. 
 
-for activations we are using the first 75% as training and last 25% as test. 
+after training LFMs maybe we make a feature_groups per layer if some features are very similar to each other. this would help with interpretation of map relationships and also just be nice for display in general.  
+
+
+
 
 
 ### potential problems:

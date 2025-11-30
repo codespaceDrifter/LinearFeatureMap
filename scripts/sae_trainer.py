@@ -4,7 +4,7 @@ import numpy as np
 import os
 import sys
 sys.path.append(".")
-from SAE.SAE import SAE
+from interp_algo.SAE import SAE
 
 # config
 EMBED_DIM = 3072

@@ -4,7 +4,7 @@ import os
 import sys
 from pathlib import Path
 sys.path.append(str(Path(__file__).parent.parent))
-from SAE.SAE import SAE
+from interp_algo.SAE import SAE
 
 LAYERS = [8, 16, 24]
 EMBED_DIM = 3072
