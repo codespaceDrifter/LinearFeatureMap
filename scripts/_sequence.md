@@ -8,3 +8,4 @@ in the experiment we run the scripts by this sequence:
 6: sae_eval
 7: feature_data
 8: restructure_feature_data
+9: decoding_similarity

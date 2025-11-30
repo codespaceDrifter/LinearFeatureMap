@@ -15,11 +15,14 @@ with open("./data/examples.jsonl", "r") as f:
 SYSTEM_PROMPT = """
 Hi claudy! You will help me label features for mechanistic interpretability of Sparse Autoencoder.
 You'll see:
-1. Top decoded tokens: top 10 dot product of decoder weights in SAE for that feature with all token embeddings (both normalized)
-2. Contexts where this feature activated (we trained on model outputs in the alpaca dataset) Context includes:
+1. Contexts where this feature activated (we trained on model outputs in the alpaca dataset) Context includes:
+Activations. which are the tokens in the answer that led this feature to fire. formated as [index] , 'token' , activation value
 the input question in the dataset
 the output answer in the model wrote
-Activations. which are the tokens in the answer that led this feature to fire. formated as [index] 'token' = activation value
+
+2. Top decoded tokens: top 10 dot product of decoder weights in SAE for that feature with all token embeddings (both normalized)
+formatted as first the list of top decoded tokens and then their corresponding scores
+
 Your job:
 first, critically think a bit with your thinking tokens and determine what this feature means. consider all provided information do not be lazy and just look at one and pick that. 
 make sure the feature interpretation you draft actually explains many or most of the contexts pretty well. top decoded could provide clues but the middle layers might not be actually 
@@ -65,7 +68,7 @@ for layer in LAYERS:
             
             user_msg = f"Feature {fid} | layer {layer} {pos}-MLP\n\n{json.dumps(hydrated, indent=2)}"
 
-            print(user_msg)
+            #print(user_msg)
             
             response = client.messages.create(
                 model="claude-sonnet-4-5-20250929",
