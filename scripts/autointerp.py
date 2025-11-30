@@ -53,7 +53,7 @@ for layer in LAYERS:
         with open(f"./data/features/layer_{layer}_{pos}.json", "r") as f:
             features = json.load(f)
         
-        for fid, fdata in features.items():
+        for i, (fid, fdata) in enumerate(features.items()):
             if (layer, pos, fid) in done:
                 continue
             
@@ -86,14 +86,16 @@ for layer in LAYERS:
             )
             
             interp = ""
-            # Print out 'thinking' blocks if present
-            for block in response.content:
-                if block.type == "thinking":
-                    print("[THINKING]", block.thinking.strip())
+            #for block in response.content:
+            #    if block.type == "thinking":
+            #        print("[THINKING]", block.thinking.strip())
             for block in response.content:
                 if block.type == "text":
                     interp = block.text.strip()
                     break
+
+            pct = i / len(features) * 100
+            print(f"[{pct:.1f}%] layer done")
 
             print(interp)
             
