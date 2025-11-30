@@ -95,7 +95,7 @@ for layer in LAYERS:
                     break
 
             pct = i / len(features) * 100
-            print(f"[{pct:.1f}%] layer done")
+            print(f"{pct:.1f}% layer done")
 
             print(interp)
             
