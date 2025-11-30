@@ -38,7 +38,7 @@ def format_prompt(example):
         text += "\n" + example["input"]
     return text
 
-examples_file = open("./data/features_jsonl/examples.jsonl", "a")
+examples_file = open("./data/examples.jsonl", "a")
 files = {}
 for layer in LAYERS:
     for pos in ["pre", "post"]:

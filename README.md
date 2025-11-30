@@ -77,7 +77,8 @@ data/features/
 {
     top unembedding cosine similarity tokens: the decoder for that feature normalized doted with all normalized tokem embeddings
 
-    a series of contexts based on activations above a certain threshold
+    a series of contexts based on activations above a certain threshold 
+    selected with top k activation values across all contexts
     {
         output token index
         input question
