@@ -83,10 +83,16 @@ for layer in LAYERS:
             )
             
             interp = ""
+            # Print out 'thinking' blocks if present
+            for block in response.content:
+                if block.type == "thinking":
+                    print("[THINKING]", block.text.strip())
             for block in response.content:
                 if block.type == "text":
                     interp = block.text.strip()
                     break
+
+            print(interp)
             
             is_interpretable = "uninterpretable" not in interp.lower()
             out_file.write(json.dumps({
@@ -98,7 +104,6 @@ for layer in LAYERS:
             }) + "\n")
             out_file.flush()
             
-            print(interp)
 
 out_file.close()
 print("\nDone! Results in ./data/auto_interp.jsonl")
