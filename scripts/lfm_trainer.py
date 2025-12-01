@@ -13,7 +13,8 @@ EMBED_DIM = 3072
 HIDDEN_DIM = 12288
 BATCH_SIZE = 4096
 LR = 1e-4
-LAMBDA_L1 = 1e-3
+LAMBDA_RECON = 0.1
+ACTIVE_THRESHOLD = 0.1
 EPOCHS = 5
 DEVICE = "cuda"
 
@@ -25,11 +26,9 @@ def train_layer(layer):
     print(f"Training LFM for layer {layer}")
     print(f"{'='*50}\n")
     
-    # load data
     pre_data = np.memmap(f"./data/activations/layer_{layer}_pre.bin", dtype=np.float32, mode="r", shape=(total_tokens, EMBED_DIM))
     post_data = np.memmap(f"./data/activations/layer_{layer}_post.bin", dtype=np.float32, mode="r", shape=(total_tokens, EMBED_DIM))
     
-    # load SAEs
     sae_pre = SAE(EMBED_DIM, HIDDEN_DIM).to(DEVICE)
     sae_pre.load_state_dict(torch.load(f"./weights/SAE/layer_{layer}_pre_sae.pt"))
     sae_pre.eval()
@@ -38,7 +37,6 @@ def train_layer(layer):
     sae_post.load_state_dict(torch.load(f"./weights/SAE/layer_{layer}_post_sae.pt"))
     sae_post.eval()
     
-    # init LFM
     lfm = LFM(HIDDEN_DIM).to(DEVICE)
     optimizer = torch.optim.Adam(lfm.parameters(), lr=LR)
     
@@ -60,24 +58,26 @@ def train_layer(layer):
             
             f_pred = lfm(f_in)
             
-            # loss 1: feature space
-            loss_feature = (f_out - f_pred).pow(2).mean()
+            # masked feature loss - only where both input AND output are active
+            active_mask = (f_in > ACTIVE_THRESHOLD) & (f_out > ACTIVE_THRESHOLD)
+            if active_mask.any():
+                loss_feature = ((f_out - f_pred)[active_mask]).pow(2).mean()
+            else:
+                loss_feature = torch.tensor(0.0, device=DEVICE)
             
-            # loss 2: reconstruction space
+            # recon loss (downweighted)
             mlp_out_pred = sae_post.decoder(f_pred)
             loss_recon = (mlp_out - mlp_out_pred).pow(2).mean()
             
-            # loss 3: sparsity
-            loss_l1 = lfm.linear.weight.abs().mean()
-            
-            loss = loss_feature + loss_recon + LAMBDA_L1 * loss_l1
+            loss = loss_feature + LAMBDA_RECON * loss_recon
             
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
             
             if batch_idx % 100 == 0:
-                print(f"  [{batch_idx}/{num_batches}] loss: {loss.item():.2f} feature: {loss_feature.item():.2f} recon: {loss_recon.item():.2f} sparsity: {loss_l1.item():.2f}")
+                n_active = active_mask.sum().item()
+                print(f"  [{batch_idx}/{num_batches}] loss: {loss.item():.4f} feature: {loss_feature.item():.4f} recon: {loss_recon.item():.4f} active: {n_active}")
         
         torch.save(lfm.state_dict(), f"./weights/LFM/layer_{layer}_lfm.pt")
         print(f"  Saved epoch {epoch + 1}")
