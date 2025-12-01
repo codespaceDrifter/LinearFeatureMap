@@ -14,7 +14,7 @@ HIDDEN_DIM = 12288
 BATCH_SIZE = 4096
 LR = 1e-4
 LAMBDA_RECON = 0.1
-ACTIVE_THRESHOLD = 0.1
+ACTIVE_THRESHOLD = 0.2
 EPOCHS = 5
 DEVICE = "cuda"
 
@@ -58,9 +58,15 @@ def train_layer(layer):
             
             f_pred = lfm(f_in * (f_in > ACTIVE_THRESHOLD))
             
-            # masked feature loss
+            # relative error loss on active outputs
             f_out_masked = f_out * (f_out > ACTIVE_THRESHOLD)
-            loss_feature = (f_out_masked - f_pred).pow(2).mean()
+            active_mask = f_out > ACTIVE_THRESHOLD
+            
+            if active_mask.any():
+                rel_error = (f_out_masked - f_pred) / (f_out_masked + 1e-6)
+                loss_feature = (rel_error[active_mask]).pow(2).mean()
+            else:
+                loss_feature = torch.tensor(0.0, device=DEVICE)
             
             # recon loss (downweighted)
             mlp_out_pred = sae_post.decoder(f_pred)
@@ -73,7 +79,8 @@ def train_layer(layer):
             optimizer.step()
             
             if batch_idx % 100 == 0:
-                print(f"  [{batch_idx}/{num_batches}] loss: {loss.item():.4f} feature: {loss_feature.item():.4f} recon: {loss_recon.item():.4f}")
+                n_active = active_mask.sum().item() if active_mask.any() else 0
+                print(f"  [{batch_idx}/{num_batches}] loss: {loss.item():.4f} rel_err: {loss_feature.item():.4f} recon: {loss_recon.item():.4f} active: {n_active}")
         
         torch.save(lfm.state_dict(), f"./weights/LFM/layer_{layer}_lfm.pt")
         print(f"  Saved epoch {epoch + 1}")

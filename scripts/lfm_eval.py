@@ -11,7 +11,7 @@ LAYERS = [8, 16, 24]
 EMBED_DIM = 3072
 HIDDEN_DIM = 12288
 BATCH_SIZE = 4096
-ACTIVE_THRESHOLD = 0.1
+ACTIVE_THRESHOLD = 0.2
 DEVICE = "cuda"
 
 metadata = np.load("./data/test/activations/metadata.npy", allow_pickle=True).item()
@@ -71,8 +71,11 @@ def eval_layer(layer):
             total_recon += (mlp_out - mlp_out_pred).pow(2).mean().item()
             
             # masked
-            masked_feature_sum += (f_out_masked - f_pred).pow(2).sum().item()
-            masked_feature_count += f_out_masked.numel()
+            active_mask = f_out > ACTIVE_THRESHOLD
+            if active_mask.any():
+                rel_error = (f_out_masked - f_pred) / (f_out_masked + 1e-6)
+                masked_feature_sum += (rel_error[active_mask]).pow(2).sum().item()
+                masked_feature_count += active_mask.sum().item()
             masked_recon_sum += (mlp_out - mlp_out_pred).pow(2).sum().item()
             masked_recon_count += mlp_out.numel()
             
@@ -82,9 +85,10 @@ def eval_layer(layer):
     print(f"  Feature MSE: {total_feature / num_batches:.6f}")
     print(f"  Recon MSE:   {total_recon / num_batches:.6f}")
     
-    print(f"\n--- Masked (f_in > {ACTIVE_THRESHOLD} AND f_out > {ACTIVE_THRESHOLD}) ---")
-    print(f"  Feature MSE: {masked_feature_sum / masked_feature_count:.6f}")
-    print(f"  Recon MSE:   {masked_recon_sum / masked_recon_count:.6f}")
+    print(f"\n--- Masked (f_out > {ACTIVE_THRESHOLD}) ---")
+    avg_rel_error = (masked_feature_sum / masked_feature_count) ** 0.5 * 100
+    print(f"  Avg Rel Error: {avg_rel_error:.1f}%")
+    print(f"  Recon MSE:     {masked_recon_sum / masked_recon_count:.6f}")
     
     print(f"\nWeight distribution:")
     weights = lfm.linear.weight.data.abs().flatten()
