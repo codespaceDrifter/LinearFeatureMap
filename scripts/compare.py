@@ -1,9 +1,7 @@
 import json
 import copy
 import anthropic
-import os
 
-LAYERS = [8, 16, 24]
 client = anthropic.Anthropic()
 
 # load examples
@@ -36,54 +34,58 @@ UNINTERPRETABLE somewhere in your output answer(just the word uninterpetable cas
 Output only your label, nothing else. no courtesy or 'ok let me start now' or reasoning steps keep them in thinking tokens. 
 because i will directly display and read your output as the labels"""
 
-os.makedirs("./data/labels", exist_ok=True)
+def get_text(response):
+    for block in response.content:
+        if block.type == "text":
+            return block.text.strip()
+    return ""
 
-all_batch_ids = []
+def call_with_thinking(msg, budget):
+    response = client.messages.create(
+        model="claude-sonnet-4-5-20250929",
+        max_tokens=budget + 200,
+        thinking={"type": "enabled", "budget_tokens": budget},
+        system=SYSTEM_PROMPT,
+        messages=[{"role": "user", "content": msg}]
+    )
+    return get_text(response)
 
-for layer in LAYERS:
-    for pos in ["pre", "post"]:
-        print(f"\nProcessing layer_{layer}_{pos}...")
-        
-        with open(f"./data/features/layer_{layer}_{pos}.json", "r") as f:
-            features = json.load(f)
-        
-        requests = []
-        for fid, fdata in features.items():
-            # hydrate contexts
-            hydrated = copy.deepcopy(fdata)
-            for ctx in hydrated["contexts"]:
-                ex = examples.get(ctx["example_id"])
-                if ex is None:
-                    continue
-                ctx["input"] = ex["input"]
-                ctx["output"] = ex["output"]
-                del ctx["example_id"]
-            
-            user_msg = f"Feature {fid} | layer {layer} {pos}-MLP\n\n{json.dumps(hydrated, indent=2)}"
-            
-            requests.append({
-                "custom_id": f"{layer}_{pos}_{fid}",
-                "params": {
-                    "model": "claude-sonnet-4-5-20250929",
-                    "max_tokens": 2200,
-                    "thinking": {"type": "enabled", "budget_tokens": 2000},
-                    "system": SYSTEM_PROMPT,
-                    "messages": [{"role": "user", "content": user_msg}]
-                }
-            })
-        
-        print(f"  Submitting {len(requests)} requests...")
-        
-        # split if too many requests (payload size limit)
-        CHUNK_SIZE = 4000
-        for i in range(0, len(requests), CHUNK_SIZE):
-            chunk = requests[i:i+CHUNK_SIZE]
-            print(f"    Chunk: {len(chunk)} requests...")
-            batch = client.messages.batches.create(requests=chunk)
-            all_batch_ids.append(batch.id)
-            print(f"    Batch ID: {batch.id}")
+def call_no_thinking(msg):
+    response = client.messages.create(
+        model="claude-sonnet-4-5-20250929",
+        max_tokens=200,
+        system=SYSTEM_PROMPT,
+        messages=[{"role": "user", "content": msg}]
+    )
+    return get_text(response)
 
-with open("./data/labels/batch_ids.txt", "w") as f:
-    f.write("\n".join(all_batch_ids))
+# iterate through features
+with open("./data/features/layer_8_pre.json", "r") as f:
+    features = json.load(f)
 
-print(f"\nAll batches submitted! {len(all_batch_ids)} total")
+for fid, fdata in features.items():
+    hydrated = copy.deepcopy(fdata)
+    
+    for ctx in hydrated["contexts"]:
+        ex = examples.get(ctx["example_id"])
+        if ex:
+            ctx["input"] = ex["input"][:300]
+            ctx["output"] = ex["output"][:300]
+            del ctx["example_id"]
+    
+    msg = f"Feature {fid} | layer 8 pre-MLP\n\n{json.dumps(hydrated, indent=2)}"
+    
+    print(f"\n{'='*60}")
+    print(f"Feature {fid}")
+    print(f"{'='*60}")
+    
+    label_2000 = call_with_thinking(msg, 2000)
+    print(f"2000 thinking: {label_2000}")
+    
+    label_1000 = call_with_thinking(msg, 1000)
+    print(f"1000 thinking: {label_1000}")
+    
+    label_none = call_no_thinking(msg)
+    print(f"no thinking:   {label_none}")
+    
+    input("\n[Enter to continue]")

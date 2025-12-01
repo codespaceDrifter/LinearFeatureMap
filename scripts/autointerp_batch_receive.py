@@ -1,3 +1,4 @@
+# IMPORTANT: note that this could be EXPENSIVE!!! make sure to have enough credits.
 import json
 import anthropic
 import time

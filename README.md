@@ -63,16 +63,17 @@ we are using the phi4-mini-it model with 3.8b parameters
 we are going to print the architecture and inject SAEs with just the autocausalllm import  
 we are going to train SAEs over the structured dataset Alphaca and we train only on the activation of the model generating (so not reading the question)  
 we are training one LFW for each MLP so we gather activations pre and post each MLP    
-for activations we are using the first 75% as training and last 25% as test. 
-this SAE is per layer pre and post MLP for LFW training.  
-we will do 24576 for the SAE hidden_dim since the model embed_dim is 3072 embed_dim and we go for a 8x.  
+for activations we are using the first 75% as training and last 25% as test.  
+for each "block" in the model including MLP and attention we train one SAE. we only train SAE on the normalized activation points in the model because the actual MLP and attention blocks always only have normalized stuff passed in. the pre and post activations of a MLP (as well as that attention later potentially for later research) we use a single SAE but for different MLPs we use different SAEs. this is because the activation space meaning changes over layers.     
+we label with the top 10 activations context from each small sublayer it belongs to.  
+we will do 12288 for the SAE hidden_dim since the model embed_dim is 3072 embed_dim and we go for a 4x.  
 we label SAE with the following series of structured information  
 data/features/
-  layer_8_pre/
+  layer_8/
     feature_0.json
     feature_1.json
     ...
-  layer_8_post/
+  layer_8/
     ...
 
 {
