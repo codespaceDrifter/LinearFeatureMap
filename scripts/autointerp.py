@@ -75,10 +75,10 @@ for layer in LAYERS:
                 try:
                     response = client.messages.create(
                         model="claude-sonnet-4-5-20250929",
-                        max_tokens=4200,
+                        max_tokens=1200,
                         thinking={
                             "type": "enabled",
-                            "budget_tokens": 4000
+                            "budget_tokens":1000
                         },
                         system=[{
                             "type": "text",
