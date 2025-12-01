@@ -1,7 +1,6 @@
 import json
 import copy
 import anthropic
-import time
 import os
 
 LAYERS = [8, 16, 24]
@@ -37,14 +36,16 @@ UNINTERPRETABLE somewhere in your output answer(just the word uninterpetable cas
 Output only your label, nothing else. no courtesy or 'ok let me start now' or reasoning steps keep them in thinking tokens. 
 because i will directly display and read your output as the labels"""
 
-# build all requests
-requests = []
+os.makedirs("./data/labels/batch_request_key", exist_ok=True)
+
 for layer in LAYERS:
     for pos in ["pre", "post"]:
-        print (f"Processing layer_{layer}_{pos}...")
+        print(f"\nProcessing layer_{layer}_{pos}...")
+        
         with open(f"./data/features/layer_{layer}_{pos}.json", "r") as f:
             features = json.load(f)
         
+        requests = []
         for fid, fdata in features.items():
             # hydrate contexts
             hydrated = copy.deepcopy(fdata)
@@ -59,7 +60,7 @@ for layer in LAYERS:
             user_msg = f"Feature {fid} | layer {layer} {pos}-MLP\n\n{json.dumps(hydrated, indent=2)}"
             
             requests.append({
-                "custom_id": f"{layer}_{pos}_{fid}",
+                "custom_id": fid,
                 "params": {
                     "model": "claude-sonnet-4-5-20250929",
                     "max_tokens": 2200,
@@ -68,21 +69,13 @@ for layer in LAYERS:
                     "messages": [{"role": "user", "content": user_msg}]
                 }
             })
+        
+        print(f"  Submitting {len(requests)} requests...")
+        batch = client.messages.batches.create(requests=requests)
+        
+        with open(f"./data/labels/batch_request_key/layer_{layer}_{pos}.txt", "w") as f:
+            f.write(batch.id)
+        
+        print(f"  Batch ID: {batch.id}")
 
-print(f"Total requests to submit: {len(requests)}")
-
-assert len(requests) > 0, "No requests to submit"
-
-# submit batch
-print("Submitting batch...")
-batch = client.messages.batches.create(requests=requests)
-batch_id = batch.id
-print(f"Batch ID: {batch_id}")
-print(f"Status: {batch.processing_status}")
-
-# save batch id for later retrieval
-with open("./data/batch_id.txt", "w") as f:
-    f.write(batch_id)
-
-print(f"\nBatch submitted! Run retrieve script later to get results.")
-print(f"Or poll with: client.messages.batches.retrieve('{batch_id}')")
+print("\nAll batches submitted!")

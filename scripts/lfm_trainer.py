@@ -63,9 +63,8 @@ def train_layer(layer):
             active_mask = f_out > ACTIVE_THRESHOLD
             
             if active_mask.any():
-                f_out_active = f_out[active_mask]
-                f_pred_active = f_pred[active_mask]
-                rel_error = (f_out_active - f_pred_active) / (f_out_active + 1e-6)
+                diff = f_out - f_pred
+                rel_error = diff[active_mask] / (f_out[active_mask] + 1e-6)
                 loss_feature = rel_error.pow(2).mean()
             else:
                 loss_feature = torch.tensor(0.0, device=DEVICE)
