@@ -39,6 +39,8 @@ def eval_layer(layer):
     total_feature = 0
     total_recon = 0
     total_l1 = 0
+    total_active_error = 0
+    total_active_count = 0
     num_batches = 0
     
     with torch.no_grad():
@@ -56,6 +58,12 @@ def eval_layer(layer):
             
             total_feature += (f_out - f_pred).pow(2).mean().item()
             
+            # active feature error
+            active_mask = f_out > 0.1
+            if active_mask.any():
+                total_active_error += ((f_out - f_pred)[active_mask]).pow(2).sum().item()
+                total_active_count += active_mask.sum().item()
+            
             mlp_out_pred = sae_post.decoder(f_pred)
             total_recon += (mlp_out - mlp_out_pred).pow(2).mean().item()
             
@@ -67,11 +75,28 @@ def eval_layer(layer):
     avg_recon = total_recon / num_batches
     avg_l1 = total_l1 / num_batches
     avg_total = avg_feature + avg_recon + avg_l1
+    active_rmse = (total_active_error / total_active_count) ** 0.5 if total_active_count > 0 else 0
     
-    print(f"Feature loss: {avg_feature:.6f}")
-    print(f"Recon loss:   {avg_recon:.6f}")
-    print(f"L1 loss:      {avg_l1:.6f}")
-    print(f"Total loss:   {avg_total:.6f}")
+    print(f"Feature loss:      {avg_feature:.6f}")
+    print(f"Active RMSE:       {active_rmse:.6f}")
+    print(f"Recon loss:        {avg_recon:.6f}")
+    print(f"L1 loss:           {avg_l1:.6f}")
+    print(f"Total loss:        {avg_total:.6f}")
+    
+    # weight distribution
+    print(f"\nWeight distribution:")
+    weights = lfm.linear.weight.data.abs().flatten()
+    total_weights = weights.numel()
+    
+    lower = 0.0
+    while True:
+        upper = lower + 0.1
+        count = ((weights >= lower) & (weights < upper)).sum().item()
+        pct = 100 * count / total_weights
+        print(f"  {lower:.1f}-{upper:.1f}: {pct:.3f}%")
+        if (weights >= upper).sum() == 0:
+            break
+        lower = upper
 
 if __name__ == "__main__":
     for layer in LAYERS:

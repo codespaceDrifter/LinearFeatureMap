@@ -10,3 +10,5 @@ in the experiment we run the scripts by this sequence:
 8: restructure_feature_data
 9: decoding_similarity
 10: autointerp.py
+11: lfm_train.py
+12: lfm_eval.py
