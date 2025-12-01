@@ -56,14 +56,11 @@ def train_layer(layer):
                 f_in = torch.relu(sae_pre.encoder(mlp_in))
                 f_out = torch.relu(sae_post.encoder(mlp_out))
             
-            f_pred = lfm(f_in)
+            f_pred = lfm(f_in * (f_in > ACTIVE_THRESHOLD))
             
-            # masked feature loss - only where both input AND output are active
-            active_mask = (f_in > ACTIVE_THRESHOLD) & (f_out > ACTIVE_THRESHOLD)
-            if active_mask.any():
-                loss_feature = ((f_out - f_pred)[active_mask]).pow(2).mean()
-            else:
-                loss_feature = torch.tensor(0.0, device=DEVICE)
+            # masked feature loss
+            f_out_masked = f_out * (f_out > ACTIVE_THRESHOLD)
+            loss_feature = (f_out_masked - f_pred).pow(2).mean()
             
             # recon loss (downweighted)
             mlp_out_pred = sae_post.decoder(f_pred)
@@ -76,8 +73,7 @@ def train_layer(layer):
             optimizer.step()
             
             if batch_idx % 100 == 0:
-                n_active = active_mask.sum().item()
-                print(f"  [{batch_idx}/{num_batches}] loss: {loss.item():.4f} feature: {loss_feature.item():.4f} recon: {loss_recon.item():.4f} active: {n_active}")
+                print(f"  [{batch_idx}/{num_batches}] loss: {loss.item():.4f} feature: {loss_feature.item():.4f} recon: {loss_recon.item():.4f}")
         
         torch.save(lfm.state_dict(), f"./weights/LFM/layer_{layer}_lfm.pt")
         print(f"  Saved epoch {epoch + 1}")

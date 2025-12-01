@@ -60,24 +60,21 @@ def eval_layer(layer):
             f_in = torch.relu(sae_pre.encoder(mlp_in))
             f_out = torch.relu(sae_post.encoder(mlp_out))
             
-            f_pred = lfm(f_in)
+            f_in_masked = f_in * (f_in > ACTIVE_THRESHOLD)
+            f_out_masked = f_out * (f_out > ACTIVE_THRESHOLD)
+            
+            f_pred = lfm(f_in_masked)
             mlp_out_pred = sae_post.decoder(f_pred)
             
             # unmasked
             total_feature += (f_out - f_pred).pow(2).mean().item()
             total_recon += (mlp_out - mlp_out_pred).pow(2).mean().item()
             
-            # masked (both in and out active)
-            mask = (f_in > ACTIVE_THRESHOLD) & (f_out > ACTIVE_THRESHOLD)
-            if mask.any():
-                masked_feature_sum += ((f_out - f_pred)[mask]).pow(2).sum().item()
-                masked_feature_count += mask.sum().item()
-            
-            # for recon, mask by token (any active feature in that token)
-            token_mask = mask.any(dim=1)
-            if token_mask.any():
-                masked_recon_sum += ((mlp_out - mlp_out_pred)[token_mask]).pow(2).sum().item()
-                masked_recon_count += token_mask.sum().item() * EMBED_DIM
+            # masked
+            masked_feature_sum += (f_out_masked - f_pred).pow(2).sum().item()
+            masked_feature_count += f_out_masked.numel()
+            masked_recon_sum += (mlp_out - mlp_out_pred).pow(2).sum().item()
+            masked_recon_count += mlp_out.numel()
             
             num_batches += 1
     
