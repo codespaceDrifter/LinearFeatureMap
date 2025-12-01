@@ -70,11 +70,13 @@ def eval_layer(layer):
             total_feature += (f_out - f_pred).pow(2).mean().item()
             total_recon += (mlp_out - mlp_out_pred).pow(2).mean().item()
             
-            # masked
+            # masked - rel error only on active outputs
             active_mask = f_out > ACTIVE_THRESHOLD
             if active_mask.any():
-                rel_error = (f_out_masked - f_pred) / (f_out_masked + 1e-6)
-                masked_feature_sum += (rel_error[active_mask]).pow(2).sum().item()
+                f_out_active = f_out[active_mask]
+                f_pred_active = f_pred[active_mask]
+                rel_error = (f_out_active - f_pred_active) / (f_out_active + 1e-6)
+                masked_feature_sum += rel_error.pow(2).sum().item()
                 masked_feature_count += active_mask.sum().item()
             masked_recon_sum += (mlp_out - mlp_out_pred).pow(2).sum().item()
             masked_recon_count += mlp_out.numel()

@@ -56,15 +56,17 @@ def train_layer(layer):
                 f_in = torch.relu(sae_pre.encoder(mlp_in))
                 f_out = torch.relu(sae_post.encoder(mlp_out))
             
-            f_pred = lfm(f_in * (f_in > ACTIVE_THRESHOLD))
+            f_in_masked = f_in * (f_in > ACTIVE_THRESHOLD)
+            f_pred = lfm(f_in_masked)
             
-            # relative error loss on active outputs
-            f_out_masked = f_out * (f_out > ACTIVE_THRESHOLD)
+            # relative error loss only on active outputs
             active_mask = f_out > ACTIVE_THRESHOLD
             
             if active_mask.any():
-                rel_error = (f_out_masked - f_pred) / (f_out_masked + 1e-6)
-                loss_feature = (rel_error[active_mask]).pow(2).mean()
+                f_out_active = f_out[active_mask]
+                f_pred_active = f_pred[active_mask]
+                rel_error = (f_out_active - f_pred_active) / (f_out_active + 1e-6)
+                loss_feature = rel_error.pow(2).mean()
             else:
                 loss_feature = torch.tensor(0.0, device=DEVICE)
             
