@@ -75,10 +75,10 @@ for layer in LAYERS:
                 try:
                     response = client.messages.create(
                         model="claude-sonnet-4-5-20250929",
-                        max_tokens=1200,
+                        max_tokens=2200,
                         thinking={
                             "type": "enabled",
-                            "budget_tokens":1000
+                            "budget_tokens":2000
                         },
                         system=[{
                             "type": "text",
@@ -93,9 +93,9 @@ for layer in LAYERS:
                     time.sleep(60)
             
             interp = ""
-            #for block in response.content:
-            #    if block.type == "thinking":
-            #        print("[THINKING]", block.thinking.strip())
+            for block in response.content:
+                if block.type == "thinking":
+                    print("[THINKING]", block.thinking.strip())
             for block in response.content:
                 if block.type == "text":
                     interp = block.text.strip()
