@@ -46,7 +46,7 @@ for batch_id in batch_ids:
                 "is_interpretable": "uninterpretable" not in interp.lower()
             }
         else:
-            print(f"Error: {result.custom_id}")
+            print(f"Error: {result.custom_id} - {result.result.type}")
 
 with open("./data/labels/interpretations.json", "w") as f:
     json.dump(results, f, indent=2)
