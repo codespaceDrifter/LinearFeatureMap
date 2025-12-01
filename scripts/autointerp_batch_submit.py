@@ -36,7 +36,9 @@ UNINTERPRETABLE somewhere in your output answer(just the word uninterpetable cas
 Output only your label, nothing else. no courtesy or 'ok let me start now' or reasoning steps keep them in thinking tokens. 
 because i will directly display and read your output as the labels"""
 
-os.makedirs("./data/labels/batch_request_key", exist_ok=True)
+os.makedirs("./data/labels", exist_ok=True)
+
+all_batch_ids = []
 
 for layer in LAYERS:
     for pos in ["pre", "post"]:
@@ -60,7 +62,7 @@ for layer in LAYERS:
             user_msg = f"Feature {fid} | layer {layer} {pos}-MLP\n\n{json.dumps(hydrated, indent=2)}"
             
             requests.append({
-                "custom_id": fid,
+                "custom_id": f"{layer}_{pos}_{fid}",
                 "params": {
                     "model": "claude-sonnet-4-5-20250929",
                     "max_tokens": 2200,
@@ -71,11 +73,17 @@ for layer in LAYERS:
             })
         
         print(f"  Submitting {len(requests)} requests...")
-        batch = client.messages.batches.create(requests=requests)
         
-        with open(f"./data/labels/batch_request_key/layer_{layer}_{pos}.txt", "w") as f:
-            f.write(batch.id)
-        
-        print(f"  Batch ID: {batch.id}")
+        # split if too many requests (payload size limit)
+        CHUNK_SIZE = 5000
+        for i in range(0, len(requests), CHUNK_SIZE):
+            chunk = requests[i:i+CHUNK_SIZE]
+            print(f"    Chunk: {len(chunk)} requests...")
+            batch = client.messages.batches.create(requests=chunk)
+            all_batch_ids.append(batch.id)
+            print(f"    Batch ID: {batch.id}")
 
-print("\nAll batches submitted!")
+with open("./data/labels/batch_ids.txt", "w") as f:
+    f.write("\n".join(all_batch_ids))
+
+print(f"\nAll batches submitted! {len(all_batch_ids)} total")

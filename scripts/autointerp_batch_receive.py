@@ -1,61 +1,55 @@
 import json
 import anthropic
 import time
-import os
 
-LAYERS = [8, 16, 24]
 client = anthropic.Anthropic()
 
-for layer in LAYERS:
-    for pos in ["pre", "post"]:
-        key_file = f"./data/labels/batch_request_key/layer_{layer}_{pos}.txt"
-        out_file = f"./data/labels/layer_{layer}_{pos}.json"
-        
-        if not os.path.exists(key_file):
-            print(f"Skipping layer_{layer}_{pos} - no batch key")
-            continue
-        
-        with open(key_file, "r") as f:
-            batch_id = f.read().strip()
-        
-        print(f"\nlayer_{layer}_{pos} (batch: {batch_id})")
-        
-        # poll until done
-        while True:
-            batch = client.messages.batches.retrieve(batch_id)
-            print(f"  Status: {batch.processing_status} | Succeeded: {batch.request_counts.succeeded} | Processing: {batch.request_counts.processing}")
-            
-            if batch.processing_status == "ended":
-                break
-            
-            print("  Waiting 60s...")
-            time.sleep(60)
-        
-        # collect results
-        results = {}
-        for result in client.messages.batches.results(batch_id):
-            fid = result.custom_id
-            
-            if result.result.type == "succeeded":
-                msg = result.result.message
-                interp = ""
-                for block in msg.content:
-                    if block.type == "text":
-                        interp = block.text.strip()
-                        break
-                
-                is_interpretable = "uninterpretable" not in interp.lower()
-                
-                results[fid] = {
-                    "interpretation": interp,
-                    "is_interpretable": is_interpretable
-                }
-            else:
-                print(f"  Error for {fid}: {result.result.type}")
-        
-        with open(out_file, "w") as f:
-            json.dump(results, f, indent=2)
-        
-        print(f"  Saved {len(results)} interpretations to {out_file}")
+with open("./data/labels/batch_ids.txt", "r") as f:
+    batch_ids = f.read().strip().split("\n")
 
-print("\nDone!")
+print(f"Checking {len(batch_ids)} batches...")
+
+# poll all until done
+for batch_id in batch_ids:
+    while True:
+        batch = client.messages.batches.retrieve(batch_id)
+        print(f"{batch_id[:20]}... | {batch.processing_status} | {batch.request_counts.succeeded}/{batch.request_counts.processing}")
+        
+        if batch.processing_status == "ended":
+            break
+        
+        time.sleep(60)
+
+print("\nRetrieving results...")
+
+# collect all results: {layer: {pos: {fid: {interpretation, is_interpretable}}}}
+results = {}
+
+for batch_id in batch_ids:
+    for result in client.messages.batches.results(batch_id):
+        layer, pos, fid = result.custom_id.split("_", 2)
+        
+        if layer not in results:
+            results[layer] = {}
+        if pos not in results[layer]:
+            results[layer][pos] = {}
+        
+        if result.result.type == "succeeded":
+            interp = ""
+            for block in result.result.message.content:
+                if block.type == "text":
+                    interp = block.text.strip()
+                    break
+            
+            results[layer][pos][fid] = {
+                "interpretation": interp,
+                "is_interpretable": "uninterpretable" not in interp.lower()
+            }
+        else:
+            print(f"Error: {result.custom_id}")
+
+with open("./data/labels/interpretations.json", "w") as f:
+    json.dump(results, f, indent=2)
+
+total = sum(len(p) for l in results.values() for p in l.values())
+print(f"\nDone! {total} interpretations saved to ./data/labels/interpretations.json")
