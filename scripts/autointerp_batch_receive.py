@@ -13,7 +13,8 @@ print(f"Checking {len(batch_ids)} batches...")
 for batch_id in batch_ids:
     while True:
         batch = client.messages.batches.retrieve(batch_id)
-        print(f"{batch_id[:20]}... | {batch.processing_status} | {batch.request_counts.succeeded}/{batch.request_counts.processing}")
+        c = batch.request_counts
+        print(f"{batch_id[:20]}... | {batch.processing_status} | ok:{c.succeeded} err:{c.errored} exp:{c.expired}")
         
         if batch.processing_status == "ended":
             break
