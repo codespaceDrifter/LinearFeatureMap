@@ -11,3 +11,9 @@ class SAE(nn.Module):
         z = torch.relu(self.encoder(x))
         x_hat = self.decoder(z)
         return x_hat, z
+
+    def encode(self, x):
+        return torch.relu(self.encoder(x))
+
+    def decode(self, z):
+        return self.decoder(z)

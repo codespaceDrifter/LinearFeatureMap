@@ -98,13 +98,13 @@ class Phi4Inference:
         activations = []
         for b in range(batch_size):
             seq_len = len(all_tokens[b])
-            if seq_len == 0:
-                activations.append(torch.empty(self.num_layers * 2, 0, self.embed_dim))
-                continue
             # all_acts[b][i] is list of seq_len tensors of shape (embed,)
             stacked = [torch.stack(all_acts[b][i]) for i in range(self.num_layers * 2)]  # 64 x (seq_len, embed)
             activations.append(torch.stack(stacked))  # (64, seq_len, embed)
         
+        # responses: [str, str, ...] length B - decoded response strings
+        # all_tokens: [[str, str, ...], [...], ...] length B - token strings per sequence
+        # activations: [Tensor(64, seq_len_0, 3072), Tensor(64, seq_len_1, 3072), ...] length B
         return responses, all_tokens, activations
 
 

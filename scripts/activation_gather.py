@@ -2,12 +2,9 @@ import torch
 import numpy as np
 from datasets import load_from_disk
 import os
-import sys
-from pathlib import Path
-sys.path.append(str(Path(__file__).parent.parent))
 from phi4_mini.inference import Phi4Inference
 
-LAYERS = [8, 16, 24, 31]
+LAYERS = [8, 16, 24]  # MLP layers we care about
 BATCH_SIZE = 4
 MAX_NEW_TOKENS = 64
 SAVE_DIR = "./data/activations"
@@ -15,12 +12,14 @@ SPLIT = (0, 0.75)
 
 os.makedirs(SAVE_DIR, exist_ok=True)
 dataset = load_from_disk("./data/alpaca/train")
-phi = Phi4Inference(layers=LAYERS, device="cuda")
+phi = Phi4Inference(device="cuda")
 
+# because we are studying the MLP so we want the post attention norm of this layer and the input norm of the next layer
+# for layer N MLP: input is mlp_in (index N*2+1), output is att_in of layer N+1 (index (N+1)*2)
 files = {}
 for layer in LAYERS:
-    files[f"layer_{layer}_pre"] = open(f"{SAVE_DIR}/layer_{layer}_pre.bin", "ab")
-    files[f"layer_{layer}_post"] = open(f"{SAVE_DIR}/layer_{layer}_post.bin", "ab")
+    files[f"layer_{layer}_mlp_in"] = open(f"{SAVE_DIR}/layer_{layer}_mlp_in.bin", "ab")
+    files[f"layer_{layer+1}_att_in"] = open(f"{SAVE_DIR}/layer_{layer+1}_att_in.bin", "ab")
 
 def format_prompt(example):
     text = example["instruction"]
@@ -41,17 +40,25 @@ for i in range(start, end, BATCH_SIZE):
                for inst, inp in zip(batch["instruction"], batch["input"])]
     
     responses, _, activations = phi.generate(prompts, max_new_tokens=MAX_NEW_TOKENS)
-    batch_size, seq_len, _, embed_dim = activations.shape
-    total_tokens += batch_size * seq_len
+    # activations: [Tensor(64, seq_len_b, 3072), ...] length B
     
-    for layer_idx, layer in enumerate(LAYERS):
-        pre_acts = activations[:, :, layer_idx * 2, :].reshape(-1, embed_dim).float().numpy()
-        post_acts = activations[:, :, layer_idx * 2 + 1, :].reshape(-1, embed_dim).float().numpy()
-        files[f"layer_{layer}_pre"].write(pre_acts.tobytes())
-        files[f"layer_{layer}_post"].write(post_acts.tobytes())
+    for act in activations:
+        # act: Tensor(64, seq_len, 3072)
+        seq_len = act.shape[1]
+        total_tokens += seq_len
+        
+        for layer in LAYERS:
+            mlp_in_idx = layer * 2 + 1  # mlp_in for layer N
+            att_in_idx = (layer + 1) * 2  # att_in for layer N+1
+            
+            mlp_in = act[mlp_in_idx, :, :].float().numpy()  # (seq_len, 3072)
+            att_in = act[att_in_idx, :, :].float().numpy()  # (seq_len, 3072)
+            
+            files[f"layer_{layer}_mlp_in"].write(mlp_in.tobytes())
+            files[f"layer_{layer+1}_att_in"].write(att_in.tobytes())
     
     if i % 100 == 0:
-        print(f"[{100*i/total:.1f}%] {i}/{total} | {prompts[0][:60]}... -> {responses[0][:60]}...")
+        print(f"[{100*i/total:.1f}%] {i}/{total} | {prompts[0]}... -> {responses[0]}...")
 
 for f in files.values():
     f.close()
