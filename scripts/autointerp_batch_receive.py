@@ -45,7 +45,6 @@ for batch_id in batch_ids:
             
             results[layer][pos][fid] = {
                 "interpretation": interp,
-                "is_interpretable": "uninterpretable" not in interp.lower()
             }
         else:
             print(f"Error: {result.custom_id} - {result.result}")

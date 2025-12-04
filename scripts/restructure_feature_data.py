@@ -3,7 +3,7 @@ from collections import defaultdict
 import os
 
 LAYERS = [8, 16, 24]
-TOP_K = 20
+TOP_K = 5
 
 os.makedirs("./data/features", exist_ok=True)
 

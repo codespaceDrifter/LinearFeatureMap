@@ -2,3 +2,4 @@ venv
 data
 weights
 *.pyc
+__pycache__

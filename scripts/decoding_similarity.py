@@ -10,7 +10,7 @@ LAYERS = [8, 16, 24]
 EMBED_DIM = 3072
 HIDDEN_DIM = 12288
 DEVICE = "cuda"
-TOP_K = 10
+TOP_K = 5
 
 phi = Phi4Inference(layers=LAYERS, device=DEVICE)
 token_embeddings = phi.model.model.embed_tokens.weight.detach()  # (vocab_size, 3072)
