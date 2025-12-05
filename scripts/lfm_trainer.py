@@ -1,77 +1,77 @@
 import torch
-import torch.nn as nn
 import numpy as np
 import os
-import sys
-from pathlib import Path
-sys.path.append(str(Path(__file__).parent.parent))
+from torch.utils.data import Dataset, DataLoader
 from interp_algo.SAE import SAE
 from interp_algo.LFM import LFM
+from scripts.config import config, pathconfig
 
-LAYERS = [8, 16, 24]
-EMBED_DIM = 3072
-HIDDEN_DIM = 12288
-BATCH_SIZE = 4096
+BATCH_SIZE = 4096  # LFM training batch
 LR = 1e-4
 LAMBDA_RECON = 0.1
-ACTIVE_THRESHOLD = 0.2
+ACTIVE_THRESHOLD = 0.1  # threshold for masked loss
 EPOCHS = 5
-DEVICE = "cuda"
 
-metadata = np.load("./data/activations/metadata.npy", allow_pickle=True).item()
+os.makedirs("./weights/LFM", exist_ok=True)
+
+metadata = np.load(pathconfig["metadata"], allow_pickle=True).item()
 total_tokens = metadata["total_tokens"]
+
+class PairedDataset(Dataset):
+    """Loads mlp_in and next layer's att_in as paired data"""
+    def __init__(self, mlp_in_path, att_in_path, total_tokens, embed_dim):
+        self.mlp_in = np.memmap(mlp_in_path, dtype=np.float32, mode="r", shape=(total_tokens, embed_dim))
+        self.att_in = np.memmap(att_in_path, dtype=np.float32, mode="r", shape=(total_tokens, embed_dim))
+        self.total = total_tokens
+    
+    def __len__(self):
+        return self.total
+    
+    def __getitem__(self, idx):
+        return torch.from_numpy(self.mlp_in[idx].copy()), torch.from_numpy(self.att_in[idx].copy())
 
 def train_layer(layer):
     print(f"\n{'='*50}")
     print(f"Training LFM for layer {layer}")
     print(f"{'='*50}\n")
-    
-    pre_data = np.memmap(f"./data/activations/layer_{layer}_pre.bin", dtype=np.float32, mode="r", shape=(total_tokens, EMBED_DIM))
-    post_data = np.memmap(f"./data/activations/layer_{layer}_post.bin", dtype=np.float32, mode="r", shape=(total_tokens, EMBED_DIM))
-    
-    sae_pre = SAE(EMBED_DIM, HIDDEN_DIM).to(DEVICE)
-    sae_pre.load_state_dict(torch.load(f"./weights/SAE/layer_{layer}_pre_sae.pt"))
-    sae_pre.eval()
-    
-    sae_post = SAE(EMBED_DIM, HIDDEN_DIM).to(DEVICE)
-    sae_post.load_state_dict(torch.load(f"./weights/SAE/layer_{layer}_post_sae.pt"))
-    sae_post.eval()
-    
-    lfm = LFM(HIDDEN_DIM).to(DEVICE)
+
+    dataset = PairedDataset(
+        pathconfig["activations"][layer]["mlp"],
+        pathconfig["activations"][layer]["att"],
+        total_tokens, config["embed_dim"]
+    )
+    loader = DataLoader(dataset, batch_size=BATCH_SIZE, shuffle=True, num_workers=4, pin_memory=True)
+
+    # same SAE for both sides
+    sae = SAE(config["embed_dim"], config["hidden_dim"]).to(config["device"])
+    sae.load_state_dict(torch.load(pathconfig["sae"][layer]))
+    sae.eval()
+
+    lfm = LFM(config["hidden_dim"]).to(config["device"])
     optimizer = torch.optim.Adam(lfm.parameters(), lr=LR)
-    
-    num_batches = total_tokens // BATCH_SIZE
     
     for epoch in range(EPOCHS):
         print(f"--- Epoch {epoch + 1}/{EPOCHS} ---")
         
-        for batch_idx in range(num_batches):
-            start = batch_idx * BATCH_SIZE
-            end = start + BATCH_SIZE
-            
-            mlp_in = torch.from_numpy(pre_data[start:end].copy()).to(DEVICE)
-            mlp_out = torch.from_numpy(post_data[start:end].copy()).to(DEVICE)
+        for batch_idx, (mlp_in, att_in) in enumerate(loader):
+            mlp_in, att_in = mlp_in.to(config["device"]), att_in.to(config["device"])
             
             with torch.no_grad():
-                f_in = torch.relu(sae_pre.encoder(mlp_in))
-                f_out = torch.relu(sae_post.encoder(mlp_out))
+                f_in = sae.encode(mlp_in)  # (batch, hidden_dim)
+                f_out = sae.encode(att_in)  # (batch, hidden_dim)
             
-            f_in_masked = f_in * (f_in > ACTIVE_THRESHOLD)
-            f_pred = lfm(f_in_masked)
+            f_pred = lfm(f_in)
             
-            # relative error loss only on active outputs
-            active_mask = f_out > ACTIVE_THRESHOLD
-            
+            # masked feature loss - only where both in and out are active
+            active_mask = (f_in > ACTIVE_THRESHOLD) & (f_out > ACTIVE_THRESHOLD)
             if active_mask.any():
-                diff = f_out - f_pred
-                rel_error = diff[active_mask] / (f_out[active_mask] + 1e-6)
-                loss_feature = rel_error.pow(2).mean()
+                loss_feature = ((f_out - f_pred)[active_mask]).pow(2).mean()
             else:
-                loss_feature = torch.tensor(0.0, device=DEVICE)
+                loss_feature = torch.tensor(0.0, device=config["device"])
             
             # recon loss (downweighted)
-            mlp_out_pred = sae_post.decoder(f_pred)
-            loss_recon = (mlp_out - mlp_out_pred).pow(2).mean()
+            att_in_pred = sae.decode(f_pred)
+            loss_recon = (att_in - att_in_pred).pow(2).mean()
             
             loss = loss_feature + LAMBDA_RECON * loss_recon
             
@@ -80,16 +80,15 @@ def train_layer(layer):
             optimizer.step()
             
             if batch_idx % 100 == 0:
-                n_active = active_mask.sum().item() if active_mask.any() else 0
-                print(f"  [{batch_idx}/{num_batches}] loss: {loss.item():.4f} rel_err: {loss_feature.item():.4f} recon: {loss_recon.item():.4f} active: {n_active}")
+                n_active = active_mask.sum().item()
+                print(f"  [{batch_idx}/{len(loader)}] loss: {loss.item():.4f} feature: {loss_feature.item():.4f} recon: {loss_recon.item():.4f} active: {n_active}")
         
-        torch.save(lfm.state_dict(), f"./weights/LFM/layer_{layer}_lfm.pt")
+        torch.save(lfm.state_dict(), pathconfig["lfm"][layer])
         print(f"  Saved epoch {epoch + 1}")
-    
+
     print(f"Done with layer {layer}\n")
 
 if __name__ == "__main__":
-    os.makedirs("./weights/LFM", exist_ok=True)
-    for layer in LAYERS:
+    for layer in config["layers"]:
         train_layer(layer)
     print("All done!")

@@ -1,40 +1,30 @@
 import torch
 import numpy as np
 import os
-import sys
-from pathlib import Path
-sys.path.append(str(Path(__file__).parent.parent))
 from interp_algo.SAE import SAE
 from interp_algo.LFM import LFM
+from scripts.config import config, pathconfig
 
-LAYERS = [8, 16, 24]
-EMBED_DIM = 3072
-HIDDEN_DIM = 12288
-BATCH_SIZE = 4096
-ACTIVE_THRESHOLD = 0.2
-DEVICE = "cuda"
+BATCH_SIZE = 4096  # eval batch size
+ACTIVE_THRESHOLD = 0.1  # threshold for masked metrics
 
-metadata = np.load("./data/test/activations/metadata.npy", allow_pickle=True).item()
+metadata = np.load(pathconfig["test_metadata"], allow_pickle=True).item()
 total_tokens = metadata["total_tokens"]
 
 def eval_layer(layer):
     print(f"\n{'='*50}")
     print(f"Evaluating LFM for layer {layer}")
     print(f"{'='*50}\n")
-    
-    pre_data = np.memmap(f"./data/test/activations/layer_{layer}_pre.bin", dtype=np.float32, mode="r", shape=(total_tokens, EMBED_DIM))
-    post_data = np.memmap(f"./data/test/activations/layer_{layer}_post.bin", dtype=np.float32, mode="r", shape=(total_tokens, EMBED_DIM))
-    
-    sae_pre = SAE(EMBED_DIM, HIDDEN_DIM).to(DEVICE)
-    sae_pre.load_state_dict(torch.load(f"./weights/SAE/layer_{layer}_pre_sae.pt"))
-    sae_pre.eval()
-    
-    sae_post = SAE(EMBED_DIM, HIDDEN_DIM).to(DEVICE)
-    sae_post.load_state_dict(torch.load(f"./weights/SAE/layer_{layer}_post_sae.pt"))
-    sae_post.eval()
-    
-    lfm = LFM(HIDDEN_DIM).to(DEVICE)
-    lfm.load_state_dict(torch.load(f"./weights/LFM/layer_{layer}_lfm.pt"))
+
+    mlp_in = np.memmap(pathconfig["test_activations"][layer]["mlp"], dtype=np.float32, mode="r", shape=(total_tokens, config["embed_dim"]))
+    att_in = np.memmap(pathconfig["test_activations"][layer]["att"], dtype=np.float32, mode="r", shape=(total_tokens, config["embed_dim"]))
+
+    sae = SAE(config["embed_dim"], config["hidden_dim"]).to(config["device"])
+    sae.load_state_dict(torch.load(pathconfig["sae"][layer]))
+    sae.eval()
+
+    lfm = LFM(config["hidden_dim"]).to(config["device"])
+    lfm.load_state_dict(torch.load(pathconfig["lfm"][layer]))
     lfm.eval()
     
     # unmasked accumulators
@@ -54,31 +44,30 @@ def eval_layer(layer):
             start = batch_idx * BATCH_SIZE
             end = start + BATCH_SIZE
             
-            mlp_in = torch.from_numpy(pre_data[start:end].copy()).to(DEVICE)
-            mlp_out = torch.from_numpy(post_data[start:end].copy()).to(DEVICE)
+            x_in = torch.from_numpy(mlp_in[start:end].copy()).to(config["device"])
+            x_out = torch.from_numpy(att_in[start:end].copy()).to(config["device"])
             
-            f_in = torch.relu(sae_pre.encoder(mlp_in))
-            f_out = torch.relu(sae_post.encoder(mlp_out))
+            f_in = sae.encode(x_in)
+            f_out = sae.encode(x_out)
             
-            f_in_masked = f_in * (f_in > ACTIVE_THRESHOLD)
-            f_out_masked = f_out * (f_out > ACTIVE_THRESHOLD)
-            
-            f_pred = lfm(f_in_masked)
-            mlp_out_pred = sae_post.decoder(f_pred)
+            f_pred = lfm(f_in)
+            x_out_pred = sae.decode(f_pred)
             
             # unmasked
             total_feature += (f_out - f_pred).pow(2).mean().item()
-            total_recon += (mlp_out - mlp_out_pred).pow(2).mean().item()
+            total_recon += (x_out - x_out_pred).pow(2).mean().item()
             
-            # masked - rel error only on active outputs
-            active_mask = f_out > ACTIVE_THRESHOLD
-            if active_mask.any():
-                diff = f_out - f_pred
-                rel_error = diff[active_mask] / (f_out[active_mask] + 1e-6)
-                masked_feature_sum += rel_error.pow(2).sum().item()
-                masked_feature_count += active_mask.sum().item()
-            masked_recon_sum += (mlp_out - mlp_out_pred).pow(2).sum().item()
-            masked_recon_count += mlp_out.numel()
+            # masked (both in and out active)
+            mask = (f_in > ACTIVE_THRESHOLD) & (f_out > ACTIVE_THRESHOLD)
+            if mask.any():
+                masked_feature_sum += ((f_out - f_pred)[mask]).pow(2).sum().item()
+                masked_feature_count += mask.sum().item()
+            
+            # for recon, mask by token (any active feature in that token)
+            token_mask = mask.any(dim=1)
+            if token_mask.any():
+                masked_recon_sum += ((x_out - x_out_pred)[token_mask]).pow(2).sum().item()
+                masked_recon_count += token_mask.sum().item() * config["embed_dim"]
             
             num_batches += 1
     
@@ -86,10 +75,15 @@ def eval_layer(layer):
     print(f"  Feature MSE: {total_feature / num_batches:.6f}")
     print(f"  Recon MSE:   {total_recon / num_batches:.6f}")
     
-    print(f"\n--- Masked (f_out > {ACTIVE_THRESHOLD}) ---")
-    avg_rel_error = (masked_feature_sum / masked_feature_count) ** 0.5 * 100
-    print(f"  Avg Rel Error: {avg_rel_error:.1f}%")
-    print(f"  Recon MSE:     {masked_recon_sum / masked_recon_count:.6f}")
+    print(f"\n--- Masked (f_in > {ACTIVE_THRESHOLD} AND f_out > {ACTIVE_THRESHOLD}) ---")
+    if masked_feature_count > 0:
+        print(f"  Feature MSE: {masked_feature_sum / masked_feature_count:.6f}")
+    else:
+        print(f"  Feature MSE: N/A (no active pairs)")
+    if masked_recon_count > 0:
+        print(f"  Recon MSE:   {masked_recon_sum / masked_recon_count:.6f}")
+    else:
+        print(f"  Recon MSE: N/A")
     
     print(f"\nWeight distribution:")
     weights = lfm.linear.weight.data.abs().flatten()
@@ -106,6 +100,6 @@ def eval_layer(layer):
         lower = upper
 
 if __name__ == "__main__":
-    for layer in LAYERS:
+    for layer in config["layers"]:
         eval_layer(layer)
     print("\nDone!")

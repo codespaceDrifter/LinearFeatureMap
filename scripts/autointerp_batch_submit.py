@@ -2,13 +2,13 @@ import json
 import copy
 import anthropic
 import os
+from scripts.config import config, pathconfig
 
-LAYERS = [8, 16, 24]
 client = anthropic.Anthropic()
 
-# load examples
+# load examples for hydration
 examples = {}
-with open("./data/examples.jsonl", "r") as f:
+with open(pathconfig["example_hydrate"], "r") as f:
     for line in f:
         ex = json.loads(line)
         examples[ex["id"]] = {"input": ex["input"], "output": ex["output"]}
@@ -25,63 +25,61 @@ the output answer in the model wrote
 formatted as first the list of top decoded tokens and then their corresponding scores
 
 Your job:
-one shot interp the feature label without thinking or filler or "ok let me start now" or reasoning steps. your output should START AND END WITH THE CONCISE FEATURE LABEL. 
-make sure the feature interpretation you draft actually explains many or most of the contexts pretty well. top decoded could provide clues but the middle layers might not be actually 
+one shot interp the feature label without thinking or filler or "ok let me start now" or reasoning steps. your output should START AND END WITH THE CONCISE FEATURE LABEL.
+make sure the feature interpretation you draft actually explains many or most of the contexts pretty well. top decoded could provide clues but the middle layers might not be actually
 embedding space so maybe they won't make sense. also the context can provide clues but maybe it just numerically fits that it fires without a strong semantic meaning.
-make sure it is CONCISE AND CLEAR within 10 words or so. 
+make sure it is CONCISE AND CLEAR within 10 words or so.
 Output only your label, nothing else. because i will directly display and read your output as the labels
 """
 
 
-
-os.makedirs("./data/labels", exist_ok=True)
+os.makedirs("./data/features", exist_ok=True)
 
 all_batch_ids = []
 
-for layer in LAYERS:
-    for pos in ["pre", "post"]:
-        print(f"\nProcessing layer_{layer}_{pos}...")
-        
-        with open(f"./data/features/layer_{layer}_{pos}.json", "r") as f:
-            features = json.load(f)
-        
-        requests = []
-        for fid, fdata in features.items():
-            # hydrate contexts
-            hydrated = copy.deepcopy(fdata)
-            for ctx in hydrated["contexts"]:
-                ex = examples.get(ctx["example_id"])
-                if ex is None:
-                    continue
-                ctx["input"] = ex["input"]
-                ctx["output"] = ex["output"]
-                del ctx["example_id"]
-            
-            user_msg = f"Feature {fid} | layer {layer} {pos}-MLP\n\n{json.dumps(hydrated, indent=2)}"
-            
-            requests.append({
-                "custom_id": f"{layer}_{pos}_{fid}",
-                "params": {
-                    "model": "claude-sonnet-4-5-20250929",
-                    "max_tokens": 50,
-                    "thinking": {"type": "disabled"},
-                    "system": ZERO_SHOT_PROMPT,
-                    "messages": [{"role": "user", "content": user_msg}]
-                }
-            })
-        
-        print(f"  Submitting {len(requests)} requests...")
-        
-        # split if too many requests (payload size limit)
-        CHUNK_SIZE = 4000
-        for i in range(0, len(requests), CHUNK_SIZE):
-            chunk = requests[i:i+CHUNK_SIZE]
-            print(f"    Chunk: {len(chunk)} requests...")
-            batch = client.messages.batches.create(requests=chunk)
-            all_batch_ids.append(batch.id)
-            print(f"    Batch ID: {batch.id}")
+for layer in config["layers"]:
+    print(f"\nProcessing layer {layer}...")
 
-with open("./data/labels/batch_ids.txt", "w") as f:
+    with open(pathconfig["feature_context"][layer], "r") as f:
+        features = json.load(f)
+
+    requests = []
+    for fid, fdata in features.items():
+        # hydrate contexts
+        hydrated = copy.deepcopy(fdata)
+        for ctx in hydrated["contexts"]:
+            ex = examples.get(ctx["example_id"])
+            if ex is None:
+                continue
+            ctx["input"] = ex["input"]
+            ctx["output"] = ex["output"]
+            del ctx["example_id"]
+
+        user_msg = f"Feature {fid} | layer {layer}\n\n{json.dumps(hydrated, indent=2)}"
+
+        requests.append({
+            "custom_id": f"{layer}_{fid}",
+            "params": {
+                "model": "claude-sonnet-4-5-20250929",
+                "max_tokens": 50,
+                "thinking": {"type": "disabled"},
+                "system": ZERO_SHOT_PROMPT,
+                "messages": [{"role": "user", "content": user_msg}]
+            }
+        })
+
+    print(f"  Submitting {len(requests)} requests...")
+
+    # split if too many requests (payload size limit)
+    CHUNK_SIZE = 4000
+    for i in range(0, len(requests), CHUNK_SIZE):
+        chunk = requests[i:i+CHUNK_SIZE]
+        print(f"    Chunk: {len(chunk)} requests...")
+        batch = client.messages.batches.create(requests=chunk)
+        all_batch_ids.append(batch.id)
+        print(f"    Batch ID: {batch.id}")
+
+with open(pathconfig["batch_ids"], "w") as f:
     f.write("\n".join(all_batch_ids))
 
 print(f"\nAll batches submitted! {len(all_batch_ids)} total")

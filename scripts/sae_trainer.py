@@ -3,20 +3,16 @@ import torch.nn as nn
 import numpy as np
 import os
 from interp_algo.SAE import SAE
+from scripts.config import config, pathconfig
 
-LAYERS = [8, 16, 24]
-EMBED_DIM = 3072
-EXPANSION = 4
-HIDDEN_DIM = EMBED_DIM * EXPANSION
-BATCH_SIZE = 16384
+BATCH_SIZE = 16384  # large batch for SAE training
 LR = 1e-4
 LAMBDA_SPARSE = 1
 EPOCHS = 20
-DEVICE = "cuda"
 
 os.makedirs("./weights/SAE", exist_ok=True)
 
-metadata = np.load("./data/activations/metadata.npy", allow_pickle=True).item()
+metadata = np.load(pathconfig["metadata"], allow_pickle=True).item()
 total_tokens = metadata["total_tokens"]
 
 class CombinedDataset(torch.utils.data.Dataset):
@@ -40,23 +36,23 @@ def train_layer(layer):
     print(f"\n{'='*50}")
     print(f"Training SAE for layer {layer} (mlp_in + layer {layer+1} att_in)")
     print(f"{'='*50}\n")
-    
+
     dataset = CombinedDataset(
-        f"./data/activations/layer_{layer}_mlp_in.bin",
-        f"./data/activations/layer_{layer+1}_att_in.bin",
+        pathconfig["activations"][layer]["mlp"],
+        pathconfig["activations"][layer]["att"],
         total_tokens,
-        EMBED_DIM
+        config["embed_dim"]
     )
     loader = torch.utils.data.DataLoader(dataset, batch_size=BATCH_SIZE, shuffle=True, num_workers=4)
-    
-    sae = SAE(EMBED_DIM, HIDDEN_DIM).to(DEVICE)
+
+    sae = SAE(config["embed_dim"], config["hidden_dim"]).to(config["device"])
     optimizer = torch.optim.Adam(sae.parameters(), lr=LR)
     
     for epoch in range(EPOCHS):
         print(f"--- Epoch {epoch + 1}/{EPOCHS} ---")
         
         for batch_idx, x in enumerate(loader):
-            x = x.to(DEVICE)  # (batch, 3072)
+            x = x.to(config["device"])  # (batch, 3072)
             
             x_hat, z = sae(x)  # x_hat: (batch, 3072), z: (batch, hidden_dim)
             
@@ -69,18 +65,18 @@ def train_layer(layer):
             optimizer.step()
             
             if batch_idx % 50 == 0:
-                any_active = (z > 0).float().mean().item() * HIDDEN_DIM
-                mid_active = (z > 0.5).float().mean().item() * HIDDEN_DIM
-                big_active = (z > 1).float().mean().item() * HIDDEN_DIM
+                any_active = (z > 0).float().mean().item() * config["hidden_dim"]
+                mid_active = (z > 0.5).float().mean().item() * config["hidden_dim"]
+                big_active = (z > 1).float().mean().item() * config["hidden_dim"]
                 r_squared = 1 - (x - x_hat).pow(2).sum() / x.pow(2).sum()
                 print(f"  [{batch_idx}/{len(loader)}] loss: {loss.item():.4f} R²: {r_squared.item():.4f} active>0: {any_active:.0f} active>0.5: {mid_active:.0f} active>1: {big_active:.0f}")
         
-        torch.save(sae.state_dict(), f"./weights/SAE/layer_{layer}_sae.pt")
+        torch.save(sae.state_dict(), pathconfig["sae"][layer])
         print(f"  Saved epoch {epoch + 1}")
-    
+
     print(f"Done with layer {layer}\n")
 
 if __name__ == "__main__":
-    for layer in LAYERS:
+    for layer in config["layers"]:
         train_layer(layer)
     print("All done!")

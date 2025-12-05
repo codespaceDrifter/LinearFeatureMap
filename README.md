@@ -58,49 +58,34 @@ to intervention test we can modify the weights for example if original ffw maps 
 
 
 ### implementaion:
-
 we are using the phi4-mini-it model with 3.8b parameters  
-we are going to print the architecture and inject SAEs with just the autocausalllm import  
 we are going to train SAEs over the structured dataset Alphaca and we train only on the activation of the model generating (so not reading the question)  
-we are training one LFW for each MLP so we gather activations pre and post each MLP    
+we are training one LFM for each MLP so we gather activations pre and post each MLP    
 for activations we are using the first 75% as training and last 25% as test.  
-for each "block" in the model including MLP and attention we train one SAE. we only train SAE on the normalized activation points in the model because the actual MLP and attention blocks always only have normalized stuff passed in. the pre and post activations of a MLP (as well as that attention later potentially for later research) we use a single SAE but for different MLPs we use different SAEs. this is because the activation space meaning changes over layers.     
-we label with the top 10 activations context from each small sublayer it belongs to.  
+for each MLP we train one SAE on both the input (mlp_in) and output (next layer's att_in) activations combined. we only train SAE on the normalized activation points in the model because the actual MLP and attention blocks always only have normalized stuff passed in. this gives us a unified feature space for each MLP's input and output. for different MLPs we use different SAEs because the activation space meaning changes over layers.     
+we label with the top 5 activation contexts from each feature, selecting contexts where activations fire > 0.75.  
 we will do 12288 for the SAE hidden_dim since the model embed_dim is 3072 embed_dim and we go for a 4x.  
 we label SAE with the following series of structured information  
 data/features/
-  layer_8/
-    feature_0.json
-    feature_1.json
-    ...
-  layer_8/
-    ...
+  layer_8.json
+  layer_16.json
+  layer_24.json
 
+each feature contains:
 {
-    top unembedding cosine similarity tokens: the decoder for that feature normalized doted with all normalized tokem embeddings
-
-    a series of contexts based on activations above a certain threshold 
-    selected with top k activation values across all contexts
+    top unembedding cosine similarity tokens: the decoder for that feature normalized doted with all normalized token embeddings
+    a series of contexts based on activations above 0.75 threshold 
+    selected with top 5 activation values across all contexts
     {
+        position: mlp_in or att_in
         output token index
         input question
         output answer
-        causal connection: output answer with the activation artificially negated
     }
 }
-
-then we prompt a llm like claude opus 4.5 to interpret the features if possible. 
-
+then we prompt claude sonnet 4.5 zero-shot (no thinking tokens) via batch API to interpret the features.
 due to compute and time limitations we start with 3 layers of MLP not all layers: we pick layer 8, 16, 24
-
-for each we label the ones that fire > 0.5 only. many features will not be labeled.
-we get a list of ids of all labeled features.
-
-when training LFMs, we zero out ALL unlabeled features. 
-
-after training LFMs maybe we make a feature_groups per layer if some features are very similar to each other. this would help with interpretation of map relationships and also just be nice for display in general.  
-
-
+after training LFMs maybe we make a feature_groups per layer if some features are very similar to each other. this would help with interpretation of map relationships and also just be nice for display in general.
 
 
 
