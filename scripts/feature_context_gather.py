@@ -16,9 +16,14 @@ for layer in config["layers"]:
         for line in f:
             entry = json.loads(line)
             fid = entry["feature_id"]
+            # strip "pos" from activations - we don't need it
+            clean_activations = [
+                {k: v for k, v in act.items() if k != "pos"}
+                for act in entry["activations"]
+            ]
             features[fid]["contexts"].append({
                 "example_id": entry["example_id"],
-                "activations": entry["activations"]
+                "activations": clean_activations
             })
 
     # keep only top k contexts per feature by max activation
