@@ -64,13 +64,9 @@ for i in range(0, end_idx, BATCH_SIZE):
             mlp_in_stack = torch.stack([act[idx, :, :] for idx in mlp_indices], dim=1).float().to(config["device"])
             att_in_stack = torch.stack([act[idx, :, :] for idx in att_indices], dim=1).float().to(config["device"])
 
-            # concat and encode in ONE forward pass: (seq * 2, num_layers, embed_dim)
-            combined = torch.cat([mlp_in_stack, att_in_stack], dim=0)
-            z_combined = merged_sae.encode(combined)  # (seq * 2, num_layers, hidden_dim)
-
-            # split back
-            z_mlp = z_combined[:seq_len]  # (seq, num_layers, hidden_dim)
-            z_att = z_combined[seq_len:]  # (seq, num_layers, hidden_dim)
+            # encode separately to save memory
+            z_mlp = merged_sae.encode(mlp_in_stack)  # (seq, num_layers, hidden_dim)
+            z_att = merged_sae.encode(att_in_stack)  # (seq, num_layers, hidden_dim)
 
             # process each layer
             for layer_idx, layer in enumerate(layers):
