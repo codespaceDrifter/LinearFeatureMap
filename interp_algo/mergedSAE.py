@@ -27,18 +27,20 @@ class MergedSAE(nn.Module):
 
     def encode(self, x):
         # x: (batch, layers, embed_dim)
-        x = x.unsqueeze(-2)  # (batch, layers, 1, embed_dim)
-        z = torch.matmul(x, self.encoder_weight)  # (batch, layers, 1, hidden_dim)
-        z = z.squeeze(-2)  # (batch, layers, hidden_dim)
+        # self.encoder_weight: (layers, embed_dim, hidden_dim)
+        x = x.permute(1, 0, 2)  # (layers, batch, embed_dim)
+        z = torch.matmul(x, self.encoder_weight)  # (layers, batch, hidden_dim)
+        z = z.permute(1, 0, 2)  # (batch, layers, hidden_dim)
         z = z + self.encoder_bias  # broadcasts (layers, hidden_dim)
         z = torch.relu(z)
         return z
 
     def decode(self, z):
         # z: (batch, layers, hidden_dim)
-        z = z.unsqueeze(-2)  # (batch, layers, 1, hidden_dim)
-        x = torch.matmul(z, self.decoder_weight)  # (batch, layers, 1, embed_dim)
-        x = x.squeeze(-2)  # (batch, layers, embed_dim)
+        # self.decoder_weight: (layers, hidden_dim, embed_dim)
+        z = z.permute(1, 0, 2)  # (layers, batch, hidden_dim)
+        x = torch.matmul(z, self.decoder_weight)  # (layers, batch, embed_dim)
+        x = x.permute(1, 0, 2)  # (batch, layers, embed_dim)
         x = x + self.decoder_bias  # broadcasts (layers, embed_dim)
         return x
 
