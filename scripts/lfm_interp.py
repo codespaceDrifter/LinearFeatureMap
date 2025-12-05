@@ -36,15 +36,25 @@ for layer in config["layers"]:
     indices = mask.nonzero().tolist()  # list of [i, j]
 
     for i, j in indices:
+        # skip self-connections
+        if i == j:
+            continue
+
+        # skip if input or output not labeled
+        j_label = get_label(j)
+        i_label = get_label(i)
+        if not j_label or not i_label:
+            continue
+
         j_str = str(j)
         if j_str not in result:
             result[j_str] = {
-                "label": get_label(j),
+                "label": j_label,
                 "outputs": []
             }
         result[j_str]["outputs"].append({
             "id": i,
-            "label": get_label(i),
+            "label": i_label,
             "weight": round(weights[i, j].item(), 4)
         })
 
