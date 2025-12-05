@@ -86,6 +86,21 @@ def train_layer(layer):
         torch.save(lfm.state_dict(), pathconfig["lfm"][layer])
         print(f"  Saved epoch {epoch + 1}")
 
+        # weight distribution
+        weights = lfm.linear.weight.data.abs().flatten()
+        total_weights = weights.numel()
+        lower = 0.0
+        dist_str = []
+        while True:
+            upper = lower + 0.1
+            count = ((weights >= lower) & (weights < upper)).sum().item()
+            pct = 100 * count / total_weights
+            dist_str.append(f"{lower:.1f}-{upper:.1f}: {pct:.2f}%")
+            if (weights >= upper).sum() == 0:
+                break
+            lower = upper
+        print(f"  Weight dist: {' | '.join(dist_str)}")
+
     print(f"Done with layer {layer}\n")
 
 if __name__ == "__main__":
