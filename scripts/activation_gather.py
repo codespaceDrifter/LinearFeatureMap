@@ -2,10 +2,12 @@
 Activation gathering - can be run standalone or imported.
 Gathers in batches of layers for efficiency.
 """
+import glob
+import os
+
 import torch
 import numpy as np
 from datasets import load_from_disk
-import os
 from scripts.config import config, pathconfig
 
 BATCH_SIZE = 4  # inference batch size
@@ -47,6 +49,11 @@ def gather_layer_batch(phi, dataset, layers, start, end):
         return 0
 
     print(f"Gathering layers {layers[0]}-{layers[-1]}: {len(layers)} layer pairs")
+
+    # clear any leftover .bin files from previous runs
+    for f in glob.glob("./data/activations/*.bin"):
+        os.remove(f)
+        print(f"  Deleted leftover: {f}")
 
     os.makedirs("./data/activations", exist_ok=True)
 

@@ -98,8 +98,9 @@ def eval_lfm(layer, total_tokens):
 
     # weight distribution
     weights = lfm.linear.weight.data.abs().flatten()
-    total_weights = weights.numel()
-    print(f"  Weights >0.5: {100 * (weights > 0.5).sum().item() / total_weights:.4f}%")
+    n_01_02 = ((weights >= 0.1) & (weights < 0.2)).sum().item()
+    n_02_plus = (weights >= 0.2).sum().item()
+    print(f"  Weights 0.1-0.2: {n_01_02} | >0.2: {n_02_plus}")
 
 
 # standalone execution

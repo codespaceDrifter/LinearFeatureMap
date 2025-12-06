@@ -83,17 +83,9 @@ def train_lfm(layer, sae_mlp, sae_att, total_tokens):
 
     # weight distribution
     weights = lfm.linear.weight.data.abs().flatten()
-    total_w = weights.numel()
-    lower = 0.0
-    dist = []
-    while True:
-        upper = lower + 0.1
-        pct = 100 * ((weights >= lower) & (weights < upper)).sum().item() / total_w
-        dist.append(f"{lower:.1f}-{upper:.1f}: {pct:.2f}%")
-        if (weights >= upper).sum() == 0:
-            break
-        lower = upper
-    print(f"  Weight dist: {' | '.join(dist)}")
+    n_01_02 = ((weights >= 0.1) & (weights < 0.2)).sum().item()
+    n_02_plus = (weights >= 0.2).sum().item()
+    print(f"  Weights 0.1-0.2: {n_01_02} | >0.2: {n_02_plus}")
 
 
 # standalone execution
