@@ -66,13 +66,11 @@ for batch_start in range(0, num_layers - 1, LAYER_BATCH_SIZE):
     # 1. gather activations for all layers in batch (one pass through dataset)
     if skip_activation:
         print(f"\n[SKIP] Activation gathering (resuming at {START_STAGE})")
-        # need to get total_tokens from existing activations
-        import torch
+        # get total_tokens from file size (raw binary: total_tokens * embed_dim * 4 bytes)
         sample_path = pathconfig["activations"]["mlp"][layers[0]]
-        sample_act = torch.load(sample_path, weights_only=True)
-        total_tokens = sample_act.shape[0]
-        print(f"  (loaded total_tokens={total_tokens} from existing activations)")
-        del sample_act
+        file_size = os.path.getsize(sample_path)
+        total_tokens = file_size // (config["d_model"] * 4)  # 4 bytes per float32
+        print(f"  (computed total_tokens={total_tokens} from file size)")
     else:
         total_tokens = gather_layer_batch(phi, dataset, layers, start, end)
 
