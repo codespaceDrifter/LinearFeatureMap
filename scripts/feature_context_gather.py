@@ -48,18 +48,18 @@ def process_file(raw_path, out_path, label):
     return len(features)
 
 
-# Process all mlp positions (layers 0 to num_layers-1)
+# Process mlp positions (layers 0 to 30)
 print("Processing mlp positions...")
-for layer in range(num_layers):
+for layer in range(num_layers - 1):
     process_file(
         pathconfig["raw_activations"]["mlp"][layer],
         pathconfig["feature_context"]["mlp"][layer],
         f"layer {layer} mlp"
     )
 
-# Process all att positions (layers 0 to num_layers-1)
+# Process att positions (layers 1 to 31)
 print("\nProcessing att positions...")
-for layer in range(num_layers):
+for layer in range(1, num_layers):
     process_file(
         pathconfig["raw_activations"]["att"][layer],
         pathconfig["feature_context"]["att"][layer],

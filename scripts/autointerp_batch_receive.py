@@ -63,16 +63,16 @@ for batch_id in batch_ids:
         else:
             print(f"Error: {result.custom_id} - {result.result}")
 
-# write all mlp interpretation files
-for layer in range(num_layers):
+# write mlp interpretation files (layers 0 to 30)
+for layer in range(num_layers - 1):
     layer_str = str(layer)
     if layer_str in results_mlp:
         with open(pathconfig["interpretations"]["mlp"][layer], "w") as f:
             json.dump(results_mlp[layer_str], f, indent=2)
         print(f"mlp[{layer}]: {len(results_mlp[layer_str])} interpretations saved")
 
-# write all att interpretation files
-for layer in range(num_layers):
+# write att interpretation files (layers 1 to 31)
+for layer in range(1, num_layers):
     layer_str = str(layer)
     if layer_str in results_att:
         with open(pathconfig["interpretations"]["att"][layer], "w") as f:

@@ -8,13 +8,21 @@ from scripts.config import config, pathconfig
 BATCH_SIZE = 4096  # eval batch size
 ACTIVE_THRESHOLD = 0.1  # threshold for masked metrics
 
-metadata = np.load(pathconfig["test_metadata"], allow_pickle=True).item()
-total_tokens = metadata["total_tokens"]
+# lazy load metadata
+_metadata = None
+def get_total_tokens():
+    global _metadata
+    if _metadata is None:
+        _metadata = np.load(pathconfig["test_metadata"], allow_pickle=True).item()
+    return _metadata["total_tokens"]
+
 
 def eval_layer(layer):
     print(f"\n{'='*50}")
     print(f"Evaluating LFM for layer {layer}")
     print(f"{'='*50}\n")
+
+    total_tokens = get_total_tokens()
 
     # load test activations: mlp_in at layer N, att_in at layer N+1
     mlp_in = np.memmap(pathconfig["test_activations"]["mlp"][layer], dtype=np.float32, mode="r", shape=(total_tokens, config["embed_dim"]))

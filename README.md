@@ -62,14 +62,15 @@ we are using the phi4-mini-it model with 3.8b parameters
 we are going to train SAEs over the structured dataset Alphaca and we train only on the activation of the model generating (so not reading the question)  
 we are training one LFM for each MLP so we gather activations pre and post each MLP    
 for activations we are using the first 75% as training and last 25% as test.  
-for each MLP we train one SAE on both the input (mlp_in) and output (next layer's att_in) activations combined. we only train SAE on the normalized activation points in the model because the actual MLP and attention blocks always only have normalized stuff passed in. this gives us a unified feature space for each MLP's input and output. for different MLPs we use different SAEs because the activation space meaning changes over layers.     
+for each MLP we train TWO separate SAEs: one on mlp_in and one on the next layer's att_in. we only train SAE on the normalized activation points in the model because the actual MLP and attention blocks always only have normalized stuff passed in. having separate SAEs means the input and output feature spaces are different, so the LFM learns to map between these two distinct feature spaces. for different layers we use different SAEs because the activation space meaning changes over layers.     
 we label with the top 5 activation contexts from each feature, selecting contexts where activations fire > 0.75.  
 we will do 12288 for the SAE hidden_dim since the model embed_dim is 3072 embed_dim and we go for a 4x.  
-we label SAE with the following series of structured information  
+we label SAE with the following series of structured information
 data/features/
-  layer_8.json
-  layer_16.json
-  layer_24.json
+  layer_{N}_mlp.json   (for N = 0 to 30)
+  layer_{N}_att.json   (for N = 1 to 31)
+
+total: 62 SAEs (31 mlp + 31 att), 31 LFMs mapping mlp[N] -> att[N+1]
 
 each feature contains:
 {
@@ -84,7 +85,7 @@ each feature contains:
     }
 }
 then we prompt claude sonnet 4.5 zero-shot (no thinking tokens) via batch API to interpret the features.
-due to compute and time limitations we start with 3 layers of MLP not all layers: we pick layer 8, 16, 24
+we train on all 32 layers (31 MLP transitions), streaming one layer pair at a time to manage disk space.
 after training LFMs maybe we make a feature_groups per layer if some features are very similar to each other. this would help with interpretation of map relationships and also just be nice for display in general.
 
 

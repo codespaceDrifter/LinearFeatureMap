@@ -22,19 +22,19 @@ phi = Phi4Inference(device=config["device"])
 
 num_layers = config["num_layers"]
 
-# load all SAEs (64 total: 32 mlp + 32 att)
+# load SAEs for pairs only: mlp[0..30] and att[1..31]
 print("Loading SAEs...")
 saes_mlp = {}
 saes_att = {}
 
-for layer in range(num_layers):
+for layer in range(num_layers - 1):  # 0 to 30
     sae = SAE(config["embed_dim"], config["hidden_dim"]).to(config["device"])
     sae.load_state_dict(torch.load(pathconfig["sae"]["mlp"][layer]))
     sae.eval()
     saes_mlp[layer] = sae
     print(f"  Loaded sae_mlp[{layer}]")
 
-for layer in range(num_layers):
+for layer in range(1, num_layers):  # 1 to 31
     sae = SAE(config["embed_dim"], config["hidden_dim"]).to(config["device"])
     sae.load_state_dict(torch.load(pathconfig["sae"]["att"][layer]))
     sae.eval()
@@ -52,15 +52,15 @@ def format_prompt(example):
         text += "\n" + example["input"]
     return text
 
-# open output files
+# open output files (pairs only)
 examples_file = open(pathconfig["example_hydrate"], "w")
 files_mlp = {}
 files_att = {}
 
-for layer in range(num_layers):
+for layer in range(num_layers - 1):  # 0 to 30
     files_mlp[layer] = open(pathconfig["raw_activations"]["mlp"][layer], "w")
 
-for layer in range(num_layers):
+for layer in range(1, num_layers):  # 1 to 31
     files_att[layer] = open(pathconfig["raw_activations"]["att"][layer], "w")
 
 example_id = 0
@@ -80,11 +80,11 @@ for i in range(0, end_idx, BATCH_SIZE):
             act = activations[b]  # (64, seq_len, 3072)
             seq_len = act.shape[1]
 
-            # process all mlp positions (layers 0 to num_layers-1)
-            for layer in range(num_layers):
+            # process mlp positions (layers 0 to 30)
+            for layer in range(num_layers - 1):
                 hook_idx = layer * 2 + 1
-                x = act[hook_idx, :, :].float().to(config["device"])  # (seq, embed_dim)
-                z = saes_mlp[layer].encode(x)  # (seq, hidden_dim)
+                x = act[hook_idx, :, :].float().to(config["device"])
+                z = saes_mlp[layer].encode(x)
 
                 feature_fires = defaultdict(list)
                 fired = (z > THRESHOLD).nonzero().tolist()
@@ -102,11 +102,11 @@ for i in range(0, end_idx, BATCH_SIZE):
                         "activations": fires
                     }) + "\n")
 
-            # process all att positions (layers 0 to num_layers-1)
-            for layer in range(num_layers):
+            # process att positions (layers 1 to 31)
+            for layer in range(1, num_layers):
                 hook_idx = layer * 2
-                x = act[hook_idx, :, :].float().to(config["device"])  # (seq, embed_dim)
-                z = saes_att[layer].encode(x)  # (seq, hidden_dim)
+                x = act[hook_idx, :, :].float().to(config["device"])
+                z = saes_att[layer].encode(x)
 
                 feature_fires = defaultdict(list)
                 fired = (z > THRESHOLD).nonzero().tolist()

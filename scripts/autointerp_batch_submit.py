@@ -80,14 +80,14 @@ def process_features(kind, layer):
     return requests
 
 
-# Process all mlp positions (layers 0 to num_layers-1)
+# Process mlp positions (layers 0 to 30)
 print("Processing mlp positions...")
-for layer in range(num_layers):
+for layer in range(num_layers - 1):
     all_requests.extend(process_features("mlp", layer))
 
-# Process all att positions (layers 0 to num_layers-1)
+# Process att positions (layers 1 to 31)
 print("\nProcessing att positions...")
-for layer in range(num_layers):
+for layer in range(1, num_layers):
     all_requests.extend(process_features("att", layer))
 
 print(f"\nTotal: {len(all_requests)} requests")
