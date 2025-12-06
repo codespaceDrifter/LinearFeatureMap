@@ -23,7 +23,7 @@ LAYER_BATCH_SIZE = 8  # gather 8 layers at once (~450GB disk, adjust if needed)
 #   Fresh start:           START_BATCH=0, START_STAGE="activation"
 #   Resume at batch 1 LFM: START_BATCH=1, START_STAGE="lfm"
 START_BATCH = 0
-START_STAGE = "activation"  # "activation", "sae", or "lfm"
+START_STAGE = "lfm"  # "activation", "sae", or "lfm"
 # ===========================================
 
 # load model and dataset once
