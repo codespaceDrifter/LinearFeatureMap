@@ -2,6 +2,9 @@
 Master evaluation script - evaluates all SAEs and LFMs in layer batches.
 Same structure as master_train but uses test split and runs eval instead of train.
 """
+import os
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
+
 import numpy as np
 from datasets import load_from_disk
 from phi4_mini.inference import Phi4Inference

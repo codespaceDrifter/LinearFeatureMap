@@ -2,6 +2,9 @@
 Master training script - trains all SAEs and LFMs in layer batches.
 Gathers activations for multiple layers at once to avoid repeated inference.
 """
+import os
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
+
 from datasets import load_from_disk
 from phi4_mini.inference import Phi4Inference
 from scripts.config import config, pathconfig
