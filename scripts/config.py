@@ -85,6 +85,8 @@ class PathConfig:
             return "./weights/phi4-mini"
         elif key == "alpaca":
             return "./data/alpaca"
+        elif key == "merged_sae":
+            return "./weights/SAE/merged_sae.pt"
         else:
             raise KeyError(f"Unknown path key: {key}")
 

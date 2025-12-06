@@ -1,6 +1,5 @@
 """
 Evaluate SAEs on test set.
-Evaluates all 62 SAEs: mlp[0-30] + att[1-31]
 """
 import torch
 import numpy as np
@@ -12,38 +11,27 @@ BATCH_SIZE = 4096
 
 num_layers = config["num_layers"]
 
-# lazy load metadata
-_metadata = None
-def get_total_tokens():
-    global _metadata
-    if _metadata is None:
-        _metadata = np.load(pathconfig["test_metadata"], allow_pickle=True).item()
-    return _metadata["total_tokens"]
 
-
-def eval_sae(kind, layer):
+def eval_sae(kind, layer, total_tokens):
     """Evaluate a single SAE."""
-    print(f"\n{'='*50}")
-    print(f"Evaluating SAE {kind}[{layer}]")
-    print(f"{'='*50}\n")
+    print(f"\n--- SAE {kind}[{layer}] ---")
 
     # load test activations
     act_path = pathconfig["test_activations"][kind][layer]
     if not os.path.exists(act_path):
-        print(f"Skipping - no test activations found")
+        print(f"  Skipping - no test activations")
         return
 
-    total_tokens = get_total_tokens()
     activations = np.memmap(act_path, dtype=np.float32, mode="r", shape=(total_tokens, config["embed_dim"]))
 
     # load SAE
     weight_path = pathconfig["sae"][kind][layer]
     if not os.path.exists(weight_path):
-        print(f"Skipping - no weights found")
+        print(f"  Skipping - no weights")
         return
 
     sae = SAE(config["embed_dim"], config["hidden_dim"]).to(config["device"])
-    sae.load_state_dict(torch.load(weight_path))
+    sae.load_state_dict(torch.load(weight_path, weights_only=True))
     sae.eval()
 
     total_recon, total_norm, total_active, total_mid, total_strong, count = 0, 0, 0, 0, 0, 0
@@ -65,15 +53,17 @@ def eval_sae(kind, layer):
     print(f"  Strong (>1): {total_strong / count:.1f}")
 
 
+# standalone execution
 if __name__ == "__main__":
-    # eval mlp SAEs (layers 0 to 30)
+    metadata = np.load(pathconfig["test_metadata"], allow_pickle=True).item()
+    total_tokens = metadata["total_tokens"]
+
     print("Evaluating mlp SAEs...")
     for layer in range(num_layers - 1):
-        eval_sae("mlp", layer)
+        eval_sae("mlp", layer, total_tokens)
 
-    # eval att SAEs (layers 1 to 31)
     print("\nEvaluating att SAEs...")
     for layer in range(1, num_layers):
-        eval_sae("att", layer)
+        eval_sae("att", layer, total_tokens)
 
     print("\nDone!")
