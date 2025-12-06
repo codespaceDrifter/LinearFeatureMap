@@ -5,8 +5,10 @@ Gathers activations for multiple layers at once to avoid repeated inference.
 import os
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
+import torch
 from datasets import load_from_disk
 from phi4_mini.inference import Phi4Inference
+from interp_algo.SAE import SAE
 from scripts.config import config, pathconfig
 from scripts.activation_gather import gather_layer_batch, delete_layer_batch
 from scripts.sae_trainer import train_sae
@@ -83,11 +85,10 @@ for batch_start in range(0, num_layers - 1, LAYER_BATCH_SIZE):
         if skip_sae:
             print(f"\n[SKIP] SAE training (resuming at lfm)")
             # load existing SAEs
-            from sae.model import SparseAutoEncoder
-            sae_mlp = SparseAutoEncoder(config["d_model"], config["d_sae"])
-            sae_mlp.load(pathconfig["sae"]["mlp"][layer])
-            sae_att = SparseAutoEncoder(config["d_model"], config["d_sae"])
-            sae_att.load(pathconfig["sae"]["att"][layer + 1])
+            sae_mlp = SAE(config["embed_dim"], config["hidden_dim"]).to(config["device"])
+            sae_mlp.load_state_dict(torch.load(pathconfig["sae"]["mlp"][layer], weights_only=True))
+            sae_att = SAE(config["embed_dim"], config["hidden_dim"]).to(config["device"])
+            sae_att.load_state_dict(torch.load(pathconfig["sae"]["att"][layer + 1], weights_only=True))
             print(f"  (loaded existing SAEs)")
         else:
             # train SAEs
