@@ -69,7 +69,7 @@ for batch_start in range(0, num_layers - 1, LAYER_BATCH_SIZE):
         # get total_tokens from file size (raw binary: total_tokens * embed_dim * 4 bytes)
         sample_path = pathconfig["activations"]["mlp"][layers[0]]
         file_size = os.path.getsize(sample_path)
-        total_tokens = file_size // (config["d_model"] * 4)  # 4 bytes per float32
+        total_tokens = file_size // (config["embed_dim"] * 4)  # 4 bytes per float32
         print(f"  (computed total_tokens={total_tokens} from file size)")
     else:
         total_tokens = gather_layer_batch(phi, dataset, layers, start, end)
