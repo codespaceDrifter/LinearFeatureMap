@@ -1,7 +1,7 @@
 # Common configuration values used across multiple scripts
 config = {
     # Model architecture
-    "layers": [8, 16, 24],
+    "num_layers": 32,  # total transformer layers
     "embed_dim": 3072,
     "hidden_dim": 12288,  # embed_dim * 4
 
@@ -20,38 +20,45 @@ config = {
 class PathConfig:
     """
     Usage:
-        # Weights
-        pathconfig["sae"][layer]              -> "./weights/SAE/layer_{layer}_sae.pt"
-        pathconfig["merged_sae"]              -> "./weights/SAE/merged_sae.pt"
+        # Weights - separate SAEs for mlp_in and att_in
+        pathconfig["sae"]["mlp"][layer]       -> "./weights/SAE/layer_{layer}_mlp_sae.pt"
+        pathconfig["sae"]["att"][layer]       -> "./weights/SAE/layer_{layer}_att_sae.pt"
         pathconfig["lfm"][layer]              -> "./weights/LFM/layer_{layer}_lfm.pt"
         pathconfig["model"]                   -> "./weights/phi4-mini"
 
-        # Raw activations (binary)
-        pathconfig["activations"][layer]["mlp"]      -> "./data/activations/layer_{layer}_mlp_in.bin"
-        pathconfig["activations"][layer]["att"]      -> "./data/activations/layer_{layer+1}_att_in.bin"
-        pathconfig["test_activations"][layer]["mlp"] -> "./data/test/activations/..."
-        pathconfig["test_activations"][layer]["att"] -> "./data/test/activations/..."
+        # Raw activations (binary) - NO implicit layer+1, explicit positions
+        pathconfig["activations"]["mlp"][layer]      -> "./data/activations/layer_{layer}_mlp_in.bin"
+        pathconfig["activations"]["att"][layer]      -> "./data/activations/layer_{layer}_att_in.bin"
+        pathconfig["test_activations"]["mlp"][layer] -> "./data/test/activations/..."
+        pathconfig["test_activations"]["att"][layer] -> "./data/test/activations/..."
         pathconfig["metadata"]                       -> "./data/activations/metadata.npy"
         pathconfig["test_metadata"]                  -> "./data/test/activations/metadata.npy"
 
         # Contexts folder (preparation/hydration data)
-        pathconfig["raw_activations"][layer]  -> "./data/contexts/raw_dataset_activations_layer_{layer}.jsonl"
-        pathconfig["feature_context"][layer]  -> "./data/contexts/feature_context_layer_{layer}.json"
-        pathconfig["example_hydrate"]         -> "./data/contexts/example_hydrate.jsonl"
+        pathconfig["raw_activations"]["mlp"][layer]  -> "./data/contexts/layer_{layer}_mlp_raw.jsonl"
+        pathconfig["raw_activations"]["att"][layer]  -> "./data/contexts/layer_{layer}_att_raw.jsonl"
+        pathconfig["feature_context"]["mlp"][layer]  -> "./data/contexts/layer_{layer}_mlp_context.json"
+        pathconfig["feature_context"]["att"][layer]  -> "./data/contexts/layer_{layer}_att_context.json"
+        pathconfig["example_hydrate"]                -> "./data/contexts/example_hydrate.jsonl"
 
         # Features folder (final interpreted features)
-        pathconfig["interpretations"][layer]  -> "./data/features/layer_{layer}.json"
-        pathconfig["batch_ids"]               -> "./data/features/batch_ids.txt"
+        pathconfig["interpretations"]["mlp"][layer]  -> "./data/features/layer_{layer}_mlp.json"
+        pathconfig["interpretations"]["att"][layer]  -> "./data/features/layer_{layer}_att.json"
+        pathconfig["batch_ids"]                      -> "./data/features/batch_ids.txt"
+
+        # LFM labels
+        pathconfig["lfm_labels"][layer]              -> "./data/labels/lfm_{layer}.json"
 
         # Data sources
-        pathconfig["alpaca"]                  -> "./data/alpaca"
+        pathconfig["alpaca"]                         -> "./data/alpaca"
+
+    LFM for layer N maps: sae["mlp"][N] features -> sae["att"][N+1] features
+    (layer N mlp_in -> layer N+1 att_in, i.e., across the MLP)
     """
 
     def __getitem__(self, key):
         if key == "sae":
             return _SAEPaths()
-        elif key == "merged_sae":
-            return "./weights/SAE/merged_sae.pt"
         elif key == "lfm":
             return _LFMPaths()
         elif key == "activations":
@@ -68,6 +75,8 @@ class PathConfig:
             return _InterpretationPaths()
         elif key == "batch_ids":
             return "./data/features/batch_ids.txt"
+        elif key == "lfm_labels":
+            return _LFMLabelPaths()
         elif key == "metadata":
             return "./data/activations/metadata.npy"
         elif key == "test_metadata":
@@ -81,8 +90,22 @@ class PathConfig:
 
 
 class _SAEPaths:
+    """pathconfig["sae"]["mlp"][layer] or pathconfig["sae"]["att"][layer]"""
+    def __getitem__(self, kind):
+        if kind == "mlp":
+            return _SAEKindPaths("mlp")
+        elif kind == "att":
+            return _SAEKindPaths("att")
+        else:
+            raise KeyError(f"Unknown SAE kind: {kind}. Use 'mlp' or 'att'")
+
+
+class _SAEKindPaths:
+    def __init__(self, kind):
+        self.kind = kind
+
     def __getitem__(self, layer):
-        return f"./weights/SAE/layer_{layer}_sae.pt"
+        return f"./weights/SAE/layer_{layer}_{self.kind}_sae.pt"
 
 
 class _LFMPaths:
@@ -90,41 +113,89 @@ class _LFMPaths:
         return f"./weights/LFM/layer_{layer}_lfm.pt"
 
 
+class _LFMLabelPaths:
+    def __getitem__(self, layer):
+        return f"./data/labels/lfm_{layer}.json"
+
+
 class _ActivationPaths:
+    """pathconfig["activations"]["mlp"][layer] or pathconfig["activations"]["att"][layer]"""
     def __init__(self, test=False):
         self.base = "./data/test/activations" if test else "./data/activations"
 
-    def __getitem__(self, layer):
-        return _ActivationLayerPaths(self.base, layer)
-
-
-class _ActivationLayerPaths:
-    def __init__(self, base, layer):
-        self.base = base
-        self.layer = layer
-
     def __getitem__(self, kind):
         if kind == "mlp":
-            return f"{self.base}/layer_{self.layer}_mlp_in.bin"
+            return _ActivationKindPaths(self.base, "mlp")
         elif kind == "att":
-            return f"{self.base}/layer_{self.layer + 1}_att_in.bin"
+            return _ActivationKindPaths(self.base, "att")
         else:
             raise KeyError(f"Unknown activation kind: {kind}. Use 'mlp' or 'att'")
 
 
-class _RawActivationPaths:
+class _ActivationKindPaths:
+    def __init__(self, base, kind):
+        self.base = base
+        self.kind = kind
+
     def __getitem__(self, layer):
-        return f"./data/contexts/raw_dataset_activations_layer_{layer}.jsonl"
+        return f"{self.base}/layer_{layer}_{self.kind}_in.bin"
+
+
+class _RawActivationPaths:
+    """pathconfig["raw_activations"]["mlp"][layer] or pathconfig["raw_activations"]["att"][layer]"""
+    def __getitem__(self, kind):
+        if kind == "mlp":
+            return _RawActivationKindPaths("mlp")
+        elif kind == "att":
+            return _RawActivationKindPaths("att")
+        else:
+            raise KeyError(f"Unknown kind: {kind}. Use 'mlp' or 'att'")
+
+
+class _RawActivationKindPaths:
+    def __init__(self, kind):
+        self.kind = kind
+
+    def __getitem__(self, layer):
+        return f"./data/contexts/layer_{layer}_{self.kind}_raw.jsonl"
 
 
 class _FeatureContextPaths:
+    """pathconfig["feature_context"]["mlp"][layer] or pathconfig["feature_context"]["att"][layer]"""
+    def __getitem__(self, kind):
+        if kind == "mlp":
+            return _FeatureContextKindPaths("mlp")
+        elif kind == "att":
+            return _FeatureContextKindPaths("att")
+        else:
+            raise KeyError(f"Unknown kind: {kind}. Use 'mlp' or 'att'")
+
+
+class _FeatureContextKindPaths:
+    def __init__(self, kind):
+        self.kind = kind
+
     def __getitem__(self, layer):
-        return f"./data/contexts/feature_context_layer_{layer}.json"
+        return f"./data/contexts/layer_{layer}_{self.kind}_context.json"
 
 
 class _InterpretationPaths:
+    """pathconfig["interpretations"]["mlp"][layer] or pathconfig["interpretations"]["att"][layer]"""
+    def __getitem__(self, kind):
+        if kind == "mlp":
+            return _InterpretationKindPaths("mlp")
+        elif kind == "att":
+            return _InterpretationKindPaths("att")
+        else:
+            raise KeyError(f"Unknown kind: {kind}. Use 'mlp' or 'att'")
+
+
+class _InterpretationKindPaths:
+    def __init__(self, kind):
+        self.kind = kind
+
     def __getitem__(self, layer):
-        return f"./data/features/layer_{layer}.json"
+        return f"./data/features/layer_{layer}_{self.kind}.json"
 
 
 pathconfig = PathConfig()

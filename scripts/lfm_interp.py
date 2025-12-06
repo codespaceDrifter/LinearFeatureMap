@@ -8,17 +8,36 @@ WEIGHT_THRESHOLD = 0.15
 
 os.makedirs("./data/labels", exist_ok=True)
 
-for layer in config["layers"]:
+for layer in range(config["num_layers"] - 1):
     print(f"Processing layer {layer}...")
 
-    # load interpretations
-    with open(pathconfig["interpretations"][layer], "r") as f:
-        interps = json.load(f)
+    # load TWO interpretation files:
+    # - mlp interpretations for input features (from sae_mlp[layer])
+    # - att interpretations for output features (from sae_att[layer+1])
+    try:
+        with open(pathconfig["interpretations"]["mlp"][layer], "r") as f:
+            interps_in = json.load(f)
+    except FileNotFoundError:
+        print(f"  Skipping - no mlp interpretations for layer {layer}")
+        continue
 
-    def get_label(fid):
+    try:
+        with open(pathconfig["interpretations"]["att"][layer + 1], "r") as f:
+            interps_out = json.load(f)
+    except FileNotFoundError:
+        print(f"  Skipping - no att interpretations for layer {layer + 1}")
+        continue
+
+    def get_label_in(fid):
         fid_str = str(fid)
-        if fid_str in interps:
-            return interps[fid_str].get("interpretation", "")
+        if fid_str in interps_in:
+            return interps_in[fid_str].get("interpretation", "")
+        return ""
+
+    def get_label_out(fid):
+        fid_str = str(fid)
+        if fid_str in interps_out:
+            return interps_out[fid_str].get("interpretation", "")
         return ""
 
     lfm = LFM(config["hidden_dim"])
@@ -36,13 +55,13 @@ for layer in config["layers"]:
     indices = mask.nonzero().tolist()  # list of [i, j]
 
     for i, j in indices:
-        # skip self-connections
+        # skip self-connections (same feature index, though different SAEs)
         if i == j:
             continue
 
         # skip if input or output not labeled
-        j_label = get_label(j)
-        i_label = get_label(i)
+        j_label = get_label_in(j)
+        i_label = get_label_out(i)
         if not j_label or not i_label:
             continue
 
@@ -62,7 +81,7 @@ for layer in config["layers"]:
     for j_str in result:
         result[j_str]["outputs"].sort(key=lambda x: x["weight"], reverse=True)
 
-    out_path = f"./data/labels/lfm_{layer}.json"
+    out_path = pathconfig["lfm_labels"][layer]
     with open(out_path, "w") as f:
         json.dump(result, f, indent=2)
 

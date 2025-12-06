@@ -6,6 +6,8 @@ from scripts.config import config, pathconfig
 
 client = anthropic.Anthropic()
 
+num_layers = config["num_layers"]
+
 with open(pathconfig["batch_ids"], "r") as f:
     batch_ids = f.read().strip().split("\n")
 
@@ -25,15 +27,28 @@ for batch_id in batch_ids:
 
 print("\nRetrieving results...")
 
-# collect all results: {layer: {fid: {interpretation}}}
-results = {}
+# collect all results: {kind: {layer: {fid: {interpretation}}}}
+# custom_id format: kind_layer_fid (e.g., "mlp_5_1234")
+results_mlp = {}
+results_att = {}
 
 for batch_id in batch_ids:
     for result in client.messages.batches.results(batch_id):
-        layer, fid = result.custom_id.split("_", 1)
+        parts = result.custom_id.split("_", 2)
+        if len(parts) != 3:
+            print(f"Skipping malformed custom_id: {result.custom_id}")
+            continue
 
-        if layer not in results:
-            results[layer] = {}
+        kind, layer, fid = parts
+
+        if kind == "mlp":
+            if layer not in results_mlp:
+                results_mlp[layer] = {}
+            target = results_mlp[layer]
+        else:
+            if layer not in results_att:
+                results_att[layer] = {}
+            target = results_att[layer]
 
         if result.result.type == "succeeded":
             interp = ""
@@ -42,19 +57,28 @@ for batch_id in batch_ids:
                     interp = block.text.strip()
                     break
 
-            results[layer][fid] = {
+            target[fid] = {
                 "interpretation": interp,
             }
         else:
             print(f"Error: {result.custom_id} - {result.result}")
 
-# write per-layer interpretation files
-for layer in config["layers"]:
+# write all mlp interpretation files
+for layer in range(num_layers):
     layer_str = str(layer)
-    if layer_str in results:
-        with open(pathconfig["interpretations"][layer], "w") as f:
-            json.dump(results[layer_str], f, indent=2)
-        print(f"Layer {layer}: {len(results[layer_str])} interpretations saved")
+    if layer_str in results_mlp:
+        with open(pathconfig["interpretations"]["mlp"][layer], "w") as f:
+            json.dump(results_mlp[layer_str], f, indent=2)
+        print(f"mlp[{layer}]: {len(results_mlp[layer_str])} interpretations saved")
 
-total = sum(len(l) for l in results.values())
-print(f"\nDone! {total} interpretations saved to ./data/features/")
+# write all att interpretation files
+for layer in range(num_layers):
+    layer_str = str(layer)
+    if layer_str in results_att:
+        with open(pathconfig["interpretations"]["att"][layer], "w") as f:
+            json.dump(results_att[layer_str], f, indent=2)
+        print(f"att[{layer}]: {len(results_att[layer_str])} interpretations saved")
+
+total_mlp = sum(len(l) for l in results_mlp.values())
+total_att = sum(len(l) for l in results_att.values())
+print(f"\nDone! {total_mlp} mlp + {total_att} att = {total_mlp + total_att} interpretations saved")

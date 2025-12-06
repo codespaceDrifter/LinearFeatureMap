@@ -6,6 +6,8 @@ from scripts.config import config, pathconfig
 
 client = anthropic.Anthropic()
 
+num_layers = config["num_layers"]
+
 # load examples for hydration
 examples = {}
 with open(pathconfig["example_hydrate"], "r") as f:
@@ -36,12 +38,17 @@ Output only your label, nothing else. because i will directly display and read y
 os.makedirs("./data/features", exist_ok=True)
 
 all_batch_ids = []
+all_requests = []
 
-for layer in config["layers"]:
-    print(f"\nProcessing layer {layer}...")
 
-    with open(pathconfig["feature_context"][layer], "r") as f:
-        features = json.load(f)
+def process_features(kind, layer):
+    """Process features for a position (mlp or att)"""
+    try:
+        with open(pathconfig["feature_context"][kind][layer], "r") as f:
+            features = json.load(f)
+    except FileNotFoundError:
+        print(f"  Skipping {kind}[{layer}] - file not found")
+        return []
 
     requests = []
     for fid, fdata in features.items():
@@ -55,10 +62,11 @@ for layer in config["layers"]:
             ctx["output"] = ex["output"]
             del ctx["example_id"]
 
-        user_msg = f"Feature {fid} | layer {layer}\n\n{json.dumps(hydrated, indent=2)}"
+        user_msg = f"Feature {fid} | layer {layer} {kind}_in\n\n{json.dumps(hydrated, indent=2)}"
 
+        # custom_id format: kind_layer_fid (e.g., "mlp_5_1234")
         requests.append({
-            "custom_id": f"{layer}_{fid}",
+            "custom_id": f"{kind}_{layer}_{fid}",
             "params": {
                 "model": "claude-sonnet-4-5-20250929",
                 "max_tokens": 50,
@@ -68,16 +76,30 @@ for layer in config["layers"]:
             }
         })
 
-    print(f"  Submitting {len(requests)} requests...")
+    print(f"  {kind}[{layer}]: {len(requests)} features")
+    return requests
 
-    # split if too many requests (payload size limit)
-    CHUNK_SIZE = 4000
-    for i in range(0, len(requests), CHUNK_SIZE):
-        chunk = requests[i:i+CHUNK_SIZE]
-        print(f"    Chunk: {len(chunk)} requests...")
-        batch = client.messages.batches.create(requests=chunk)
-        all_batch_ids.append(batch.id)
-        print(f"    Batch ID: {batch.id}")
+
+# Process all mlp positions (layers 0 to num_layers-1)
+print("Processing mlp positions...")
+for layer in range(num_layers):
+    all_requests.extend(process_features("mlp", layer))
+
+# Process all att positions (layers 0 to num_layers-1)
+print("\nProcessing att positions...")
+for layer in range(num_layers):
+    all_requests.extend(process_features("att", layer))
+
+print(f"\nTotal: {len(all_requests)} requests")
+
+# Submit in chunks
+CHUNK_SIZE = 4000
+for i in range(0, len(all_requests), CHUNK_SIZE):
+    chunk = all_requests[i:i+CHUNK_SIZE]
+    print(f"  Submitting chunk {i//CHUNK_SIZE + 1}: {len(chunk)} requests...")
+    batch = client.messages.batches.create(requests=chunk)
+    all_batch_ids.append(batch.id)
+    print(f"    Batch ID: {batch.id}")
 
 with open(pathconfig["batch_ids"], "w") as f:
     f.write("\n".join(all_batch_ids))

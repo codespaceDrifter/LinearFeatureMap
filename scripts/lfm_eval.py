@@ -16,12 +16,18 @@ def eval_layer(layer):
     print(f"Evaluating LFM for layer {layer}")
     print(f"{'='*50}\n")
 
-    mlp_in = np.memmap(pathconfig["test_activations"][layer]["mlp"], dtype=np.float32, mode="r", shape=(total_tokens, config["embed_dim"]))
-    att_in = np.memmap(pathconfig["test_activations"][layer]["att"], dtype=np.float32, mode="r", shape=(total_tokens, config["embed_dim"]))
+    # load test activations: mlp_in at layer N, att_in at layer N+1
+    mlp_in = np.memmap(pathconfig["test_activations"]["mlp"][layer], dtype=np.float32, mode="r", shape=(total_tokens, config["embed_dim"]))
+    att_in = np.memmap(pathconfig["test_activations"]["att"][layer + 1], dtype=np.float32, mode="r", shape=(total_tokens, config["embed_dim"]))
 
-    sae = SAE(config["embed_dim"], config["hidden_dim"]).to(config["device"])
-    sae.load_state_dict(torch.load(pathconfig["sae"][layer]))
-    sae.eval()
+    # load TWO SAEs: one for input, one for output
+    sae_mlp = SAE(config["embed_dim"], config["hidden_dim"]).to(config["device"])
+    sae_mlp.load_state_dict(torch.load(pathconfig["sae"]["mlp"][layer]))
+    sae_mlp.eval()
+
+    sae_att = SAE(config["embed_dim"], config["hidden_dim"]).to(config["device"])
+    sae_att.load_state_dict(torch.load(pathconfig["sae"]["att"][layer + 1]))
+    sae_att.eval()
 
     lfm = LFM(config["hidden_dim"]).to(config["device"])
     lfm.load_state_dict(torch.load(pathconfig["lfm"][layer]))
@@ -43,15 +49,15 @@ def eval_layer(layer):
         for batch_idx in range(total_tokens // BATCH_SIZE):
             start = batch_idx * BATCH_SIZE
             end = start + BATCH_SIZE
-            
+
             x_in = torch.from_numpy(mlp_in[start:end].copy()).to(config["device"])
             x_out = torch.from_numpy(att_in[start:end].copy()).to(config["device"])
-            
-            f_in = sae.encode(x_in)
-            f_out = sae.encode(x_out)
-            
+
+            f_in = sae_mlp.encode(x_in)
+            f_out = sae_att.encode(x_out)
+
             f_pred = lfm(f_in)
-            x_out_pred = sae.decode(f_pred)
+            x_out_pred = sae_att.decode(f_pred)
             
             # unmasked
             total_feature += (f_out - f_pred).pow(2).mean().item()
@@ -100,6 +106,6 @@ def eval_layer(layer):
         lower = upper
 
 if __name__ == "__main__":
-    for layer in config["layers"]:
+    for layer in range(config["num_layers"] - 1):
         eval_layer(layer)
     print("\nDone!")
