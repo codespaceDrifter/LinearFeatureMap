@@ -10,7 +10,7 @@ import numpy as np
 from datasets import load_from_disk
 from scripts.config import config, pathconfig
 
-BATCH_SIZE = 4  # inference batch size
+BATCH_SIZE = 6  # inference batch size
 
 
 def format_prompt(example):

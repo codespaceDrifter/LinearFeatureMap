@@ -42,7 +42,7 @@ def train_lfm(layer, sae_mlp, sae_att, total_tokens):
         pathconfig["activations"]["att"][layer + 1],
         total_tokens, config["embed_dim"]
     )
-    loader = DataLoader(dataset, batch_size=BATCH_SIZE, shuffle=True)
+    loader = DataLoader(dataset, batch_size=BATCH_SIZE, shuffle=True, num_workers=2)
 
     sae_mlp.eval()
     sae_att.eval()

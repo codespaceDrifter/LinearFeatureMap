@@ -25,7 +25,7 @@ LAYER_BATCH_SIZE = 8  # gather 8 layers at once (~450GB disk, adjust if needed)
 #   Fresh start:           START_BATCH=0, START_STAGE="activation"
 #   Resume at batch 1 LFM: START_BATCH=1, START_STAGE="lfm"
 START_BATCH = 1
-START_STAGE = "activation"  # "activation", "sae", or "lfm"
+START_STAGE = "sae"  # "activation", "sae", or "lfm"
 # ===========================================
 
 # load model and dataset once
@@ -76,22 +76,23 @@ for batch_start in range(0, num_layers - 1, LAYER_BATCH_SIZE):
     else:
         total_tokens = gather_layer_batch(phi, dataset, layers, start, end)
 
-    # 2. train SAEs and LFMs for each layer in batch
+    # 2. train ALL SAEs first
+    sae_mlp_dict = {}
+    sae_att_dict = {}
+
     for layer in layers:
         print(f"\n{'='*60}")
-        print(f"Layer {layer}: mlp_in[{layer}] -> att_in[{layer+1}]")
+        print(f"SAE Layer {layer}: mlp_in[{layer}] + att_in[{layer+1}]")
         print(f"{'='*60}")
 
         if skip_sae:
             print(f"\n[SKIP] SAE training (resuming at lfm)")
-            # load existing SAEs
             sae_mlp = SAE(config["embed_dim"], config["hidden_dim"]).to(config["device"])
             sae_mlp.load_state_dict(torch.load(pathconfig["sae"]["mlp"][layer], weights_only=True))
             sae_att = SAE(config["embed_dim"], config["hidden_dim"]).to(config["device"])
             sae_att.load_state_dict(torch.load(pathconfig["sae"]["att"][layer + 1], weights_only=True))
             print(f"  (loaded existing SAEs)")
         else:
-            # train SAEs
             sae_mlp = train_sae(
                 pathconfig["activations"]["mlp"][layer],
                 pathconfig["sae"]["mlp"][layer],
@@ -103,12 +104,20 @@ for batch_start in range(0, num_layers - 1, LAYER_BATCH_SIZE):
                 total_tokens
             )
 
-        # train LFM
-        train_lfm(layer, sae_mlp, sae_att, total_tokens)
+        sae_mlp_dict[layer] = sae_mlp
+        sae_att_dict[layer + 1] = sae_att
 
-        print(f"\nLayer {layer} complete!")
+    # 3. train ALL LFMs (now all SAEs are available)
+    for layer in layers:
+        print(f"\n{'='*60}")
+        print(f"LFM Layer {layer}: mlp_in[{layer}] -> att_in[{layer+1}]")
+        print(f"{'='*60}")
 
-    # 3. delete all activations for this batch
+        train_lfm(layer, sae_mlp_dict[layer], sae_att_dict[layer + 1], total_tokens)
+
+        print(f"\nLFM {layer} complete!")
+
+    # 4. delete all activations for this batch
     delete_layer_batch(layers)
 
     print(f"\nBatch {batch_idx} (layers {batch_start}-{batch_end-1}) complete!")

@@ -1,4 +1,8 @@
 # Common configuration values used across multiple scripts
+#
+# TODO: eval_split is temporarily set to 0.95-1.0 (5%) for faster eval
+# Change back to 0.75-1.0 (25%) for full eval later
+#
 config = {
     # Model architecture
     "num_layers": 32,  # total transformer layers
@@ -11,8 +15,9 @@ config = {
     # Generation
     "max_new_tokens": 64,
 
-    # Data split (train)
-    "split": (0, 0.75),
+    # Data split
+    "split": (0, 0.75),  # train
+    "eval_split": (0.95, 1.0),  # eval (TODO: change to 0.75-1.0 for full eval)
 }
 
 

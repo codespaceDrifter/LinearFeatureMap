@@ -22,8 +22,8 @@ phi = Phi4Inference(device=config["device"])
 print("Loading dataset...")
 dataset = load_from_disk(pathconfig["alpaca"] + "/train")
 total = len(dataset)
-start = int(config["split"][1] * total)  # test starts where train ends
-end = total
+start = int(config["eval_split"][0] * total)
+end = int(config["eval_split"][1] * total)
 
 num_layers = config["num_layers"]
 
