@@ -4,6 +4,7 @@ import os
 from scripts.config import config, pathconfig
 
 TOP_K = 5  # top contexts to keep per feature
+MIN_ACTIVATED_TIMES = 15  # feature must fire in at least this many examples to be kept
 
 os.makedirs("./data/contexts", exist_ok=True)
 
@@ -29,6 +30,14 @@ def process_file(raw_path, out_path, label):
         print(f"    Skipping - file not found: {raw_path}")
         return 0
 
+    total_features = len(features)
+
+    # filter out features that didn't fire enough times
+    features = {fid: data for fid, data in features.items()
+                if len(data["contexts"]) >= MIN_ACTIVATED_TIMES}
+
+    filtered_count = total_features - len(features)
+
     # keep only top k contexts per feature by max activation
     for fid in features:
         contexts = features[fid]["contexts"]
@@ -44,7 +53,7 @@ def process_file(raw_path, out_path, label):
     with open(out_path, "w") as f:
         json.dump(features, f)
 
-    print(f"    {len(features)} features saved")
+    print(f"    {len(features)} features saved (filtered {filtered_count} with <{MIN_ACTIVATED_TIMES} activations)")
     return len(features)
 
 
