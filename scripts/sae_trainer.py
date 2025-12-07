@@ -57,8 +57,7 @@ def train_sae(data_path, save_path, total_tokens):
                 r_squared = 1 - (x - x_hat).pow(2).sum() / x.pow(2).sum()
                 print(f"  [{epoch+1}/{EPOCHS}][{batch_idx}/{len(loader)}] loss: {loss.item():.4f} R²: {r_squared.item():.4f} active: {any_active:.0f}")
 
-        torch.save(sae.state_dict(), save_path)
-
+    torch.save(sae.state_dict(), save_path)
     return sae
 
 

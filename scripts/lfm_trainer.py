@@ -79,7 +79,7 @@ def train_lfm(layer, sae_mlp, sae_att, total_tokens):
                 n_active = active_mask.sum().item()
                 print(f"  [{epoch+1}/{EPOCHS}][{batch_idx}/{len(loader)}] loss: {loss.item():.4f} feat: {loss_feature.item():.4f} recon: {loss_recon.item():.4f} active: {n_active}")
 
-        torch.save(lfm.state_dict(), pathconfig["lfm"][layer])
+    torch.save(lfm.state_dict(), pathconfig["lfm"][layer])
 
     # weight distribution
     weights = lfm.linear.weight.data.abs().flatten()
