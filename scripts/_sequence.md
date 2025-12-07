@@ -11,7 +11,7 @@ in the experiment we run the scripts by this sequence:
         │   ├── sae_trainer.train_sae(att)
         │   └── lfm_trainer.train_lfm(layer)
         └── activation_gather.delete_layer_batch(layers)
-4: raw_dataset_activations_gather
+4: raw_feature_context_gather
 5: feature_context_gather
 6: autointerp_batch_submit
 7: autointerp_batch_receive (can leave running in tmux, polls every 60s)
