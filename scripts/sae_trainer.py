@@ -10,7 +10,7 @@ from scripts.config import config, pathconfig
 
 BATCH_SIZE = 16384
 LR = 1e-4
-LAMBDA_SPARSE = 1
+LAMBDA_SPARSE = 0.75
 EPOCHS = 20
 
 
