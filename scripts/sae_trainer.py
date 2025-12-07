@@ -34,7 +34,7 @@ def train_sae(data_path, save_path, total_tokens):
     os.makedirs(os.path.dirname(save_path), exist_ok=True)
 
     dataset = SimpleDataset(data_path, total_tokens, config["embed_dim"])
-    loader = DataLoader(dataset, batch_size=BATCH_SIZE, shuffle=True, num_workers=4)
+    loader = DataLoader(dataset, batch_size=BATCH_SIZE, shuffle=True)
 
     sae = SAE(config["embed_dim"], config["hidden_dim"]).to(config["device"])
     optimizer = torch.optim.Adam(sae.parameters(), lr=LR)
