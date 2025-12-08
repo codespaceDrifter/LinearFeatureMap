@@ -15,8 +15,7 @@ in the experiment we run the scripts by this sequence:
 5: feature_context_gather
 6: autointerp_batch_submit
 7: autointerp_batch_receive (can leave running in tmux, polls every 60s)
-8: create_merged_sae (creates merged SAE for TUI from individual SAEs)
-9: lfm_interp
+8: lfm_interp
 
 optional:
 - master_eval (same structure as master_train but for test split)
