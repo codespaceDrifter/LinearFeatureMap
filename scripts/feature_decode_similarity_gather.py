@@ -4,7 +4,7 @@ from phi4_mini.inference import Phi4Inference
 from interp_algo.SAE import SAE
 from scripts.config import config, pathconfig
 
-TOP_K = 5  # top decoded tokens to keep
+TOP_K = 4  # top decoded tokens to keep
 
 phi = Phi4Inference(device=config["device"])
 token_embeddings = phi.model.model.embed_tokens.weight.detach()  # (vocab_size, 3072)
@@ -30,7 +30,7 @@ for layer in config["layers"]:
         top_k = similarities.topk(TOP_K)
         
         top_tokens = [phi.tokenizer.decode([i]) for i in top_k.indices.tolist()]
-        top_scores = [round(s, 3) for s in top_k.values.tolist()]
+        top_scores = [round(s, 2) for s in top_k.values.tolist()]
         
         features[fid]["decoding"] = {"tokens": top_tokens, "scores": top_scores}
     
