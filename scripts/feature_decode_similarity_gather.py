@@ -51,9 +51,8 @@ def process_layer(kind, layer):
         top_k = similarities.topk(TOP_K)
 
         top_tokens = [tokenizer.decode([i]) for i in top_k.indices.tolist()]
-        top_scores = [round(s.item(), 3) for s in top_k.values]
 
-        features[fid]["decoding"] = {"tokens": top_tokens, "scores": top_scores}
+        features[fid]["decoding"] = top_tokens
 
     # write back to same file
     with open(context_path, "w") as f:

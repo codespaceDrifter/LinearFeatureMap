@@ -1,5 +1,4 @@
 import json
-import copy
 import anthropic
 import os
 from scripts.config import config, pathconfig
@@ -15,21 +14,20 @@ with open(pathconfig["example_hydrate"], "r") as f:
         ex = json.loads(line)
         examples[ex["id"]] = {"input": ex["input"], "output": ex["output"]}
 
-
 ZERO_SHOT_PROMPT = """
 Label features for mechanistic interpretability of Sparse Autoencoder.
 You'll see:
-1. Contexts where this feature activated (top 4 activations values) Context includes:
-the input question in the dataset
-the output answer in the model wrote
-tokens where this feature activated strongly
-2. Top decoded tokens: top 4 dot product of decoder weights in SAE for that feature with all token embeddings (both normalized)
-formatted as first the list of top decoded tokens and then their corresponding scores
+1. Contexts where this feature activated (top 4 highest activating examples). Each context includes:
+   - input: the input question/prompt
+   - output: the model's response
+   - tokens: tokens where this feature activated strongly
+2. Top decoded tokens: top 4 most similar tokens to the feature's decoder vector
 
 Your job:
 one shot interp the feature label without thinking or filler or "ok let me start now" or reasoning steps. your output should START AND END WITH THE CONCISE FEATURE LABEL.
-make sure the feature interpretation you draft actually explains many or most of the contexts pretty well. top decoded could provide clues but the middle layers might not be actually
-embedding space so maybe they won't make sense. also the context can provide clues but maybe it just numerically fits that it fires without a strong semantic meaning.
+make sure the feature interpretation you draft actually explains many or most of the contexts pretty well. 
+top decoded could provide clues but the middle layers might not be actually embedding space so maybe they won't make sense. 
+also the context can provide clues but maybe it just numerically fits that it fires without a strong semantic meaning. 
 make sure it is CONCISE AND CLEAR within 10 words or so.
 Output only your label, nothing else. because i will directly display and read your output as the labels
 """
@@ -43,26 +41,26 @@ all_requests = []
 
 def process_features(kind, layer):
     """Process features for a position (mlp or att)"""
-    try:
-        with open(pathconfig["feature_context"][kind][layer], "r") as f:
-            features = json.load(f)
-    except FileNotFoundError:
-        print(f"  Skipping {kind}[{layer}] - file not found")
-        return []
+    with open(pathconfig["feature_context"][kind][layer], "r") as f:
+        features = json.load(f)
 
     requests = []
     for fid, fdata in features.items():
         # hydrate contexts
-        hydrated = copy.deepcopy(fdata)
-        for ctx in hydrated["contexts"]:
+        hydrated_contexts = []
+        for ctx in fdata["contexts"]:
             ex = examples.get(ctx["example_id"])
             if ex is None:
                 continue
-            ctx["input"] = ex["input"]
-            ctx["output"] = ex["output"]
-            del ctx["example_id"]
+            hydrated_contexts.append({
+                "input": ex["input"],
+                "output": ex["output"],
+                "tokens": ctx["tokens"]
+            })
 
-        user_msg = f"Feature {fid} | layer {layer} {kind}_in\n\n{json.dumps(hydrated, indent=2)}"
+        user_msg = f"Feature {fid} | layer {layer} {kind}_in\n\n"
+        user_msg += f"Contexts:\n{json.dumps(hydrated_contexts, indent=2)}\n\n"
+        user_msg += f"Top decoded: {fdata['decoding']}"
 
         # custom_id format: kind_layer_fid (e.g., "mlp_5_1234")
         requests.append({

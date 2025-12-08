@@ -15,7 +15,7 @@ def process_file(raw_path, out_path, label):
     """Process a raw activations file into feature contexts"""
     print(f"  Processing {label}...")
 
-    features = defaultdict(lambda: {"tokens": [], "decoding": None})
+    features = defaultdict(lambda: {"contexts": [], "decoding": None})
 
     with open(raw_path, "r") as f:
         for line in f:
@@ -24,7 +24,8 @@ def process_file(raw_path, out_path, label):
             # get max activation for this example and collect tokens
             max_act = max(act["activation"] for act in entry["activations"])
             tokens = [act["token"] for act in entry["activations"]]
-            features[fid]["tokens"].append({
+            features[fid]["contexts"].append({
+                "example_id": entry["example_id"],
                 "max_act": max_act,
                 "tokens": tokens
             })
@@ -33,20 +34,18 @@ def process_file(raw_path, out_path, label):
 
     # filter out features that didn't fire enough times
     features = {fid: data for fid, data in features.items()
-                if len(data["tokens"]) >= MIN_ACTIVATED_TIMES}
+                if len(data["contexts"]) >= MIN_ACTIVATED_TIMES}
 
     filtered_count = total_features - len(features)
 
-    # keep only top k contexts per feature by max activation, then flatten to just tokens
+    # keep only top k contexts per feature by max activation
     for fid in features:
-        contexts = features[fid]["tokens"]
+        contexts = features[fid]["contexts"]
         contexts.sort(key=lambda x: x["max_act"], reverse=True)
-        top_contexts = contexts[:TOP_K]
-        # flatten: just the tokens, no activation values or positions
-        all_tokens = []
-        for ctx in top_contexts:
-            all_tokens.extend(ctx["tokens"])
-        features[fid]["tokens"] = all_tokens
+        features[fid]["contexts"] = contexts[:TOP_K]
+        # remove max_act, keep example_id and tokens
+        for ctx in features[fid]["contexts"]:
+            del ctx["max_act"]
 
     features = {k: dict(v) for k, v in features.items()}
 
