@@ -1,0 +1,233 @@
+{
+  "1972": {
+    "interpretation": "Enumerating list items or numbered points in structured responses"
+  },
+  "2014": {
+    "interpretation": "Numbered list items or structured verse/stanza beginnings"
+  },
+  "4313": {
+    "interpretation": "Sentence rewrites and rephrasing tasks or instructions"
+  },
+  "6017": {
+    "interpretation": "Period after numbered list items in structured responses"
+  },
+  "578": {
+    "interpretation": "Feature activates on indefinite article \"a\" before nouns in formal/professional contexts"
+  },
+  "2883": {
+    "interpretation": "Translation or language conversion tasks"
+  },
+  "6542": {
+    "interpretation": "\"at least\" in instructional or requirement contexts"
+  },
+  "8050": {
+    "interpretation": "Table or list formatting with pipes and structured layout"
+  },
+  "9567": {
+    "interpretation": "Sentence-ending periods in instructional text formatting"
+  },
+  "1570": {
+    "interpretation": "Modal or auxiliary verb usage in infinitive or capability contexts"
+  },
+  "2371": {
+    "interpretation": "Proper nouns and names (people, works, titles)"
+  },
+  "4780": {
+    "interpretation": "Sentence-ending punctuation and conjunctions in reflective/descriptive text"
+  },
+  "10723": {
+    "interpretation": "Sentence or plan opening/beginning tokens"
+  },
+  "5490": {
+    "interpretation": "Preposition \"of\" in descriptive or explanatory contexts"
+  },
+  "1277": {
+    "interpretation": "Statement or answer correctness/accuracy evaluation marker"
+  },
+  "1172": {
+    "interpretation": "Copula \"is\" in definitions and explanations"
+  },
+  "10426": {
+    "interpretation": "Output formatting or structural marker (newlines, numbering, spacing)"
+  },
+  "3283": {
+    "interpretation": "Introducing examples with \"such as\" in lists or explanations"
+  },
+  "5355": {
+    "interpretation": "Feature responds to newline tokens indicating task completion or transition points."
+  },
+  "8590": {
+    "interpretation": "Multiple newline characters separating text sections or formatting transitions"
+  },
+  "7492": {
+    "interpretation": "Numbered list items or structural markers in formatted responses"
+  },
+  "8734": {
+    "interpretation": "Character introduction in creative narrative storytelling"
+  },
+  "2186": {
+    "interpretation": "Feature fires after sentence or task completion punctuation marks"
+  },
+  "793": {
+    "interpretation": "Coefficient \"4\" in quadratic equations or numeric expressions"
+  },
+  "4668": {
+    "interpretation": "Film/media titles, years, and creator names in entertainment context"
+  },
+  "11566": {
+    "interpretation": "Definite article \"the\" in mathematical/procedural instructions"
+  },
+  "7233": {
+    "interpretation": "Response start token (assistant beginning to answer)"
+  },
+  "7701": {
+    "interpretation": "End-of-text token or response completion marker"
+  },
+  "1460": {
+    "interpretation": "Transition to new writing task or prompt"
+  },
+  "2961": {
+    "interpretation": "Follow-up instruction or task prompt indicator"
+  },
+  "8274": {
+    "interpretation": "List item separator or formatting delimiter in enumerated outputs"
+  },
+  "3017": {
+    "interpretation": "Assistant token at start of repetitive/echoing response patterns"
+  },
+  "5562": {
+    "interpretation": "Paragraph or list beginning marker/separator token"
+  },
+  "1536": {
+    "interpretation": "Enumerated list items with periods (e.g., \"1.\", \"2.\")"
+  },
+  "11031": {
+    "interpretation": "List item enumeration periods in numbered sequences"
+  },
+  "1478": {
+    "interpretation": "Numbered list items 5-7 in enumerations"
+  },
+  "1229": {
+    "interpretation": "Reuse, recycle, and waste reduction concepts"
+  },
+  "5701": {
+    "interpretation": "Auxiliary verb indicating possibility, ability, or state of being"
+  },
+  "8413": {
+    "interpretation": "\"Create a short story\" prompt pattern"
+  },
+  "9526": {
+    "interpretation": "Unicode/special character rendering or font styling tokens"
+  },
+  "4895": {
+    "interpretation": "Modal verbs expressing obligation or requirement in multiple languages"
+  },
+  "3525": {
+    "interpretation": "Numerical quantities and counts in lists or specifications"
+  },
+  "6769": {
+    "interpretation": "Period after enumerated list items or numbered sequences"
+  },
+  "11720": {
+    "interpretation": "Numbered list items (particularly item \"3\" in sequences)"
+  },
+  "4424": {
+    "interpretation": "Prefix \"un-\" in negative/opposite word formation"
+  },
+  "5428": {
+    "interpretation": "End-of-sequence token or sentence completion boundary marker"
+  },
+  "6679": {
+    "interpretation": "End-of-sequence token in text rewriting tasks"
+  },
+  "889": {
+    "interpretation": "Year digits in chronological lists and timelines"
+  },
+  "9280": {
+    "interpretation": "Grammatical clause types in complex sentences"
+  },
+  "10502": {
+    "interpretation": "Suffix or word continuation pattern (partial word tokens)"
+  },
+  "4842": {
+    "interpretation": "Numbered list item \"2\" or second point enumeration"
+  },
+  "1612": {
+    "interpretation": "Descriptive adjectives for sensory and aesthetic qualities"
+  },
+  "3181": {
+    "interpretation": "Numeric constraints and word count requirements in task instructions"
+  },
+  "12211": {
+    "interpretation": "Beginning of model response with newline tokens"
+  },
+  "9081": {
+    "interpretation": "Poetic or lyrical verse openings and nature imagery"
+  },
+  "8667": {
+    "interpretation": "Code explanation or evaluation introductory token"
+  },
+  "2035": {
+    "interpretation": "Feature explaining purpose or reason (preceded by \"to\")"
+  },
+  "12261": {
+    "interpretation": "Luxurious textures and elegant aesthetic descriptions"
+  },
+  "5618": {
+    "interpretation": "Narrative/descriptive noun subjects in informative prompts"
+  },
+  "7774": {
+    "interpretation": "SQL query construction with SELECT columns and WHERE conditions"
+  },
+  "11741": {
+    "interpretation": "Story prompt template elements: mysterious, hidden, character names"
+  },
+  "9400": {
+    "interpretation": "Assistant/model response turn marker or delimiter token"
+  },
+  "10773": {
+    "interpretation": "Hyphen or dash in list formatting and bullet points"
+  },
+  "3885": {
+    "interpretation": "Code syntax punctuation: equals signs, braces, semicolons, parentheses"
+  },
+  "11736": {
+    "interpretation": "Feature activates on colons in list formats and structured output generation"
+  },
+  "1018": {
+    "interpretation": "Sentence-initial \"The\" token in repetitive outputs"
+  },
+  "2387": {
+    "interpretation": "Contrastive transition words in comparative texts"
+  },
+  "5738": {
+    "interpretation": "Title or branded name text in creative content"
+  },
+  "9564": {
+    "interpretation": "Poetic or lyrical language describing nature scenes"
+  },
+  "11825": {
+    "interpretation": "Recipe ingredient measurements and quantities (cups, tablespoons, teaspoons)"
+  },
+  "1678": {
+    "interpretation": "Key concepts in memorable quotes or important principles"
+  },
+  "11527": {
+    "interpretation": "Repetitive digit \"1\" token generation or degenerate output mode"
+  },
+  "3802": {
+    "interpretation": "Closing parenthesis in enumerated list items"
+  },
+  "9309": {
+    "interpretation": "Classic or traditional literary/cultural references and expressions"
+  },
+  "10083": {
+    "interpretation": "Introducing follow-up task or instruction after completing initial request"
+  },
+  "3813": {
+    "interpretation": "Adjectives describing strength, intensity, or formidable qualities"
+  },
+  "8566": {
+    "interpretation": "Numeric values or quantities in task instructions"
+  }
+}

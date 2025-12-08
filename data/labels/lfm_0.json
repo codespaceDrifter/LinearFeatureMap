@@ -1,0 +1,1057 @@
+{
+  "4484": {
+    "label": "Feature fires on \"if\" or conditional-related tokens and contexts.",
+    "outputs": [
+      {
+        "id": 425,
+        "label": "Conditional or hypothetical scenario markers",
+        "weight": 0.153
+      }
+    ]
+  },
+  "950": {
+    "label": "Feature activates on \"AR\" abbreviations and acronyms",
+    "outputs": [
+      {
+        "id": 1355,
+        "label": "Medical imaging analysis and diagnostic AI applications",
+        "weight": 0.1566
+      }
+    ]
+  },
+  "769": {
+    "label": "Feature fires on enumerated list items and structured formatting markers",
+    "outputs": [
+      {
+        "id": 2496,
+        "label": "Feature detecting formal/professional discourse markers and sentence structure transitions",
+        "weight": 0.1782
+      }
+    ]
+  },
+  "1998": {
+    "label": "List enumeration markers (numbered/bulleted list formatting)",
+    "outputs": [
+      {
+        "id": 2496,
+        "label": "Feature detecting formal/professional discourse markers and sentence structure transitions",
+        "weight": 0.1839
+      }
+    ]
+  },
+  "4042": {
+    "label": "Newline followed by capitalized word or formatting marker",
+    "outputs": [
+      {
+        "id": 2496,
+        "label": "Feature detecting formal/professional discourse markers and sentence structure transitions",
+        "weight": 0.2035
+      }
+    ]
+  },
+  "4099": {
+    "label": "Line breaks with comma or punctuation preceding newline sequences",
+    "outputs": [
+      {
+        "id": 2496,
+        "label": "Feature detecting formal/professional discourse markers and sentence structure transitions",
+        "weight": 0.2009
+      }
+    ]
+  },
+  "4670": {
+    "label": "Numbered list item indicator (specifically \"1\")",
+    "outputs": [
+      {
+        "id": 2496,
+        "label": "Feature detecting formal/professional discourse markers and sentence structure transitions",
+        "weight": 0.193
+      }
+    ]
+  },
+  "5001": {
+    "label": "Punctuation or parenthetical examples in lists",
+    "outputs": [
+      {
+        "id": 2496,
+        "label": "Feature detecting formal/professional discourse markers and sentence structure transitions",
+        "weight": 0.1739
+      },
+      {
+        "id": 2800,
+        "label": "Repetitive filler tokens in structured or formatted output",
+        "weight": 0.1648
+      }
+    ]
+  },
+  "5006": {
+    "label": "Feature fires at sentence/response endings or terminal punctuation marks.",
+    "outputs": [
+      {
+        "id": 2496,
+        "label": "Feature detecting formal/professional discourse markers and sentence structure transitions",
+        "weight": 0.1606
+      }
+    ]
+  },
+  "5130": {
+    "label": "Comma-newline sequence or degenerate output pattern",
+    "outputs": [
+      {
+        "id": 2800,
+        "label": "Repetitive filler tokens in structured or formatted output",
+        "weight": 0.2095
+      },
+      {
+        "id": 2496,
+        "label": "Feature detecting formal/professional discourse markers and sentence structure transitions",
+        "weight": 0.1879
+      }
+    ]
+  },
+  "5352": {
+    "label": "Feature for \"Re\" prefix in rewriting/rewording tasks and numbered list items",
+    "outputs": [
+      {
+        "id": 2496,
+        "label": "Feature detecting formal/professional discourse markers and sentence structure transitions",
+        "weight": 0.1532
+      }
+    ]
+  },
+  "8435": {
+    "label": "Single quote character or string delimiter in code/data contexts",
+    "outputs": [
+      {
+        "id": 2496,
+        "label": "Feature detecting formal/professional discourse markers and sentence structure transitions",
+        "weight": 0.1793
+      }
+    ]
+  },
+  "9563": {
+    "label": "End token in code generation or structured output completion",
+    "outputs": [
+      {
+        "id": 2496,
+        "label": "Feature detecting formal/professional discourse markers and sentence structure transitions",
+        "weight": 0.154
+      }
+    ]
+  },
+  "12198": {
+    "label": "Apologetic response introduction or transition tokens",
+    "outputs": [
+      {
+        "id": 2496,
+        "label": "Feature detecting formal/professional discourse markers and sentence structure transitions",
+        "weight": 0.1666
+      }
+    ]
+  },
+  "1735": {
+    "label": "Beginning of response with newline formatting",
+    "outputs": [
+      {
+        "id": 2800,
+        "label": "Repetitive filler tokens in structured or formatted output",
+        "weight": 0.1877
+      }
+    ]
+  },
+  "4304": {
+    "label": "Periods and dots in structured text output",
+    "outputs": [
+      {
+        "id": 2800,
+        "label": "Repetitive filler tokens in structured or formatted output",
+        "weight": 0.1965
+      }
+    ]
+  },
+  "8716": {
+    "label": "Repetitive comma token generation or model failure mode",
+    "outputs": [
+      {
+        "id": 2800,
+        "label": "Repetitive filler tokens in structured or formatted output",
+        "weight": 0.2058
+      }
+    ]
+  },
+  "10558": {
+    "label": "File paths and forward slash syntax",
+    "outputs": [
+      {
+        "id": 2800,
+        "label": "Repetitive filler tokens in structured or formatted output",
+        "weight": 0.2025
+      }
+    ]
+  },
+  "5144": {
+    "label": "Feature detecting belief or cognitive state expressions",
+    "outputs": [
+      {
+        "id": 2889,
+        "label": "Sequential enumeration or list formatting with colon-space-newline-newline pattern",
+        "weight": 0.2091
+      }
+    ]
+  },
+  "6822": {
+    "label": "Step-by-step procedural instructions or sequences",
+    "outputs": [
+      {
+        "id": 2889,
+        "label": "Sequential enumeration or list formatting with colon-space-newline-newline pattern",
+        "weight": 0.2089
+      }
+    ]
+  },
+  "8876": {
+    "label": "Days or time periods in calendars and dates",
+    "outputs": [
+      {
+        "id": 2889,
+        "label": "Sequential enumeration or list formatting with colon-space-newline-newline pattern",
+        "weight": 0.2002
+      }
+    ]
+  },
+  "9294": {
+    "label": "Comma or separator token in enumerated lists",
+    "outputs": [
+      {
+        "id": 2889,
+        "label": "Sequential enumeration or list formatting with colon-space-newline-newline pattern",
+        "weight": 0.2043
+      },
+      {
+        "id": 7887,
+        "label": "Feature detecting comma or period tokens in list-completion or enumeration contexts",
+        "weight": 0.1804
+      }
+    ]
+  },
+  "9456": {
+    "label": "Numeric year/date suffix or decade plural marker",
+    "outputs": [
+      {
+        "id": 3076,
+        "label": "Decimal numbers, zeros, and hexadecimal notation patterns",
+        "weight": 0.1541
+      }
+    ]
+  },
+  "10939": {
+    "label": "Programming language names and code-related abbreviations",
+    "outputs": [
+      {
+        "id": 3175,
+        "label": "Parentheses and C programming language syntax markers",
+        "weight": 0.1537
+      }
+    ]
+  },
+  "2634": {
+    "label": "Colon separator in time and date formats",
+    "outputs": [
+      {
+        "id": 3340,
+        "label": "Numerical or positional notation in structured formats",
+        "weight": 0.1625
+      }
+    ]
+  },
+  "5932": {
+    "label": "Indentation in Python code definitions",
+    "outputs": [
+      {
+        "id": 4208,
+        "label": "Indentation or whitespace before function/code block definitions",
+        "weight": 0.1603
+      }
+    ]
+  },
+  "107": {
+    "label": "Digital/virtual concepts and platforms",
+    "outputs": [
+      {
+        "id": 4351,
+        "label": "numerical digit or place value in multi-digit numbers",
+        "weight": 0.1785
+      }
+    ]
+  },
+  "559": {
+    "label": "Color adjectives and descriptions",
+    "outputs": [
+      {
+        "id": 4351,
+        "label": "numerical digit or place value in multi-digit numbers",
+        "weight": 0.1741
+      }
+    ]
+  },
+  "587": {
+    "label": "Global or international business/organizational context",
+    "outputs": [
+      {
+        "id": 4351,
+        "label": "numerical digit or place value in multi-digit numbers",
+        "weight": 0.1731
+      }
+    ]
+  },
+  "649": {
+    "label": "expertise or specialized skills in professional contexts",
+    "outputs": [
+      {
+        "id": 4351,
+        "label": "numerical digit or place value in multi-digit numbers",
+        "weight": 0.1663
+      }
+    ]
+  },
+  "2789": {
+    "label": "rhetorical or philosophical concepts and questions",
+    "outputs": [
+      {
+        "id": 4351,
+        "label": "numerical digit or place value in multi-digit numbers",
+        "weight": 0.1708
+      }
+    ]
+  },
+  "2854": {
+    "label": "Digits or numeric characters in text/code contexts",
+    "outputs": [
+      {
+        "id": 4351,
+        "label": "numerical digit or place value in multi-digit numbers",
+        "weight": 0.1765
+      }
+    ]
+  },
+  "4031": {
+    "label": "Professional occupation or career descriptor",
+    "outputs": [
+      {
+        "id": 4351,
+        "label": "numerical digit or place value in multi-digit numbers",
+        "weight": 0.1761
+      }
+    ]
+  },
+  "4141": {
+    "label": "Feature related to size, dimensions, or measurement comparisons",
+    "outputs": [
+      {
+        "id": 4351,
+        "label": "numerical digit or place value in multi-digit numbers",
+        "weight": 0.1796
+      },
+      {
+        "id": 6564,
+        "label": "Feature fires on punctuation or prepositions preceding size-related comparisons",
+        "weight": 0.1665
+      }
+    ]
+  },
+  "5725": {
+    "label": "seasonal transitions and winter-related contexts",
+    "outputs": [
+      {
+        "id": 4351,
+        "label": "numerical digit or place value in multi-digit numbers",
+        "weight": 0.1776
+      }
+    ]
+  },
+  "6476": {
+    "label": "carbon-related terms and emissions/footprint contexts",
+    "outputs": [
+      {
+        "id": 4351,
+        "label": "numerical digit or place value in multi-digit numbers",
+        "weight": 0.1794
+      }
+    ]
+  },
+  "7587": {
+    "label": "\"multifaceted\" or related multi-prefix words indicating complex, many-sided problems/solutions",
+    "outputs": [
+      {
+        "id": 4351,
+        "label": "numerical digit or place value in multi-digit numbers",
+        "weight": 0.1676
+      }
+    ]
+  },
+  "7655": {
+    "label": "Hardworking or diligent character trait descriptor",
+    "outputs": [
+      {
+        "id": 4351,
+        "label": "numerical digit or place value in multi-digit numbers",
+        "weight": 0.1671
+      }
+    ]
+  },
+  "8792": {
+    "label": "Virtual assistants and digital/software-based technology or tools",
+    "outputs": [
+      {
+        "id": 4351,
+        "label": "numerical digit or place value in multi-digit numbers",
+        "weight": 0.1729
+      }
+    ]
+  },
+  "9312": {
+    "label": "Symbol or symbolic representation in text",
+    "outputs": [
+      {
+        "id": 4351,
+        "label": "numerical digit or place value in multi-digit numbers",
+        "weight": 0.1678
+      }
+    ]
+  },
+  "10410": {
+    "label": "unique or distinctive characteristics and descriptions",
+    "outputs": [
+      {
+        "id": 4351,
+        "label": "numerical digit or place value in multi-digit numbers",
+        "weight": 0.1804
+      }
+    ]
+  },
+  "12053": {
+    "label": "dog or canine references",
+    "outputs": [
+      {
+        "id": 4351,
+        "label": "numerical digit or place value in multi-digit numbers",
+        "weight": 0.1831
+      }
+    ]
+  },
+  "12120": {
+    "label": "Article summary tasks beginning with \"the article discusses/describes\"",
+    "outputs": [
+      {
+        "id": 4351,
+        "label": "numerical digit or place value in multi-digit numbers",
+        "weight": 0.1724
+      }
+    ]
+  },
+  "7545": {
+    "label": "Function or variable names containing underscores in Python code",
+    "outputs": [
+      {
+        "id": 5781,
+        "label": "Variable assignment in string manipulation code",
+        "weight": 0.152
+      }
+    ]
+  },
+  "428": {
+    "label": "Comparative or superlative adjectives in descriptive contexts",
+    "outputs": [
+      {
+        "id": 6564,
+        "label": "Feature fires on punctuation or prepositions preceding size-related comparisons",
+        "weight": 0.1638
+      }
+    ]
+  },
+  "783": {
+    "label": "Feature for specifying or referring to length/dimension parameters",
+    "outputs": [
+      {
+        "id": 6564,
+        "label": "Feature fires on punctuation or prepositions preceding size-related comparisons",
+        "weight": 0.1533
+      }
+    ]
+  },
+  "1584": {
+    "label": "large quantities or amounts of something",
+    "outputs": [
+      {
+        "id": 6564,
+        "label": "Feature fires on punctuation or prepositions preceding size-related comparisons",
+        "weight": 0.1669
+      }
+    ]
+  },
+  "2472": {
+    "label": "List separator or descriptor colon in structured text formatting",
+    "outputs": [
+      {
+        "id": 6564,
+        "label": "Feature fires on punctuation or prepositions preceding size-related comparisons",
+        "weight": 0.1588
+      }
+    ]
+  },
+  "3264": {
+    "label": "Maximum or superlative degree (highest, deepest, largest, greatest)",
+    "outputs": [
+      {
+        "id": 6564,
+        "label": "Feature fires on punctuation or prepositions preceding size-related comparisons",
+        "weight": 0.1591
+      }
+    ]
+  },
+  "5561": {
+    "label": "Small or tiny creatures/objects in descriptions",
+    "outputs": [
+      {
+        "id": 6564,
+        "label": "Feature fires on punctuation or prepositions preceding size-related comparisons",
+        "weight": 0.1666
+      }
+    ]
+  },
+  "5768": {
+    "label": "\"level of\" prepositional phrase construction",
+    "outputs": [
+      {
+        "id": 6564,
+        "label": "Feature fires on punctuation or prepositions preceding size-related comparisons",
+        "weight": 0.16
+      }
+    ]
+  },
+  "7048": {
+    "label": "Quantifying magnitude with \"of\" after measurement terms",
+    "outputs": [
+      {
+        "id": 6564,
+        "label": "Feature fires on punctuation or prepositions preceding size-related comparisons",
+        "weight": 0.1606
+      }
+    ]
+  },
+  "7143": {
+    "label": "Suffix \"-ize\" or related word endings/derivatives",
+    "outputs": [
+      {
+        "id": 6564,
+        "label": "Feature fires on punctuation or prepositions preceding size-related comparisons",
+        "weight": 0.1536
+      }
+    ]
+  },
+  "9752": {
+    "label": "Product pricing or cost determination contexts",
+    "outputs": [
+      {
+        "id": 6564,
+        "label": "Feature fires on punctuation or prepositions preceding size-related comparisons",
+        "weight": 0.1572
+      }
+    ]
+  },
+  "11861": {
+    "label": "Descriptive phrases about style, blend, or format specifications",
+    "outputs": [
+      {
+        "id": 6564,
+        "label": "Feature fires on punctuation or prepositions preceding size-related comparisons",
+        "weight": 0.154
+      }
+    ]
+  },
+  "10506": {
+    "label": "Feature fires on prepositions and articles in definitional or descriptive contexts.",
+    "outputs": [
+      {
+        "id": 6689,
+        "label": "\"at least\" or minimum quantity expressions",
+        "weight": 0.1516
+      }
+    ]
+  },
+  "337": {
+    "label": "Spanish/French words for \"stars\" or multilingual star references",
+    "outputs": [
+      {
+        "id": 7717,
+        "label": "Feature activates on relative clauses and descriptive phrases that modify objects or subjects.",
+        "weight": 0.1587
+      }
+    ]
+  },
+  "342": {
+    "label": "Person or individual as subject of action or state",
+    "outputs": [
+      {
+        "id": 7717,
+        "label": "Feature activates on relative clauses and descriptive phrases that modify objects or subjects.",
+        "weight": 0.1911
+      }
+    ]
+  },
+  "1392": {
+    "label": "Problems or challenges requiring solutions",
+    "outputs": [
+      {
+        "id": 7717,
+        "label": "Feature activates on relative clauses and descriptive phrases that modify objects or subjects.",
+        "weight": 0.1544
+      }
+    ]
+  },
+  "2404": {
+    "label": "Feature activates on the preposition \"on\" in phrases describing journeys or beginnings of actions.",
+    "outputs": [
+      {
+        "id": 7717,
+        "label": "Feature activates on relative clauses and descriptive phrases that modify objects or subjects.",
+        "weight": 0.1892
+      },
+      {
+        "id": 7887,
+        "label": "Feature detecting comma or period tokens in list-completion or enumeration contexts",
+        "weight": 0.1574
+      }
+    ]
+  },
+  "2962": {
+    "label": "Feature related to words about increasing or enhancing something.",
+    "outputs": [
+      {
+        "id": 7717,
+        "label": "Feature activates on relative clauses and descriptive phrases that modify objects or subjects.",
+        "weight": 0.1524
+      }
+    ]
+  },
+  "3683": {
+    "label": "Subject or topic being discussed or identified",
+    "outputs": [
+      {
+        "id": 7717,
+        "label": "Feature activates on relative clauses and descriptive phrases that modify objects or subjects.",
+        "weight": 0.203
+      }
+    ]
+  },
+  "4034": {
+    "label": "Feature related to flowers, blooming, and botanical/plant imagery",
+    "outputs": [
+      {
+        "id": 7717,
+        "label": "Feature activates on relative clauses and descriptive phrases that modify objects or subjects.",
+        "weight": 0.1504
+      }
+    ]
+  },
+  "4148": {
+    "label": "Items or objects that can be listed or grouped together",
+    "outputs": [
+      {
+        "id": 7717,
+        "label": "Feature activates on relative clauses and descriptive phrases that modify objects or subjects.",
+        "weight": 0.1766
+      }
+    ]
+  },
+  "4801": {
+    "label": "First-person perspective or subjective belief/emotion expressions",
+    "outputs": [
+      {
+        "id": 7717,
+        "label": "Feature activates on relative clauses and descriptive phrases that modify objects or subjects.",
+        "weight": 0.1897
+      }
+    ]
+  },
+  "5626": {
+    "label": "Thoroughness or completeness in descriptions and reviews",
+    "outputs": [
+      {
+        "id": 7717,
+        "label": "Feature activates on relative clauses and descriptive phrases that modify objects or subjects.",
+        "weight": 0.154
+      }
+    ]
+  },
+  "6089": {
+    "label": "Book-related content or catalog/collection contexts",
+    "outputs": [
+      {
+        "id": 7717,
+        "label": "Feature activates on relative clauses and descriptive phrases that modify objects or subjects.",
+        "weight": 0.1988
+      }
+    ]
+  },
+  "7725": {
+    "label": "Project or task references in technical/work contexts",
+    "outputs": [
+      {
+        "id": 7717,
+        "label": "Feature activates on relative clauses and descriptive phrases that modify objects or subjects.",
+        "weight": 0.155
+      }
+    ]
+  },
+  "7800": {
+    "label": "Feature suggests/indicates/implies relationships or meanings",
+    "outputs": [
+      {
+        "id": 7717,
+        "label": "Feature activates on relative clauses and descriptive phrases that modify objects or subjects.",
+        "weight": 0.1534
+      }
+    ]
+  },
+  "10634": {
+    "label": "Feature connecting artistic concepts and definitions with explanatory or descriptive clauses",
+    "outputs": [
+      {
+        "id": 7717,
+        "label": "Feature activates on relative clauses and descriptive phrases that modify objects or subjects.",
+        "weight": 0.198
+      }
+    ]
+  },
+  "11554": {
+    "label": "Price comparison and competitive market analysis",
+    "outputs": [
+      {
+        "id": 7717,
+        "label": "Feature activates on relative clauses and descriptive phrases that modify objects or subjects.",
+        "weight": 0.1596
+      }
+    ]
+  },
+  "12177": {
+    "label": "Prepositions and articles introducing descriptive phrases or examples",
+    "outputs": [
+      {
+        "id": 7717,
+        "label": "Feature activates on relative clauses and descriptive phrases that modify objects or subjects.",
+        "weight": 0.1675
+      }
+    ]
+  },
+  "570": {
+    "label": "Collaboration and partnership concepts",
+    "outputs": [
+      {
+        "id": 7887,
+        "label": "Feature detecting comma or period tokens in list-completion or enumeration contexts",
+        "weight": 0.1576
+      }
+    ]
+  },
+  "1978": {
+    "label": "Ocean/sea-related content and coastal environments",
+    "outputs": [
+      {
+        "id": 7887,
+        "label": "Feature detecting comma or period tokens in list-completion or enumeration contexts",
+        "weight": 0.1732
+      }
+    ]
+  },
+  "3016": {
+    "label": "Period after abbreviated title (e.g., \"Dr.\", numbered lists)",
+    "outputs": [
+      {
+        "id": 7887,
+        "label": "Feature detecting comma or period tokens in list-completion or enumeration contexts",
+        "weight": 0.1591
+      }
+    ]
+  },
+  "3060": {
+    "label": "Event or formal occasion references",
+    "outputs": [
+      {
+        "id": 7887,
+        "label": "Feature detecting comma or period tokens in list-completion or enumeration contexts",
+        "weight": 0.1638
+      }
+    ]
+  },
+  "3846": {
+    "label": "Wind or air movement in nature descriptions",
+    "outputs": [
+      {
+        "id": 7887,
+        "label": "Feature detecting comma or period tokens in list-completion or enumeration contexts",
+        "weight": 0.1511
+      }
+    ]
+  },
+  "3915": {
+    "label": "excellent or superior quality descriptors",
+    "outputs": [
+      {
+        "id": 7887,
+        "label": "Feature detecting comma or period tokens in list-completion or enumeration contexts",
+        "weight": 0.1506
+      }
+    ]
+  },
+  "4080": {
+    "label": "Time periods and weekly durations",
+    "outputs": [
+      {
+        "id": 7887,
+        "label": "Feature detecting comma or period tokens in list-completion or enumeration contexts",
+        "weight": 0.152
+      }
+    ]
+  },
+  "4229": {
+    "label": "subdiscipline or subfield prefix marker",
+    "outputs": [
+      {
+        "id": 7887,
+        "label": "Feature detecting comma or period tokens in list-completion or enumeration contexts",
+        "weight": 0.1575
+      }
+    ]
+  },
+  "6873": {
+    "label": "complex and multifaceted concepts or processes",
+    "outputs": [
+      {
+        "id": 7887,
+        "label": "Feature detecting comma or period tokens in list-completion or enumeration contexts",
+        "weight": 0.1508
+      }
+    ]
+  },
+  "7853": {
+    "label": "Weather phenomena, particularly storms and turbulent conditions",
+    "outputs": [
+      {
+        "id": 7887,
+        "label": "Feature detecting comma or period tokens in list-completion or enumeration contexts",
+        "weight": 0.1848
+      }
+    ]
+  },
+  "7932": {
+    "label": "Noun or concept introduction in definitions and explanations",
+    "outputs": [
+      {
+        "id": 7887,
+        "label": "Feature detecting comma or period tokens in list-completion or enumeration contexts",
+        "weight": 0.1652
+      }
+    ]
+  },
+  "9547": {
+    "label": "Listing items or concepts with commas or line breaks",
+    "outputs": [
+      {
+        "id": 7887,
+        "label": "Feature detecting comma or period tokens in list-completion or enumeration contexts",
+        "weight": 0.1527
+      }
+    ]
+  },
+  "10542": {
+    "label": "Air pollution topic indicator or pollution-related discourse marker",
+    "outputs": [
+      {
+        "id": 7887,
+        "label": "Feature detecting comma or period tokens in list-completion or enumeration contexts",
+        "weight": 0.154
+      }
+    ]
+  },
+  "10598": {
+    "label": "Technique or method description in definitions",
+    "outputs": [
+      {
+        "id": 7887,
+        "label": "Feature detecting comma or period tokens in list-completion or enumeration contexts",
+        "weight": 0.1505
+      }
+    ]
+  },
+  "10821": {
+    "label": "Machine learning or ML-related contexts",
+    "outputs": [
+      {
+        "id": 7887,
+        "label": "Feature detecting comma or period tokens in list-completion or enumeration contexts",
+        "weight": 0.1501
+      }
+    ]
+  },
+  "11116": {
+    "label": "Social media platforms and digital marketing contexts",
+    "outputs": [
+      {
+        "id": 7887,
+        "label": "Feature detecting comma or period tokens in list-completion or enumeration contexts",
+        "weight": 0.1669
+      }
+    ]
+  },
+  "11200": {
+    "label": "Track-related concepts or monitoring/recording activities",
+    "outputs": [
+      {
+        "id": 7887,
+        "label": "Feature detecting comma or period tokens in list-completion or enumeration contexts",
+        "weight": 0.151
+      }
+    ]
+  },
+  "11427": {
+    "label": "Cloud storage and data management systems",
+    "outputs": [
+      {
+        "id": 7887,
+        "label": "Feature detecting comma or period tokens in list-completion or enumeration contexts",
+        "weight": 0.1532
+      }
+    ]
+  },
+  "11830": {
+    "label": "Profession or expert role suffix (scientist, physicist endings)",
+    "outputs": [
+      {
+        "id": 7887,
+        "label": "Feature detecting comma or period tokens in list-completion or enumeration contexts",
+        "weight": 0.1515
+      }
+    ]
+  },
+  "11836": {
+    "label": "Mysterious or enigmatic elements in creative prompts",
+    "outputs": [
+      {
+        "id": 7887,
+        "label": "Feature detecting comma or period tokens in list-completion or enumeration contexts",
+        "weight": 0.1509
+      }
+    ]
+  },
+  "688": {
+    "label": "Scientific/taxonomic names or biological classification terms",
+    "outputs": [
+      {
+        "id": 8349,
+        "label": "Feature detects \"X\" character in product names, technical terms, and proper nouns.",
+        "weight": 0.1765
+      }
+    ]
+  },
+  "2410": {
+    "label": "Quotation marks and website/brand naming contexts",
+    "outputs": [
+      {
+        "id": 8349,
+        "label": "Feature detects \"X\" character in product names, technical terms, and proper nouns.",
+        "weight": 0.1917
+      }
+    ]
+  },
+  "5490": {
+    "label": "Single-letter variable or placeholder \"x\"",
+    "outputs": [
+      {
+        "id": 8349,
+        "label": "Feature detects \"X\" character in product names, technical terms, and proper nouns.",
+        "weight": 0.1918
+      }
+    ]
+  },
+  "6512": {
+    "label": "Percentage or proportion statements and calculations",
+    "outputs": [
+      {
+        "id": 8349,
+        "label": "Feature detects \"X\" character in product names, technical terms, and proper nouns.",
+        "weight": 0.1837
+      }
+    ]
+  },
+  "7821": {
+    "label": "User input separator or turn boundary marker",
+    "outputs": [
+      {
+        "id": 8349,
+        "label": "Feature detects \"X\" character in product names, technical terms, and proper nouns.",
+        "weight": 0.186
+      }
+    ]
+  },
+  "8157": {
+    "label": "HTML viewport meta tag attribute assignment",
+    "outputs": [
+      {
+        "id": 8349,
+        "label": "Feature detects \"X\" character in product names, technical terms, and proper nouns.",
+        "weight": 0.1832
+      }
+    ]
+  },
+  "11646": {
+    "label": "Password or ordinal number suffixes in alphanumeric sequences",
+    "outputs": [
+      {
+        "id": 8349,
+        "label": "Feature detects \"X\" character in product names, technical terms, and proper nouns.",
+        "weight": 0.1865
+      }
+    ]
+  },
+  "9361": {
+    "label": "Past tense verbs ending in -ed, particularly leisurely movement actions",
+    "outputs": [
+      {
+        "id": 9002,
+        "label": "Word endings or suffixes, particularly past tense \"-ed\" forms",
+        "weight": 0.1549
+      }
+    ]
+  },
+  "8744": {
+    "label": "Conditional or temporal \"when/whenever\" contexts",
+    "outputs": [
+      {
+        "id": 10588,
+        "label": "temporal or conditional transition words (when/if clauses)",
+        "weight": 0.1534
+      }
+    ]
+  },
+  "1175": {
+    "label": "Scientific/medical terminology and proper nouns (bacteria, diseases, technical terms)",
+    "outputs": [
+      {
+        "id": 10816,
+        "label": "Understanding or explaining concepts, definitions, and processes",
+        "weight": 0.1534
+      }
+    ]
+  },
+  "10931": {
+    "label": "Feature detecting the letter 'd' in mid-word positions",
+    "outputs": [
+      {
+        "id": 11914,
+        "label": "PEMDAS acronym in order of operations explanations",
+        "weight": 0.1506
+      }
+    ]
+  }
+}

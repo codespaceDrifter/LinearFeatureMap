@@ -1,0 +1,2867 @@
+{
+  "5059": {
+    "label": "Winding rivers flowing through landscapes",
+    "outputs": [
+      {
+        "id": 45,
+        "label": "Geographic rivers and their lengths/measurements",
+        "weight": 0.1523
+      }
+    ]
+  },
+  "2082": {
+    "label": "Decimal or fractional numeric values in calculations",
+    "outputs": [
+      {
+        "id": 49,
+        "label": "Numeric values and decimal fractions in mathematical calculations",
+        "weight": 0.1558
+      }
+    ]
+  },
+  "6650": {
+    "label": "Song lyrics and verse/chorus structure markers",
+    "outputs": [
+      {
+        "id": 97,
+        "label": "Rap/hip-hop lyric generation and flow patterns",
+        "weight": 0.1624
+      }
+    ]
+  },
+  "12190": {
+    "label": "Start of numbered list or enumeration marker",
+    "outputs": [
+      {
+        "id": 103,
+        "label": "Token sequence beginnings or sentence starts",
+        "weight": 0.1511
+      }
+    ]
+  },
+  "3480": {
+    "label": "Feature enabling goal achievement or facilitating outcomes",
+    "outputs": [
+      {
+        "id": 174,
+        "label": "Environmental and cost benefits or positive impacts",
+        "weight": 0.1602
+      }
+    ]
+  },
+  "5705": {
+    "label": "Benefits or advantages leading to efficiency/cost reduction",
+    "outputs": [
+      {
+        "id": 174,
+        "label": "Environmental and cost benefits or positive impacts",
+        "weight": 0.1885
+      }
+    ]
+  },
+  "1569": {
+    "label": "Sentence rewrites and reformulations in editing tasks",
+    "outputs": [
+      {
+        "id": 175,
+        "label": "Beginning of generated text or document structure markers",
+        "weight": 0.1872
+      },
+      {
+        "id": 1970,
+        "label": "Instruction to create or generate content following a completed task",
+        "weight": 0.1803
+      }
+    ]
+  },
+  "2597": {
+    "label": "Headline-starting action verbs and dynamic opening words",
+    "outputs": [
+      {
+        "id": 175,
+        "label": "Beginning of generated text or document structure markers",
+        "weight": 0.1597
+      }
+    ]
+  },
+  "6265": {
+    "label": "Family-friendly movie/book title beginnings",
+    "outputs": [
+      {
+        "id": 175,
+        "label": "Beginning of generated text or document structure markers",
+        "weight": 0.1561
+      },
+      {
+        "id": 4612,
+        "label": "Adjectives with conflicting or unusual semantic properties",
+        "weight": 0.152
+      }
+    ]
+  },
+  "8644": {
+    "label": "Hashtags and social media activism/awareness campaigns",
+    "outputs": [
+      {
+        "id": 1600,
+        "label": "Hashtags and camelCase compound words in wellness/health contexts",
+        "weight": 0.1693
+      },
+      {
+        "id": 175,
+        "label": "Beginning of generated text or document structure markers",
+        "weight": 0.1612
+      }
+    ]
+  },
+  "12145": {
+    "label": "Stage directions and scene-setting bracketed text in scripts",
+    "outputs": [
+      {
+        "id": 175,
+        "label": "Beginning of generated text or document structure markers",
+        "weight": 0.1501
+      }
+    ]
+  },
+  "6282": {
+    "label": "Past tense verbs or completed actions in narratives",
+    "outputs": [
+      {
+        "id": 11515,
+        "label": "Narrative past tense or story continuation marker",
+        "weight": 0.1994
+      },
+      {
+        "id": 288,
+        "label": "Past tense verbs and actions in narrative contexts",
+        "weight": 0.1837
+      }
+    ]
+  },
+  "10853": {
+    "label": "Past tense narrative verbs in descriptive fiction writing",
+    "outputs": [
+      {
+        "id": 11515,
+        "label": "Narrative past tense or story continuation marker",
+        "weight": 0.1963
+      },
+      {
+        "id": 288,
+        "label": "Past tense verbs and actions in narrative contexts",
+        "weight": 0.1596
+      }
+    ]
+  },
+  "10488": {
+    "label": "Acronyms and abbreviations in formal/technical contexts",
+    "outputs": [
+      {
+        "id": 343,
+        "label": "Acronyms and abbreviations in technical/formal contexts",
+        "weight": 0.1684
+      },
+      {
+        "id": 11517,
+        "label": "Scientific/Latin species names or taxonomic nomenclature",
+        "weight": 0.1568
+      }
+    ]
+  },
+  "3166": {
+    "label": "Nostalgic or sentimental emotions and memories in creative contexts",
+    "outputs": [
+      {
+        "id": 411,
+        "label": "Laughter and joyful expressions in creative writing contexts",
+        "weight": 0.1501
+      }
+    ]
+  },
+  "1639": {
+    "label": "Well-known or widely recognized items and concepts",
+    "outputs": [
+      {
+        "id": 465,
+        "label": "High-quality or premium product descriptor",
+        "weight": 0.1657
+      }
+    ]
+  },
+  "8040": {
+    "label": "Hyphenated compound numbers and measurements (year-old, nine-to-five, letter)",
+    "outputs": [
+      {
+        "id": 465,
+        "label": "High-quality or premium product descriptor",
+        "weight": 0.1643
+      }
+    ]
+  },
+  "9723": {
+    "label": "Order of operations or mathematical precedence rules",
+    "outputs": [
+      {
+        "id": 466,
+        "label": "Seating, venue, and logistical arrangement planning contexts\n\n\nI need to reconsider - looking more carefully at the tokens: \"angements\" (appears 3 times, likely \"arrangements\"), \"verages\" (likely \"",
+        "weight": 0.1704
+      }
+    ]
+  },
+  "11796": {
+    "label": "Alternative titles or creative variations on given topics",
+    "outputs": [
+      {
+        "id": 466,
+        "label": "Seating, venue, and logistical arrangement planning contexts\n\n\nI need to reconsider - looking more carefully at the tokens: \"angements\" (appears 3 times, likely \"arrangements\"), \"verages\" (likely \"",
+        "weight": 0.1602
+      }
+    ]
+  },
+  "2433": {
+    "label": "Feature detecting \"results in\" or causal/consequential relationships in explanations",
+    "outputs": [
+      {
+        "id": 592,
+        "label": "Knowledge cutoff date reference (\"as of 2023\" temporal marker)",
+        "weight": 0.1946
+      }
+    ]
+  },
+  "4488": {
+    "label": "Activities done in physical locations or specific venues",
+    "outputs": [
+      {
+        "id": 592,
+        "label": "Knowledge cutoff date reference (\"as of 2023\" temporal marker)",
+        "weight": 0.183
+      }
+    ]
+  },
+  "9273": {
+    "label": "Knowledge cutoff date references in responses",
+    "outputs": [
+      {
+        "id": 592,
+        "label": "Knowledge cutoff date reference (\"as of 2023\" temporal marker)",
+        "weight": 0.2303
+      }
+    ]
+  },
+  "10995": {
+    "label": "Elements in array or list (algorithmic context)",
+    "outputs": [
+      {
+        "id": 592,
+        "label": "Knowledge cutoff date reference (\"as of 2023\" temporal marker)",
+        "weight": 0.2143
+      }
+    ]
+  },
+  "6886": {
+    "label": "Programming task implementation in Python code examples",
+    "outputs": [
+      {
+        "id": 619,
+        "label": "Python library imports or standard modules in code examples",
+        "weight": 0.1688
+      }
+    ]
+  },
+  "2371": {
+    "label": "Social media hashtags and Twitter-related content generation",
+    "outputs": [
+      {
+        "id": 1600,
+        "label": "Hashtags and camelCase compound words in wellness/health contexts",
+        "weight": 0.1641
+      },
+      {
+        "id": 803,
+        "label": "Compound brand names and creative title formations",
+        "weight": 0.1558
+      }
+    ]
+  },
+  "3350": {
+    "label": "Creative/catchy compound brand names and titles",
+    "outputs": [
+      {
+        "id": 803,
+        "label": "Compound brand names and creative title formations",
+        "weight": 0.1665
+      }
+    ]
+  },
+  "5121": {
+    "label": "Pet-related contexts and animal business names",
+    "outputs": [
+      {
+        "id": 7904,
+        "label": "Numbered list item prefixes or enumeration markers",
+        "weight": 0.1642
+      },
+      {
+        "id": 803,
+        "label": "Compound brand names and creative title formations",
+        "weight": 0.1514
+      }
+    ]
+  },
+  "6081": {
+    "label": "Brand/product naming and creative wordplay",
+    "outputs": [
+      {
+        "id": 803,
+        "label": "Compound brand names and creative title formations",
+        "weight": 0.1564
+      }
+    ]
+  },
+  "7964": {
+    "label": "Sci-fi title word \"Galactic\" or echoing/shadow themes",
+    "outputs": [
+      {
+        "id": 803,
+        "label": "Compound brand names and creative title formations",
+        "weight": 0.1695
+      }
+    ]
+  },
+  "9887": {
+    "label": "Crisis or negative trend headline generation",
+    "outputs": [
+      {
+        "id": 803,
+        "label": "Compound brand names and creative title formations",
+        "weight": 0.1672
+      }
+    ]
+  },
+  "4630": {
+    "label": "Feature relating to words with prefix \"all-\" or containing \"llit\"",
+    "outputs": [
+      {
+        "id": 841,
+        "label": "\"-purpose\" prefix in ingredient specifications",
+        "weight": 0.1529
+      }
+    ]
+  },
+  "3128": {
+    "label": "Preposition \"into\" indicating movement or transition toward interior/destination",
+    "outputs": [
+      {
+        "id": 933,
+        "label": "Preposition \"into\" indicating direction or transformation",
+        "weight": 0.158
+      }
+    ]
+  },
+  "8518": {
+    "label": "Partitioning or dividing into groups or sets",
+    "outputs": [
+      {
+        "id": 933,
+        "label": "Preposition \"into\" indicating direction or transformation",
+        "weight": 0.1568
+      }
+    ]
+  },
+  "10058": {
+    "label": "IPv4 addressing and network protocol identification",
+    "outputs": [
+      {
+        "id": 948,
+        "label": "Internet history and ARPANET development in 1960s-1980s",
+        "weight": 0.1552
+      }
+    ]
+  },
+  "6001": {
+    "label": "Existential \"there\" or spatial location phrase (lay/lived/nestled)",
+    "outputs": [
+      {
+        "id": 1128,
+        "label": "Story setting introduction: \"there lived\" character establishment pattern",
+        "weight": 0.1698
+      }
+    ]
+  },
+  "5440": {
+    "label": "Historical dates and events punctuation separator",
+    "outputs": [
+      {
+        "id": 1311,
+        "label": "Historical dates and ordinal numbers in American history contexts",
+        "weight": 0.1502
+      }
+    ]
+  },
+  "1395": {
+    "label": "Words or phrases related to smooth/gentle motion or sound",
+    "outputs": [
+      {
+        "id": 1546,
+        "label": "Feature detects partial word tokens ending sentences or phrases",
+        "weight": 0.1564
+      }
+    ]
+  },
+  "2400": {
+    "label": "Food ingredients or recipe components and quantities",
+    "outputs": [
+      {
+        "id": 1546,
+        "label": "Feature detects partial word tokens ending sentences or phrases",
+        "weight": 0.1536
+      }
+    ]
+  },
+  "5969": {
+    "label": "Feature detecting words ending in common suffixes or verb forms",
+    "outputs": [
+      {
+        "id": 1546,
+        "label": "Feature detects partial word tokens ending sentences or phrases",
+        "weight": 0.1601
+      }
+    ]
+  },
+  "2458": {
+    "label": "Hashtags and social media formatting tokens",
+    "outputs": [
+      {
+        "id": 1600,
+        "label": "Hashtags and camelCase compound words in wellness/health contexts",
+        "weight": 0.1737
+      }
+    ]
+  },
+  "5468": {
+    "label": "Feature fires on verb \"summarizing\" in model-generated response preambles",
+    "outputs": [
+      {
+        "id": 1749,
+        "label": "Summarizing or introducing a topic/explanation",
+        "weight": 0.1642
+      }
+    ]
+  },
+  "2519": {
+    "label": "Sentence-ending punctuation or grammatical interrogative markers",
+    "outputs": [
+      {
+        "id": 1901,
+        "label": "Prime number checking loop increment or iteration step",
+        "weight": 0.1839
+      }
+    ]
+  },
+  "2992": {
+    "label": "End of quoted speech or sentence completion",
+    "outputs": [
+      {
+        "id": 1901,
+        "label": "Prime number checking loop increment or iteration step",
+        "weight": 0.1857
+      }
+    ]
+  },
+  "181": {
+    "label": "Machine learning algorithms and classification/regression methods",
+    "outputs": [
+      {
+        "id": 1971,
+        "label": "Machine learning algorithms and their characteristics/properties",
+        "weight": 0.166
+      }
+    ]
+  },
+  "1648": {
+    "label": "Supervised learning: training models on labeled data to map inputs to outputs",
+    "outputs": [
+      {
+        "id": 1971,
+        "label": "Machine learning algorithms and their characteristics/properties",
+        "weight": 0.1665
+      }
+    ]
+  },
+  "10315": {
+    "label": "Machine learning and data science terminology",
+    "outputs": [
+      {
+        "id": 1971,
+        "label": "Machine learning algorithms and their characteristics/properties",
+        "weight": 0.1584
+      }
+    ]
+  },
+  "1423": {
+    "label": "Commas and continuation markers in multi-clause sentences",
+    "outputs": [
+      {
+        "id": 2018,
+        "label": "Water-saving fixtures and appliances (showerheads, faucets, toilets)",
+        "weight": 0.1607
+      }
+    ]
+  },
+  "6943": {
+    "label": "Apollo 11 mission and 1969 Moon landing references",
+    "outputs": [
+      {
+        "id": 2055,
+        "label": "Space travel and spacecraft mission duration context",
+        "weight": 0.1604
+      }
+    ]
+  },
+  "11132": {
+    "label": "Historic space missions and Apollo 11 mission details",
+    "outputs": [
+      {
+        "id": 2055,
+        "label": "Space travel and spacecraft mission duration context",
+        "weight": 0.1503
+      }
+    ]
+  },
+  "4971": {
+    "label": "Colon punctuation after numbered list items or section headers",
+    "outputs": [
+      {
+        "id": 9726,
+        "label": "Numbered list item formatting (colon after bold marker)",
+        "weight": 0.1711
+      },
+      {
+        "id": 2104,
+        "label": "Colons introducing lists, labels, or structured content sections",
+        "weight": 0.1557
+      }
+    ]
+  },
+  "9439": {
+    "label": "Cybersecurity threats, attacks, and malicious actors in digital contexts",
+    "outputs": [
+      {
+        "id": 2153,
+        "label": "Cyberattacks, threats, and security vulnerabilities",
+        "weight": 0.1622
+      }
+    ]
+  },
+  "2392": {
+    "label": "Famous Renaissance artists and their birth-death years",
+    "outputs": [
+      {
+        "id": 2194,
+        "label": "Famous painters, painting styles, and artistic techniques description",
+        "weight": 0.1544
+      }
+    ]
+  },
+  "7278": {
+    "label": "Fundamental transformation and interconnectedness in organizational or human contexts",
+    "outputs": [
+      {
+        "id": 2328,
+        "label": "Enumeration of multiple related items or components in explanatory text",
+        "weight": 0.1639
+      }
+    ]
+  },
+  "3151": {
+    "label": "Feature activated before enumerating points or listing structured information.",
+    "outputs": [
+      {
+        "id": 2331,
+        "label": "Preposition \"to\" indicating purpose, direction, or infinitive verb form",
+        "weight": 0.1851
+      }
+    ]
+  },
+  "4448": {
+    "label": "Infinitive marker \"to\" introducing purpose or action clauses",
+    "outputs": [
+      {
+        "id": 2331,
+        "label": "Preposition \"to\" indicating purpose, direction, or infinitive verb form",
+        "weight": 0.1684
+      }
+    ]
+  },
+  "5378": {
+    "label": "Token \"to\" as infinitive marker or transitional connector",
+    "outputs": [
+      {
+        "id": 2331,
+        "label": "Preposition \"to\" indicating purpose, direction, or infinitive verb form",
+        "weight": 0.1926
+      }
+    ]
+  },
+  "6173": {
+    "label": "Token \"to\" preceding infinitive verbs or purpose clauses",
+    "outputs": [
+      {
+        "id": 2331,
+        "label": "Preposition \"to\" indicating purpose, direction, or infinitive verb form",
+        "weight": 0.1973
+      }
+    ]
+  },
+  "6297": {
+    "label": "Feature fires on infinitive marker \"to\" in instructional or imperative contexts",
+    "outputs": [
+      {
+        "id": 2331,
+        "label": "Preposition \"to\" indicating purpose, direction, or infinitive verb form",
+        "weight": 0.1582
+      }
+    ]
+  },
+  "6578": {
+    "label": "Infinitive marker \"to\" in purpose or direction phrases",
+    "outputs": [
+      {
+        "id": 2331,
+        "label": "Preposition \"to\" indicating purpose, direction, or infinitive verb form",
+        "weight": 0.1964
+      }
+    ]
+  },
+  "8492": {
+    "label": "Eligibility or entitlement to participate in civic/legal processes",
+    "outputs": [
+      {
+        "id": 2331,
+        "label": "Preposition \"to\" indicating purpose, direction, or infinitive verb form",
+        "weight": 0.1736
+      }
+    ]
+  },
+  "8863": {
+    "label": "Revolutionary or groundbreaking technological advancement descriptions",
+    "outputs": [
+      {
+        "id": 2331,
+        "label": "Preposition \"to\" indicating purpose, direction, or infinitive verb form",
+        "weight": 0.1871
+      }
+    ]
+  },
+  "9486": {
+    "label": "Refusal or disclaimer transition marker \"to\"",
+    "outputs": [
+      {
+        "id": 2331,
+        "label": "Preposition \"to\" indicating purpose, direction, or infinitive verb form",
+        "weight": 0.1904
+      }
+    ]
+  },
+  "9822": {
+    "label": "Encouraging time allocation for preparatory actions",
+    "outputs": [
+      {
+        "id": 2331,
+        "label": "Preposition \"to\" indicating purpose, direction, or infinitive verb form",
+        "weight": 0.1655
+      }
+    ]
+  },
+  "11292": {
+    "label": "SQL column aliases using \"AS\" keyword",
+    "outputs": [
+      {
+        "id": 2376,
+        "label": "Feature activates on \"as\" or equivalents across languages (function word)",
+        "weight": 0.1535
+      }
+    ]
+  },
+  "3889": {
+    "label": "Numbered list item markers in instructional/procedural text",
+    "outputs": [
+      {
+        "id": 2444,
+        "label": "List enumeration marker (numbered list item \"1\")",
+        "weight": 0.1514
+      }
+    ]
+  },
+  "11464": {
+    "label": "Beginning of enumerated list or structured response",
+    "outputs": [
+      {
+        "id": 2444,
+        "label": "List enumeration marker (numbered list item \"1\")",
+        "weight": 0.157
+      }
+    ]
+  },
+  "4553": {
+    "label": "Animal species names (especially with color/geographic descriptors)",
+    "outputs": [
+      {
+        "id": 2489,
+        "label": "Small mammals, rodents, and similar animals in taxonomic/list contexts",
+        "weight": 0.1539
+      }
+    ]
+  },
+  "8563": {
+    "label": "Transformation or conversion into different form or state",
+    "outputs": [
+      {
+        "id": 2548,
+        "label": "Adverbs modifying adjectives or verbs (intensity/manner)",
+        "weight": 0.1646
+      }
+    ]
+  },
+  "11121": {
+    "label": "Performing tasks quickly, effectively, or efficiently",
+    "outputs": [
+      {
+        "id": 2548,
+        "label": "Adverbs modifying adjectives or verbs (intensity/manner)",
+        "weight": 0.176
+      },
+      {
+        "id": 4158,
+        "label": "Listing advantages/benefits without negatives or drawbacks mentioned",
+        "weight": 0.1694
+      }
+    ]
+  },
+  "4683": {
+    "label": "Countries or nations (geopolitical entities)",
+    "outputs": [
+      {
+        "id": 2563,
+        "label": "List items in geopolitical/geographic enumerations (countries, regions)",
+        "weight": 0.159
+      }
+    ]
+  },
+  "8739": {
+    "label": "Geographic and linguistic references to France and French-speaking regions",
+    "outputs": [
+      {
+        "id": 2563,
+        "label": "List items in geopolitical/geographic enumerations (countries, regions)",
+        "weight": 0.1513
+      }
+    ]
+  },
+  "8888": {
+    "label": "Geographic entities and country names (especially North America, Russia, Canada, USA)",
+    "outputs": [
+      {
+        "id": 2563,
+        "label": "List items in geopolitical/geographic enumerations (countries, regions)",
+        "weight": 0.1689
+      }
+    ]
+  },
+  "11437": {
+    "label": "African country names in lists or enumerations",
+    "outputs": [
+      {
+        "id": 2563,
+        "label": "List items in geopolitical/geographic enumerations (countries, regions)",
+        "weight": 0.1642
+      }
+    ]
+  },
+  "3289": {
+    "label": "JavaScript object literal initialization and arrow function syntax",
+    "outputs": [
+      {
+        "id": 2574,
+        "label": "CSS/code semicolon and style punctuation formatting",
+        "weight": 0.1544
+      }
+    ]
+  },
+  "1036": {
+    "label": "Climate change and environmental sustainability topics",
+    "outputs": [
+      {
+        "id": 2668,
+        "label": "Climate change mitigation and environmental impact reduction",
+        "weight": 0.1606
+      }
+    ]
+  },
+  "4989": {
+    "label": "Definite article or pronoun reference to previously mentioned noun",
+    "outputs": [
+      {
+        "id": 2705,
+        "label": "Equal or uniform quantities in mathematical contexts",
+        "weight": 0.1573
+      }
+    ]
+  },
+  "9337": {
+    "label": "First-person plural pronoun \"we\" in mathematical problem-solving contexts",
+    "outputs": [
+      {
+        "id": 3871,
+        "label": "First-person plural pronoun \"we\" in problem-solving contexts",
+        "weight": 0.1693
+      },
+      {
+        "id": 2705,
+        "label": "Equal or uniform quantities in mathematical contexts",
+        "weight": 0.1566
+      }
+    ]
+  },
+  "11432": {
+    "label": "Hypothetical or conditional suggestion introduction",
+    "outputs": [
+      {
+        "id": 2705,
+        "label": "Equal or uniform quantities in mathematical contexts",
+        "weight": 0.1719
+      }
+    ]
+  },
+  "5385": {
+    "label": "Waste reduction and recycling practices",
+    "outputs": [
+      {
+        "id": 2767,
+        "label": "Recycling waste materials like paper, plastic, glass, and metal",
+        "weight": 0.1521
+      }
+    ]
+  },
+  "1224": {
+    "label": "Feature fires at the start of direct responses or new sections",
+    "outputs": [
+      {
+        "id": 2929,
+        "label": "Feature starts structured response or task description format",
+        "weight": 0.1521
+      }
+    ]
+  },
+  "9983": {
+    "label": "Natural disasters, severe weather events, and physical destruction/damage",
+    "outputs": [
+      {
+        "id": 3031,
+        "label": "Storms, turbulence, chaos, and violent weather conditions",
+        "weight": 0.1536
+      }
+    ]
+  },
+  "6504": {
+    "label": "Double meaning or wordplay in jokes and puns",
+    "outputs": [
+      {
+        "id": 4612,
+        "label": "Adjectives with conflicting or unusual semantic properties",
+        "weight": 0.1904
+      },
+      {
+        "id": 3114,
+        "label": "Tech company names and ticker symbols",
+        "weight": 0.1734
+      }
+    ]
+  },
+  "8861": {
+    "label": "French language text or translation context",
+    "outputs": [
+      {
+        "id": 3142,
+        "label": "French language text generation or translation output",
+        "weight": 0.1585
+      }
+    ]
+  },
+  "4437": {
+    "label": "Machine learning and computer science academic topics and courses",
+    "outputs": [
+      {
+        "id": 3278,
+        "label": "Machine learning or AI learning contexts and terminology",
+        "weight": 0.1526
+      }
+    ]
+  },
+  "11245": {
+    "label": "Quantifier words (\"many\", \"how many\", \"can\", \"to\")",
+    "outputs": [
+      {
+        "id": 3387,
+        "label": "Quantitative questions asking \"how many\"",
+        "weight": 0.1735
+      }
+    ]
+  },
+  "5654": {
+    "label": "Feature detects numeric word count or quantity constraints in task instructions.",
+    "outputs": [
+      {
+        "id": 3432,
+        "label": "Numerical quantity \"two\" or similar numeric constraints in instructions",
+        "weight": 0.156
+      }
+    ]
+  },
+  "4726": {
+    "label": "Introducing examples or comparisons with \"such as\"",
+    "outputs": [
+      {
+        "id": 3477,
+        "label": "Phrase introducing examples or categorization (\"such as\")",
+        "weight": 0.1582
+      }
+    ]
+  },
+  "17": {
+    "label": "Code comments and print statement output annotations",
+    "outputs": [
+      {
+        "id": 3494,
+        "label": "Comment or output annotation in code examples",
+        "weight": 0.1532
+      }
+    ]
+  },
+  "3942": {
+    "label": "Includes/contains or enumeration introduction",
+    "outputs": [
+      {
+        "id": 3586,
+        "label": "Helpful information or methods that enable outcomes",
+        "weight": 0.1527
+      }
+    ]
+  },
+  "5996": {
+    "label": "Causal consequence or outcome (leads to, results in)",
+    "outputs": [
+      {
+        "id": 3586,
+        "label": "Helpful information or methods that enable outcomes",
+        "weight": 0.1781
+      }
+    ]
+  },
+  "7085": {
+    "label": "Methods or approaches in categorized lists or explanations",
+    "outputs": [
+      {
+        "id": 3586,
+        "label": "Helpful information or methods that enable outcomes",
+        "weight": 0.1763
+      }
+    ]
+  },
+  "8930": {
+    "label": "Medical/health suffix \"-emia\" or Latin/Greek suffixes",
+    "outputs": [
+      {
+        "id": 3702,
+        "label": "Feature related to numerical or quantitative expressions and measurements",
+        "weight": 0.1997
+      },
+      {
+        "id": 7923,
+        "label": "Medical/health-related treatment or intervention concepts",
+        "weight": 0.1829
+      }
+    ]
+  },
+  "58": {
+    "label": "Achieving goals or addressing problems effectively",
+    "outputs": [
+      {
+        "id": 3841,
+        "label": "Hypothetical or conditional action requests (\"if you were to\")",
+        "weight": 0.1683
+      }
+    ]
+  },
+  "1481": {
+    "label": "toast/toaster appliances and achieving/proving actions",
+    "outputs": [
+      {
+        "id": 3841,
+        "label": "Hypothetical or conditional action requests (\"if you were to\")",
+        "weight": 0.1631
+      }
+    ]
+  },
+  "1917": {
+    "label": "Planning activities or itineraries to maximize experience or efficiency",
+    "outputs": [
+      {
+        "id": 3841,
+        "label": "Hypothetical or conditional action requests (\"if you were to\")",
+        "weight": 0.1652
+      }
+    ]
+  },
+  "3546": {
+    "label": "Use or utilize in instructional/procedural contexts",
+    "outputs": [
+      {
+        "id": 3841,
+        "label": "Hypothetical or conditional action requests (\"if you were to\")",
+        "weight": 0.1672
+      }
+    ]
+  },
+  "3563": {
+    "label": "Action verbs indicating purposeful movement or execution",
+    "outputs": [
+      {
+        "id": 3841,
+        "label": "Hypothetical or conditional action requests (\"if you were to\")",
+        "weight": 0.1712
+      }
+    ]
+  },
+  "6894": {
+    "label": "Task completion or action initiation (help, set, fix, do)",
+    "outputs": [
+      {
+        "id": 3841,
+        "label": "Hypothetical or conditional action requests (\"if you were to\")",
+        "weight": 0.1503
+      }
+    ]
+  },
+  "7250": {
+    "label": "Conditional or hypothetical statements with \"might be\" or \"could be\"",
+    "outputs": [
+      {
+        "id": 3841,
+        "label": "Hypothetical or conditional action requests (\"if you were to\")",
+        "weight": 0.1621
+      }
+    ]
+  },
+  "10642": {
+    "label": "Preposition \"with\" or collaborative/accompaniment context",
+    "outputs": [
+      {
+        "id": 3880,
+        "label": "Feature combining or pairing items/ingredients with other elements",
+        "weight": 0.1539
+      },
+      {
+        "id": 5013,
+        "label": "Feature detecting prepositions indicating interaction or association, particularly \"with\"",
+        "weight": 0.1509
+      }
+    ]
+  },
+  "219": {
+    "label": "Modal or possibility verbs in various languages",
+    "outputs": [
+      {
+        "id": 3886,
+        "label": "Modal verbs indicating possibility or capability (can, could, might)",
+        "weight": 0.1539
+      }
+    ]
+  },
+  "1191": {
+    "label": "Future tense auxiliary verb \"will\" or modal \"would\"",
+    "outputs": [
+      {
+        "id": 3886,
+        "label": "Modal verbs indicating possibility or capability (can, could, might)",
+        "weight": 0.1546
+      }
+    ]
+  },
+  "1651": {
+    "label": "Order of operations (PEMDAS) or requirement/necessity indication",
+    "outputs": [
+      {
+        "id": 8138,
+        "label": "Requirements or constraints in creative writing tasks",
+        "weight": 0.1841
+      },
+      {
+        "id": 3886,
+        "label": "Modal verbs indicating possibility or capability (can, could, might)",
+        "weight": 0.1766
+      }
+    ]
+  },
+  "2387": {
+    "label": "Modal verb \"can\" indicating possibility or ability",
+    "outputs": [
+      {
+        "id": 3886,
+        "label": "Modal verbs indicating possibility or capability (can, could, might)",
+        "weight": 0.1712
+      }
+    ]
+  },
+  "2996": {
+    "label": "Modal or hedging language indicating possibility or uncertainty",
+    "outputs": [
+      {
+        "id": 3886,
+        "label": "Modal verbs indicating possibility or capability (can, could, might)",
+        "weight": 0.1641
+      }
+    ]
+  },
+  "5747": {
+    "label": "Modal auxiliary verb \"can\" indicating possibility or capability",
+    "outputs": [
+      {
+        "id": 3886,
+        "label": "Modal verbs indicating possibility or capability (can, could, might)",
+        "weight": 0.1883
+      }
+    ]
+  },
+  "10755": {
+    "label": "Modal or auxiliary verb \"can\" indicating ability or possibility",
+    "outputs": [
+      {
+        "id": 3886,
+        "label": "Modal verbs indicating possibility or capability (can, could, might)",
+        "weight": 0.1898
+      },
+      {
+        "id": 6302,
+        "label": "Modal verb \"can\" indicating ability or possibility",
+        "weight": 0.152
+      }
+    ]
+  },
+  "5245": {
+    "label": "Botanical or agricultural terminology and concepts",
+    "outputs": [
+      {
+        "id": 3903,
+        "label": "Garden and ornamental plant names and varieties",
+        "weight": 0.1529
+      }
+    ]
+  },
+  "9192": {
+    "label": "Social media and digital/online platforms discussion",
+    "outputs": [
+      {
+        "id": 3904,
+        "label": "Social media marketing and digital presence contexts",
+        "weight": 0.1543
+      }
+    ]
+  },
+  "7972": {
+    "label": "Comparison to integer constants (zero, one, two, three)",
+    "outputs": [
+      {
+        "id": 3998,
+        "label": "Numbers or numerical values (especially zero and small integers)",
+        "weight": 0.1518
+      }
+    ]
+  },
+  "1979": {
+    "label": "Financial management and cost-saving actions for individuals or businesses",
+    "outputs": [
+      {
+        "id": 4158,
+        "label": "Listing advantages/benefits without negatives or drawbacks mentioned",
+        "weight": 0.1556
+      }
+    ]
+  },
+  "3346": {
+    "label": "Strong passwords and authentication security measures",
+    "outputs": [
+      {
+        "id": 4180,
+        "label": "Security best practices: strong passwords and multi-factor authentication",
+        "weight": 0.1804
+      }
+    ]
+  },
+  "4982": {
+    "label": "Password security and management recommendations",
+    "outputs": [
+      {
+        "id": 4180,
+        "label": "Security best practices: strong passwords and multi-factor authentication",
+        "weight": 0.1728
+      }
+    ]
+  },
+  "11970": {
+    "label": "Definite article \"the\" in formal/descriptive contexts",
+    "outputs": [
+      {
+        "id": 4222,
+        "label": "Determiner tokens preceding nouns in technical or descriptive contexts",
+        "weight": 0.1822
+      }
+    ]
+  },
+  "3815": {
+    "label": "Character introduction in narrative storytelling contexts",
+    "outputs": [
+      {
+        "id": 4305,
+        "label": "Story opening: character introduction in a location",
+        "weight": 0.1686
+      }
+    ]
+  },
+  "12278": {
+    "label": "Common personal names in lists and family contexts",
+    "outputs": [
+      {
+        "id": 4305,
+        "label": "Story opening: character introduction in a location",
+        "weight": 0.1506
+      }
+    ]
+  },
+  "6407": {
+    "label": "Variables \"a\" and \"b\" in Pythagorean theorem formula",
+    "outputs": [
+      {
+        "id": 4309,
+        "label": "Heron's formula variables and algebraic expressions",
+        "weight": 0.1522
+      }
+    ]
+  },
+  "523": {
+    "label": "Grammatical correctness or proper sentence structure validation",
+    "outputs": [
+      {
+        "id": 4490,
+        "label": "Grammatical correctness or validation in text analysis",
+        "weight": 0.1513
+      }
+    ]
+  },
+  "10988": {
+    "label": "Programming languages and software development technologies",
+    "outputs": [
+      {
+        "id": 4545,
+        "label": "Programming language descriptions and characteristics",
+        "weight": 0.1504
+      }
+    ]
+  },
+  "4787": {
+    "label": "Kitchen/household appliances and common everyday objects/items",
+    "outputs": [
+      {
+        "id": 4612,
+        "label": "Adjectives with conflicting or unusual semantic properties",
+        "weight": 0.1602
+      }
+    ]
+  },
+  "8016": {
+    "label": "New Zealand, New York, or New England regional references",
+    "outputs": [
+      {
+        "id": 4746,
+        "label": "Major US cities, especially New York City",
+        "weight": 0.185
+      }
+    ]
+  },
+  "2583": {
+    "label": "Literary character names and protagonist references in narrative contexts",
+    "outputs": [
+      {
+        "id": 4921,
+        "label": "Character description trait listing in narratives",
+        "weight": 0.1557
+      }
+    ]
+  },
+  "6453": {
+    "label": "Numbered list item 7 or enumeration position 7",
+    "outputs": [
+      {
+        "id": 5014,
+        "label": "Number 7 in various contexts and numeral systems",
+        "weight": 0.1686
+      }
+    ]
+  },
+  "1678": {
+    "label": "\"as of\" temporal reference phrase",
+    "outputs": [
+      {
+        "id": 5554,
+        "label": "Temporal reference phrases \"as of\" in factual statements",
+        "weight": 0.1903
+      },
+      {
+        "id": 5044,
+        "label": "Knowledge cutoff date disclaimer phrase (\"as of my last update\")",
+        "weight": 0.1542
+      }
+    ]
+  },
+  "3674": {
+    "label": "Quotation marks or quoted text references",
+    "outputs": [
+      {
+        "id": 5262,
+        "label": "Quotation marks and string delimiters in code/formal text",
+        "weight": 0.1902
+      }
+    ]
+  },
+  "4896": {
+    "label": "Quotation marks or apostrophes indicating quoted text or dialogue",
+    "outputs": [
+      {
+        "id": 5262,
+        "label": "Quotation marks and string delimiters in code/formal text",
+        "weight": 0.1838
+      }
+    ]
+  },
+  "7005": {
+    "label": "Quotation marks and quoted text boundaries",
+    "outputs": [
+      {
+        "id": 5262,
+        "label": "Quotation marks and string delimiters in code/formal text",
+        "weight": 0.2046
+      },
+      {
+        "id": 9949,
+        "label": "Quotation mark or quoted text boundaries",
+        "weight": 0.154
+      }
+    ]
+  },
+  "9034": {
+    "label": "JSON/structured data formatting and quotation marks in code/data structures",
+    "outputs": [
+      {
+        "id": 5262,
+        "label": "Quotation marks and string delimiters in code/formal text",
+        "weight": 0.1831
+      },
+      {
+        "id": 9949,
+        "label": "Quotation mark or quoted text boundaries",
+        "weight": 0.1618
+      }
+    ]
+  },
+  "1039": {
+    "label": "Color mixing, shades, and visual design properties",
+    "outputs": [
+      {
+        "id": 5306,
+        "label": "Color names and color theory concepts",
+        "weight": 0.1855
+      }
+    ]
+  },
+  "3692": {
+    "label": "Visual color descriptions and atmospheric lighting effects",
+    "outputs": [
+      {
+        "id": 5306,
+        "label": "Color names and color theory concepts",
+        "weight": 0.1881
+      }
+    ]
+  },
+  "3917": {
+    "label": "Primary colors and color theory fundamentals",
+    "outputs": [
+      {
+        "id": 5306,
+        "label": "Color names and color theory concepts",
+        "weight": 0.1805
+      }
+    ]
+  },
+  "9444": {
+    "label": "Pastel and soft color descriptions",
+    "outputs": [
+      {
+        "id": 5306,
+        "label": "Color names and color theory concepts",
+        "weight": 0.1629
+      }
+    ]
+  },
+  "11899": {
+    "label": "Warm sunset colors (oranges, pinks, purples, reds)",
+    "outputs": [
+      {
+        "id": 5306,
+        "label": "Color names and color theory concepts",
+        "weight": 0.1591
+      }
+    ]
+  },
+  "4907": {
+    "label": "Second-person pronouns and direct address in questions",
+    "outputs": [
+      {
+        "id": 5369,
+        "label": "Formal correspondence opening with \"hope this message finds you well\"",
+        "weight": 0.1628
+      }
+    ]
+  },
+  "4824": {
+    "label": "Comparison conjunctions or logical alternatives (\"or\", \"than\")",
+    "outputs": [
+      {
+        "id": 5475,
+        "label": "Comparative or conditional conjunction phrases (\"than or\", \"like or\")",
+        "weight": 0.1532
+      }
+    ]
+  },
+  "4703": {
+    "label": "\"United States\" reference or mention",
+    "outputs": [
+      {
+        "id": 5489,
+        "label": "References to \"United States\" in geographic/location contexts",
+        "weight": 0.1533
+      }
+    ]
+  },
+  "1586": {
+    "label": "Opening parenthesis or abbreviated term introduction marker",
+    "outputs": [
+      {
+        "id": 5534,
+        "label": "Subtracting constant from both sides in equation solving",
+        "weight": 0.167
+      }
+    ]
+  },
+  "6364": {
+    "label": "SQL FROM clause and source/origin reference",
+    "outputs": [
+      {
+        "id": 5534,
+        "label": "Subtracting constant from both sides in equation solving",
+        "weight": 0.1576
+      }
+    ]
+  },
+  "3864": {
+    "label": "Removing dirt or debris from surfaces",
+    "outputs": [
+      {
+        "id": 5554,
+        "label": "Temporal reference phrases \"as of\" in factual statements",
+        "weight": 0.1586
+      }
+    ]
+  },
+  "6832": {
+    "label": "AI model limitations or inability to generate visual/non-text content",
+    "outputs": [
+      {
+        "id": 5554,
+        "label": "Temporal reference phrases \"as of\" in factual statements",
+        "weight": 0.177
+      }
+    ]
+  },
+  "2491": {
+    "label": "Repetitive or iterative word patterns in text generation",
+    "outputs": [
+      {
+        "id": 5559,
+        "label": "Repetitive output or adverb-like token patterns",
+        "weight": 0.1623
+      }
+    ]
+  },
+  "6018": {
+    "label": "Synonym replacement or word substitution tasks",
+    "outputs": [
+      {
+        "id": 5559,
+        "label": "Repetitive output or adverb-like token patterns",
+        "weight": 0.17
+      }
+    ]
+  },
+  "1452": {
+    "label": "Target audience or user demographic specification",
+    "outputs": [
+      {
+        "id": 5598,
+        "label": "References to people or individuals in explanatory contexts",
+        "weight": 0.161
+      }
+    ]
+  },
+  "4681": {
+    "label": "Social connections: friends, family, and colleagues",
+    "outputs": [
+      {
+        "id": 5598,
+        "label": "References to people or individuals in explanatory contexts",
+        "weight": 0.1527
+      }
+    ]
+  },
+  "10220": {
+    "label": "Number four in text or code contexts",
+    "outputs": [
+      {
+        "id": 5652,
+        "label": "Number-to-text conversion or digit \"4\" representation",
+        "weight": 0.1772
+      }
+    ]
+  },
+  "1677": {
+    "label": "Feature fires on token \"on\" in various contexts",
+    "outputs": [
+      {
+        "id": 5838,
+        "label": "Colors positioned opposite each other on color wheel",
+        "weight": 0.1594
+      }
+    ]
+  },
+  "7593": {
+    "label": "Verbs for presenting or referencing information in articles/summaries",
+    "outputs": [
+      {
+        "id": 5840,
+        "label": "Meta-descriptor of content purpose or explanatory nature",
+        "weight": 0.1616
+      }
+    ]
+  },
+  "1097": {
+    "label": "Surnames or last names in character introductions",
+    "outputs": [
+      {
+        "id": 5876,
+        "label": "Last names or surnames following first names in character introductions",
+        "weight": 0.1779
+      }
+    ]
+  },
+  "4876": {
+    "label": "Character names in literary summaries and discussions",
+    "outputs": [
+      {
+        "id": 5876,
+        "label": "Last names or surnames following first names in character introductions",
+        "weight": 0.1843
+      },
+      {
+        "id": 10771,
+        "label": "Biographical information and birth details in encyclopedic text",
+        "weight": 0.1641
+      }
+    ]
+  },
+  "9510": {
+    "label": "Period after character introduction in narrative storytelling",
+    "outputs": [
+      {
+        "id": 5876,
+        "label": "Last names or surnames following first names in character introductions",
+        "weight": 0.1732
+      }
+    ]
+  },
+  "8783": {
+    "label": "Comma or list separator in structured enumerations",
+    "outputs": [
+      {
+        "id": 5911,
+        "label": "Commas and enumeration in structured lists or sequences",
+        "weight": 0.169
+      }
+    ]
+  },
+  "10482": {
+    "label": "Commas in lists or enumerations of items or numbers",
+    "outputs": [
+      {
+        "id": 5911,
+        "label": "Commas and enumeration in structured lists or sequences",
+        "weight": 0.1785
+      }
+    ]
+  },
+  "3015": {
+    "label": "Major world capital cities (Paris, Tokyo, Berlin, etc.)",
+    "outputs": [
+      {
+        "id": 6087,
+        "label": "Major world city names (especially capitals)",
+        "weight": 0.1552
+      }
+    ]
+  },
+  "3475": {
+    "label": "Environmental consequences and impacts (extreme weather, rising sea levels, biodiversity loss)",
+    "outputs": [
+      {
+        "id": 6196,
+        "label": "Climate change effects: rising sea levels, coastal flooding, erosion",
+        "weight": 0.1546
+      }
+    ]
+  },
+  "105": {
+    "label": "Introducing lists or enumerations with \"variety/several reasons\"",
+    "outputs": [
+      {
+        "id": 6254,
+        "label": "\"for a variety of reasons\" or multiple reasons phrase",
+        "weight": 0.1542
+      }
+    ]
+  },
+  "9354": {
+    "label": "Introducing reasons or key points in explanatory contexts",
+    "outputs": [
+      {
+        "id": 6254,
+        "label": "\"for a variety of reasons\" or multiple reasons phrase",
+        "weight": 0.1653
+      }
+    ]
+  },
+  "1816": {
+    "label": "Regular expression pattern syntax and components",
+    "outputs": [
+      {
+        "id": 6284,
+        "label": "Regex pattern construction or matching explanation",
+        "weight": 0.1535
+      }
+    ]
+  },
+  "6991": {
+    "label": "Short narrative or story generation task",
+    "outputs": [
+      {
+        "id": 6443,
+        "label": "Feature relating to generating or describing textual content (stories, summaries, excerpts)",
+        "weight": 0.1577
+      }
+    ]
+  },
+  "2057": {
+    "label": "Grouping or set membership in technical/mathematical contexts",
+    "outputs": [
+      {
+        "id": 6512,
+        "label": "\"a range of\" phrase or enumeration contexts",
+        "weight": 0.1562
+      }
+    ]
+  },
+  "353": {
+    "label": "COVID-19 pandemic response measures and virus spread",
+    "outputs": [
+      {
+        "id": 6549,
+        "label": "COVID-19 pandemic economic impact and recovery discussion",
+        "weight": 0.1689
+      }
+    ]
+  },
+  "2110": {
+    "label": "News headlines and current events reporting",
+    "outputs": [
+      {
+        "id": 6549,
+        "label": "COVID-19 pandemic economic impact and recovery discussion",
+        "weight": 0.1711
+      }
+    ]
+  },
+  "4019": {
+    "label": "Year 2020 or recent year references and pandemic context",
+    "outputs": [
+      {
+        "id": 6549,
+        "label": "COVID-19 pandemic economic impact and recovery discussion",
+        "weight": 0.1602
+      }
+    ]
+  },
+  "2156": {
+    "label": "Company/brand name generation and listing",
+    "outputs": [
+      {
+        "id": 6588,
+        "label": "Brand/product names in advertisements and promotional content",
+        "weight": 0.1522
+      }
+    ]
+  },
+  "9292": {
+    "label": "AI acknowledging inability to perform task but offering alternative help",
+    "outputs": [
+      {
+        "id": 6806,
+        "label": "Staying organized and focused on tasks or goals",
+        "weight": 0.1504
+      }
+    ]
+  },
+  "9558": {
+    "label": "Opinion/feedback questions in conversational contexts",
+    "outputs": [
+      {
+        "id": 6817,
+        "label": "Question-starting words in interview/survey question generation",
+        "weight": 0.1508
+      }
+    ]
+  },
+  "1798": {
+    "label": "Subtracting constant from both sides in algebraic equations",
+    "outputs": [
+      {
+        "id": 6882,
+        "label": "Dollar sign in mathematical calculations and pricing contexts",
+        "weight": 0.1544
+      }
+    ]
+  },
+  "4285": {
+    "label": "Prime number checking function definition",
+    "outputs": [
+      {
+        "id": 6882,
+        "label": "Dollar sign in mathematical calculations and pricing contexts",
+        "weight": 0.1533
+      }
+    ]
+  },
+  "8373": {
+    "label": "Dragon who loves to do hobby activities",
+    "outputs": [
+      {
+        "id": 6887,
+        "label": "\"loves to\" verb phrase in creative prompt continuations",
+        "weight": 0.1556
+      }
+    ]
+  },
+  "11667": {
+    "label": "Grammatical clauses and sentence structure analysis",
+    "outputs": [
+      {
+        "id": 6987,
+        "label": "Grammatical sentence structure and clause identification",
+        "weight": 0.1521
+      }
+    ]
+  },
+  "8062": {
+    "label": "Cost-effectiveness or savings in listed benefits",
+    "outputs": [
+      {
+        "id": 6992,
+        "label": "French language or greeting terms",
+        "weight": 0.1612
+      }
+    ]
+  },
+  "8859": {
+    "label": "Medical conditions, symptoms, or health-related complications",
+    "outputs": [
+      {
+        "id": 6992,
+        "label": "French language or greeting terms",
+        "weight": 0.1608
+      }
+    ]
+  },
+  "1826": {
+    "label": "Poetic line breaks and comma pauses in verse structure",
+    "outputs": [
+      {
+        "id": 7082,
+        "label": "Poetic rhythm and structure with descriptive article-noun patterns",
+        "weight": 0.1553
+      }
+    ]
+  },
+  "10981": {
+    "label": "Staying connected, updated, or active in various contexts",
+    "outputs": [
+      {
+        "id": 7187,
+        "label": "Feature related to staying connected, updated, or informed in professional contexts",
+        "weight": 0.1656
+      }
+    ]
+  },
+  "3424": {
+    "label": "Sentence-ending punctuation followed by conjunction or continuation",
+    "outputs": [
+      {
+        "id": 7243,
+        "label": "Sentence-ending quotation marks in dialogue or quoted text",
+        "weight": 0.1772
+      },
+      {
+        "id": 11498,
+        "label": "Sentence-ending punctuation and conclusion markers in various contexts",
+        "weight": 0.1516
+      }
+    ]
+  },
+  "8720": {
+    "label": "Sentence correction or editing completion marker",
+    "outputs": [
+      {
+        "id": 7243,
+        "label": "Sentence-ending quotation marks in dialogue or quoted text",
+        "weight": 0.1734
+      }
+    ]
+  },
+  "9258": {
+    "label": "End of sentence or statement with punctuation in various formats",
+    "outputs": [
+      {
+        "id": 7243,
+        "label": "Sentence-ending quotation marks in dialogue or quoted text",
+        "weight": 0.2228
+      }
+    ]
+  },
+  "8077": {
+    "label": "Addition operators in arithmetic sum calculations",
+    "outputs": [
+      {
+        "id": 7257,
+        "label": "Mathematical equation equals sign in calculation expressions",
+        "weight": 0.1695
+      }
+    ]
+  },
+  "10335": {
+    "label": "Mathematical operators and equation formatting symbols",
+    "outputs": [
+      {
+        "id": 7257,
+        "label": "Mathematical equation equals sign in calculation expressions",
+        "weight": 0.1722
+      }
+    ]
+  },
+  "7826": {
+    "label": "Data or datasets in machine learning contexts",
+    "outputs": [
+      {
+        "id": 7425,
+        "label": "Machine learning models trained on labeled datasets and data-driven algorithms",
+        "weight": 0.1616
+      }
+    ]
+  },
+  "9680": {
+    "label": "Poetic or evocative titles containing \"Embrace\"",
+    "outputs": [
+      {
+        "id": 7554,
+        "label": "Words ending in suffixes like \"-ive\", \"-ate\", \"-ion\"",
+        "weight": 0.164
+      }
+    ]
+  },
+  "10065": {
+    "label": "Hidden door in mystery story prompts",
+    "outputs": [
+      {
+        "id": 7645,
+        "label": "List items in creative writing prompt templates",
+        "weight": 0.1862
+      }
+    ]
+  },
+  "4016": {
+    "label": "Mathematical operators in algebraic equations (plus, equals signs)",
+    "outputs": [
+      {
+        "id": 7728,
+        "label": "Mathematical equation symbols, particularly equals and plus signs",
+        "weight": 0.1515
+      }
+    ]
+  },
+  "5874": {
+    "label": "Data structures and algorithms in computer science contexts",
+    "outputs": [
+      {
+        "id": 7803,
+        "label": "Data science terminology and technical field concepts",
+        "weight": 0.1524
+      }
+    ]
+  },
+  "5973": {
+    "label": "List of multiple items or enumeration pattern",
+    "outputs": [
+      {
+        "id": 7897,
+        "label": "Grammatical correctness or sentence structure analysis",
+        "weight": 0.1637
+      }
+    ]
+  },
+  "8482": {
+    "label": "Comparative or superlative degree emphasis (most, more, greatest, lesser)",
+    "outputs": [
+      {
+        "id": 7897,
+        "label": "Grammatical correctness or sentence structure analysis",
+        "weight": 0.1646
+      }
+    ]
+  },
+  "9894": {
+    "label": "passive voice grammatical construction focus",
+    "outputs": [
+      {
+        "id": 7897,
+        "label": "Grammatical correctness or sentence structure analysis",
+        "weight": 0.162
+      }
+    ]
+  },
+  "6427": {
+    "label": "Numbered list items or section headers in instructional/procedural text",
+    "outputs": [
+      {
+        "id": 11387,
+        "label": "Bold/asterisk formatting markers in structured text lists",
+        "weight": 0.1688
+      },
+      {
+        "id": 7904,
+        "label": "Numbered list item prefixes or enumeration markers",
+        "weight": 0.1541
+      }
+    ]
+  },
+  "10687": {
+    "label": "Enhanced or increased access to information and learning resources",
+    "outputs": [
+      {
+        "id": 7904,
+        "label": "Numbered list item prefixes or enumeration markers",
+        "weight": 0.1746
+      }
+    ]
+  },
+  "11506": {
+    "label": "Enumerated list items or structured step descriptions",
+    "outputs": [
+      {
+        "id": 7904,
+        "label": "Numbered list item prefixes or enumeration markers",
+        "weight": 0.1679
+      }
+    ]
+  },
+  "191": {
+    "label": "Modal verb \"should\" for recommendations and obligations",
+    "outputs": [
+      {
+        "id": 8138,
+        "label": "Requirements or constraints in creative writing tasks",
+        "weight": 0.1921
+      }
+    ]
+  },
+  "4688": {
+    "label": "Formal email opening phrases \"I hope\" and \"I am writing\"",
+    "outputs": [
+      {
+        "id": 8138,
+        "label": "Requirements or constraints in creative writing tasks",
+        "weight": 0.1518
+      }
+    ]
+  },
+  "6792": {
+    "label": "Enumerations and lists (commas, conjunctions, series connectors)",
+    "outputs": [
+      {
+        "id": 8266,
+        "label": "Lists of plant-based foods or dietary components",
+        "weight": 0.1738
+      }
+    ]
+  },
+  "9126": {
+    "label": "Poetic meter, syllables, and stanza structure analysis",
+    "outputs": [
+      {
+        "id": 8285,
+        "label": "Iambic pentameter meter in poetry analysis",
+        "weight": 0.168
+      }
+    ]
+  },
+  "2448": {
+    "label": "Digit \"3\" in mathematical sequences and enumerations",
+    "outputs": [
+      {
+        "id": 8298,
+        "label": "Numbers \"3\" or \"4\" in enumerations and mathematical contexts",
+        "weight": 0.1601
+      }
+    ]
+  },
+  "3497": {
+    "label": "Number \"3\" in mathematical contexts and formulas",
+    "outputs": [
+      {
+        "id": 8298,
+        "label": "Numbers \"3\" or \"4\" in enumerations and mathematical contexts",
+        "weight": 0.1694
+      }
+    ]
+  },
+  "7066": {
+    "label": "Numeric literals (especially \"3\") and ordinal references in various contexts",
+    "outputs": [
+      {
+        "id": 8298,
+        "label": "Numbers \"3\" or \"4\" in enumerations and mathematical contexts",
+        "weight": 0.1579
+      }
+    ]
+  },
+  "902": {
+    "label": "Password characters and letter-by-letter spelling output",
+    "outputs": [
+      {
+        "id": 8369,
+        "label": "Password generation with alphanumeric and special characters",
+        "weight": 0.1547
+      }
+    ]
+  },
+  "4571": {
+    "label": "Markdown bold formatting and colon separators in structured text",
+    "outputs": [
+      {
+        "id": 8381,
+        "label": "Task delimiter or instruction separator marker",
+        "weight": 0.1566
+      }
+    ]
+  },
+  "8249": {
+    "label": "Markdown section separator (colon after bold text)",
+    "outputs": [
+      {
+        "id": 8381,
+        "label": "Task delimiter or instruction separator marker",
+        "weight": 0.1704
+      }
+    ]
+  },
+  "3046": {
+    "label": "Task/instruction beginning or code function definition marker",
+    "outputs": [
+      {
+        "id": 8458,
+        "label": "Feature fires on first token of a response or statement.",
+        "weight": 0.1818
+      }
+    ]
+  },
+  "315": {
+    "label": "Superlative comparisons (most, -est) in rankings and extremes",
+    "outputs": [
+      {
+        "id": 8480,
+        "label": "Superlative descriptor \"largest\" in factual descriptions",
+        "weight": 0.1516
+      }
+    ]
+  },
+  "3415": {
+    "label": "Dollar sign in monetary calculations and price expressions",
+    "outputs": [
+      {
+        "id": 8540,
+        "label": "Dollar sign in financial calculations and pricing contexts",
+        "weight": 0.1608
+      }
+    ]
+  },
+  "982": {
+    "label": "Rubik's Cube solving steps and white cross positioning",
+    "outputs": [
+      {
+        "id": 8577,
+        "label": "Solving Rubik's Cube white cross and corners steps",
+        "weight": 0.1605
+      }
+    ]
+  },
+  "2594": {
+    "label": "List comprehension \"for\" keyword in Python iteration syntax",
+    "outputs": [
+      {
+        "id": 8718,
+        "label": "Prepositions indicating purpose or beneficiary (particularly \"for\")",
+        "weight": 0.1561
+      }
+    ]
+  },
+  "743": {
+    "label": "Harry Potter universe references and characters",
+    "outputs": [
+      {
+        "id": 8720,
+        "label": "Harry Potter character names and magical terminology",
+        "weight": 0.1587
+      }
+    ]
+  },
+  "5976": {
+    "label": "Harry Potter universe and magical world references",
+    "outputs": [
+      {
+        "id": 8720,
+        "label": "Harry Potter character names and magical terminology",
+        "weight": 0.1552
+      }
+    ]
+  },
+  "7303": {
+    "label": "Harry Potter series references and character names",
+    "outputs": [
+      {
+        "id": 8720,
+        "label": "Harry Potter character names and magical terminology",
+        "weight": 0.1785
+      }
+    ]
+  },
+  "8011": {
+    "label": "Regular expression pattern structure or string start/end anchors",
+    "outputs": [
+      {
+        "id": 8802,
+        "label": "References to \"given\" input/list/array in programming contexts",
+        "weight": 0.1533
+      }
+    ]
+  },
+  "4947": {
+    "label": "Relative clause or attributive construction marker",
+    "outputs": [
+      {
+        "id": 8828,
+        "label": "Relative clause or subordinate conjunction \"that\"",
+        "weight": 0.177
+      }
+    ]
+  },
+  "8910": {
+    "label": "Relative pronoun \"that\" introducing descriptive clauses",
+    "outputs": [
+      {
+        "id": 8828,
+        "label": "Relative clause or subordinate conjunction \"that\"",
+        "weight": 0.1828
+      }
+    ]
+  },
+  "10092": {
+    "label": "Feature that introduces subordinate clauses or explanatory statements",
+    "outputs": [
+      {
+        "id": 8828,
+        "label": "Relative clause or subordinate conjunction \"that\"",
+        "weight": 0.1905
+      }
+    ]
+  },
+  "1534": {
+    "label": "Knowledge cutoff temporal reference (early 2023)",
+    "outputs": [
+      {
+        "id": 8880,
+        "label": "Knowledge cutoff timestamp \"as of my last update in early 2023\"",
+        "weight": 0.1624
+      }
+    ]
+  },
+  "11799": {
+    "label": "Historical years and dates in presidential contexts",
+    "outputs": [
+      {
+        "id": 8880,
+        "label": "Knowledge cutoff timestamp \"as of my last update in early 2023\"",
+        "weight": 0.1525
+      }
+    ]
+  },
+  "3298": {
+    "label": "Numerical sequences and ranges in programming contexts",
+    "outputs": [
+      {
+        "id": 8980,
+        "label": "Prime number checking logic and conditions",
+        "weight": 0.1565
+      }
+    ]
+  },
+  "2027": {
+    "label": "Maintaining original meaning while rewriting or reformatting text",
+    "outputs": [
+      {
+        "id": 9041,
+        "label": "Task instruction transition into additional constraints or requirements",
+        "weight": 0.1837
+      }
+    ]
+  },
+  "74": {
+    "label": "\"starting from\" or \"begin by\" transitional phrases",
+    "outputs": [
+      {
+        "id": 9077,
+        "label": "Author/creator attribution or \"by\" in citations and credits",
+        "weight": 0.1518
+      }
+    ]
+  },
+  "3948": {
+    "label": "Multiplication operation \"by\" or self-multiplication in mathematical contexts",
+    "outputs": [
+      {
+        "id": 9077,
+        "label": "Author/creator attribution or \"by\" in citations and credits",
+        "weight": 0.2102
+      },
+      {
+        "id": 11258,
+        "label": "Mathematical operations or actions performed by an agent/entity",
+        "weight": 0.1748
+      }
+    ]
+  },
+  "12018": {
+    "label": "Causation or agency indicator (actions/changes \"by\" something)",
+    "outputs": [
+      {
+        "id": 9077,
+        "label": "Author/creator attribution or \"by\" in citations and credits",
+        "weight": 0.1757
+      }
+    ]
+  },
+  "5540": {
+    "label": "Commas in numerical or structured data formatting",
+    "outputs": [
+      {
+        "id": 9144,
+        "label": "Commas in list or coordinate notation",
+        "weight": 0.1523
+      }
+    ]
+  },
+  "5711": {
+    "label": "Comma or date/location separator punctuation in formatted data",
+    "outputs": [
+      {
+        "id": 9144,
+        "label": "Commas in list or coordinate notation",
+        "weight": 0.1643
+      }
+    ]
+  },
+  "5114": {
+    "label": "Main idea or central topic identification in texts",
+    "outputs": [
+      {
+        "id": 9286,
+        "label": "Main idea or topic identification in text analysis",
+        "weight": 0.1795
+      }
+    ]
+  },
+  "10143": {
+    "label": "\"Known for\" or reputation/fame attribution phrase",
+    "outputs": [
+      {
+        "id": 9381,
+        "label": "Known for; renowned for; famous for",
+        "weight": 0.1574
+      }
+    ]
+  },
+  "9939": {
+    "label": "\"look no further\" phrase in promotional/sales contexts",
+    "outputs": [
+      {
+        "id": 9429,
+        "label": "Feature for future-oriented or forward-looking contexts",
+        "weight": 0.1682
+      }
+    ]
+  },
+  "1105": {
+    "label": "High-end restaurants with Michelin stars and French cuisine",
+    "outputs": [
+      {
+        "id": 9549,
+        "label": "Restaurant descriptions with positive attributes and amenities",
+        "weight": 0.1687
+      }
+    ]
+  },
+  "3614": {
+    "label": "Self-driving/autonomous vehicles and related transportation technology",
+    "outputs": [
+      {
+        "id": 9558,
+        "label": "Vehicle features, specifications, and automotive product descriptions",
+        "weight": 0.1803
+      }
+    ]
+  },
+  "11869": {
+    "label": "Electric vehicles and automotive technology features",
+    "outputs": [
+      {
+        "id": 9558,
+        "label": "Vehicle features, specifications, and automotive product descriptions",
+        "weight": 0.1707
+      }
+    ]
+  },
+  "2537": {
+    "label": "Poetic imagery and vivid descriptive language in nature writing",
+    "outputs": [
+      {
+        "id": 9564,
+        "label": "Poetic imagery: descriptive words in creative/lyrical contexts (glow, flow, sight)",
+        "weight": 0.1583
+      }
+    ]
+  },
+  "6215": {
+    "label": "First-person pronouns and self-referential statements in dialogue",
+    "outputs": [
+      {
+        "id": 9574,
+        "label": "First-person pronoun \"I\" in responses or translations",
+        "weight": 0.1603
+      }
+    ]
+  },
+  "1601": {
+    "label": "Token \"izing\" (suffix for verbs ending in -izing)",
+    "outputs": [
+      {
+        "id": 9678,
+        "label": "Token indicating summarization or synthesis action in responses",
+        "weight": 0.1516
+      }
+    ]
+  },
+  "138": {
+    "label": "Colon punctuation preceding quoted or listed content",
+    "outputs": [
+      {
+        "id": 9726,
+        "label": "Numbered list item formatting (colon after bold marker)",
+        "weight": 0.186
+      }
+    ]
+  },
+  "685": {
+    "label": "Colon punctuation following statements or labels",
+    "outputs": [
+      {
+        "id": 9726,
+        "label": "Numbered list item formatting (colon after bold marker)",
+        "weight": 0.1715
+      }
+    ]
+  },
+  "4489": {
+    "label": "Colon punctuation mark in list or categorization contexts",
+    "outputs": [
+      {
+        "id": 9726,
+        "label": "Numbered list item formatting (colon after bold marker)",
+        "weight": 0.1753
+      }
+    ]
+  },
+  "7513": {
+    "label": "Title or heading introduction marker in creative writing outputs",
+    "outputs": [
+      {
+        "id": 9726,
+        "label": "Numbered list item formatting (colon after bold marker)",
+        "weight": 0.1532
+      }
+    ]
+  },
+  "10624": {
+    "label": "Colon punctuation after bold markdown formatting in numbered lists",
+    "outputs": [
+      {
+        "id": 9726,
+        "label": "Numbered list item formatting (colon after bold marker)",
+        "weight": 0.1711
+      }
+    ]
+  },
+  "1296": {
+    "label": "Repeating digit sequences in degenerate model outputs",
+    "outputs": [
+      {
+        "id": 9922,
+        "label": "Repeated digit \"1\" token in model failure or loop state",
+        "weight": 0.1558
+      }
+    ]
+  },
+  "5227": {
+    "label": "Repetitive token generation or model degeneration/collapse state",
+    "outputs": [
+      {
+        "id": 9922,
+        "label": "Repeated digit \"1\" token in model failure or loop state",
+        "weight": 0.1651
+      }
+    ]
+  },
+  "4298": {
+    "label": "Line breaks in poetry, particularly after commas and punctuation",
+    "outputs": [
+      {
+        "id": 9941,
+        "label": "Poetic line endings with punctuation and line breaks",
+        "weight": 0.1546
+      }
+    ]
+  },
+  "6691": {
+    "label": "Sentence or instruction step endings and transitions",
+    "outputs": [
+      {
+        "id": 9941,
+        "label": "Poetic line endings with punctuation and line breaks",
+        "weight": 0.1984
+      }
+    ]
+  },
+  "8936": {
+    "label": "Numbered list item separator or transition between enumerated steps",
+    "outputs": [
+      {
+        "id": 9941,
+        "label": "Poetic line endings with punctuation and line breaks",
+        "weight": 0.1654
+      }
+    ]
+  },
+  "9247": {
+    "label": "Newline after numeric or list item formatting",
+    "outputs": [
+      {
+        "id": 9941,
+        "label": "Poetic line endings with punctuation and line breaks",
+        "weight": 0.1659
+      }
+    ]
+  },
+  "12161": {
+    "label": "Enumerated list item transitions and separators",
+    "outputs": [
+      {
+        "id": 9941,
+        "label": "Poetic line endings with punctuation and line breaks",
+        "weight": 0.1751
+      }
+    ]
+  },
+  "10977": {
+    "label": "Loss of biodiversity and habitat destruction in ecosystems",
+    "outputs": [
+      {
+        "id": 9946,
+        "label": "Loss of biodiversity and habitat destruction consequences",
+        "weight": 0.1517
+      }
+    ]
+  },
+  "8109": {
+    "label": "Customer service quality and improvement",
+    "outputs": [
+      {
+        "id": 9966,
+        "label": "Customer service quality and satisfaction survey questions",
+        "weight": 0.1524
+      }
+    ]
+  },
+  "284": {
+    "label": "Financial amounts, rates, and totals in calculations",
+    "outputs": [
+      {
+        "id": 9989,
+        "label": "Financial expenses and budget tracking contexts",
+        "weight": 0.1619
+      }
+    ]
+  },
+  "6518": {
+    "label": "Personal finance planning: income, expenses, debts, and budgeting",
+    "outputs": [
+      {
+        "id": 9989,
+        "label": "Financial expenses and budget tracking contexts",
+        "weight": 0.1758
+      }
+    ]
+  },
+  "7907": {
+    "label": "Financial considerations: budgets, prices, costs, and purchasing decisions",
+    "outputs": [
+      {
+        "id": 9989,
+        "label": "Financial expenses and budget tracking contexts",
+        "weight": 0.17
+      }
+    ]
+  },
+  "2615": {
+    "label": "positive emotions and welcoming atmosphere or mindset",
+    "outputs": [
+      {
+        "id": 10069,
+        "label": "Emotional states and abstract qualities or characteristics",
+        "weight": 0.1861
+      }
+    ]
+  },
+  "5878": {
+    "label": "Comparative adjective forms and intensifiers",
+    "outputs": [
+      {
+        "id": 10217,
+        "label": "Comparative or intensifying adverbs indicating improvement or enhancement",
+        "weight": 0.1785
+      }
+    ]
+  },
+  "3683": {
+    "label": "Number 10 in lists, tables, or sequences",
+    "outputs": [
+      {
+        "id": 10279,
+        "label": "Number \"10\" in lists, tables, or numeric sequences",
+        "weight": 0.1619
+      }
+    ]
+  },
+  "4572": {
+    "label": "HTML paragraph tags and similar structural elements",
+    "outputs": [
+      {
+        "id": 10322,
+        "label": "Professional correspondence opening phrase \"I hope this message finds you well\"",
+        "weight": 0.1925
+      }
+    ]
+  },
+  "7292": {
+    "label": "Pronoun \"it\" referring to previously mentioned subject or entity",
+    "outputs": [
+      {
+        "id": 10322,
+        "label": "Professional correspondence opening phrase \"I hope this message finds you well\"",
+        "weight": 0.1707
+      }
+    ]
+  },
+  "6930": {
+    "label": "Negation or absence (does not, did not)",
+    "outputs": [
+      {
+        "id": 10610,
+        "label": "Negation or absence in explanatory statements",
+        "weight": 0.1554
+      }
+    ]
+  },
+  "5098": {
+    "label": "End-of-response or greeting/script completion marker",
+    "outputs": [
+      {
+        "id": 10656,
+        "label": "Multiple newline characters (paragraph breaks or section separators)",
+        "weight": 0.1677
+      }
+    ]
+  },
+  "9041": {
+    "label": "Sequential numeric lists or arithmetic sequences",
+    "outputs": [
+      {
+        "id": 10755,
+        "label": "Sequential number enumeration in comma-separated lists",
+        "weight": 0.1552
+      }
+    ]
+  },
+  "11868": {
+    "label": "Numerical sequences and enumeration in structured lists or tables",
+    "outputs": [
+      {
+        "id": 10755,
+        "label": "Sequential number enumeration in comma-separated lists",
+        "weight": 0.1905
+      }
+    ]
+  },
+  "5355": {
+    "label": "Describing simplicity, conciseness, clarity, or achievability in instructions",
+    "outputs": [
+      {
+        "id": 10965,
+        "label": "Catchy, concise titles or slogans meeting word count constraints",
+        "weight": 0.1504
+      }
+    ]
+  },
+  "372": {
+    "label": "High school context or educational setting reference",
+    "outputs": [
+      {
+        "id": 11017,
+        "label": "High-quality or premium grade descriptor in product/service contexts",
+        "weight": 0.1677
+      }
+    ]
+  },
+  "5123": {
+    "label": "High-level or high-quality descriptor prefix",
+    "outputs": [
+      {
+        "id": 11017,
+        "label": "High-quality or premium grade descriptor in product/service contexts",
+        "weight": 0.1745
+      }
+    ]
+  },
+  "5664": {
+    "label": "High-quality or high-intensity descriptive prefix for product attributes",
+    "outputs": [
+      {
+        "id": 11017,
+        "label": "High-quality or premium grade descriptor in product/service contexts",
+        "weight": 0.1538
+      }
+    ]
+  },
+  "1529": {
+    "label": "Numerical values in mathematical or financial calculations",
+    "outputs": [
+      {
+        "id": 11301,
+        "label": "Unit conversion numerical constants and ratios",
+        "weight": 0.1621
+      }
+    ]
+  },
+  "2806": {
+    "label": "Population estimates with \"approximately\" or \"over\" qualifiers",
+    "outputs": [
+      {
+        "id": 11301,
+        "label": "Unit conversion numerical constants and ratios",
+        "weight": 0.1868
+      }
+    ]
+  },
+  "10897": {
+    "label": "Prime numbers greater than 1 definition context",
+    "outputs": [
+      {
+        "id": 11301,
+        "label": "Unit conversion numerical constants and ratios",
+        "weight": 0.1674
+      }
+    ]
+  },
+  "3660": {
+    "label": "Markdown bold/emphasis formatting marker in structured list contexts",
+    "outputs": [
+      {
+        "id": 11387,
+        "label": "Bold/asterisk formatting markers in structured text lists",
+        "weight": 0.1588
+      }
+    ]
+  },
+  "927": {
+    "label": "Punctuation and sentence-ending markers in conversational dialogue",
+    "outputs": [
+      {
+        "id": 11498,
+        "label": "Sentence-ending punctuation and conclusion markers in various contexts",
+        "weight": 0.1661
+      }
+    ]
+  },
+  "3190": {
+    "label": "Sentence or clause endings in multilingual contexts",
+    "outputs": [
+      {
+        "id": 11498,
+        "label": "Sentence-ending punctuation and conclusion markers in various contexts",
+        "weight": 0.155
+      }
+    ]
+  },
+  "4033": {
+    "label": "Sentence-ending punctuation in multi-language contexts",
+    "outputs": [
+      {
+        "id": 11498,
+        "label": "Sentence-ending punctuation and conclusion markers in various contexts",
+        "weight": 0.1719
+      }
+    ]
+  },
+  "3643": {
+    "label": "Past tense verb forms in grammatical analysis or conjugation tasks",
+    "outputs": [
+      {
+        "id": 11515,
+        "label": "Narrative past tense or story continuation marker",
+        "weight": 0.1931
+      }
+    ]
+  },
+  "8899": {
+    "label": "Past tense or completed state verbs in narrative contexts",
+    "outputs": [
+      {
+        "id": 11515,
+        "label": "Narrative past tense or story continuation marker",
+        "weight": 0.1818
+      }
+    ]
+  },
+  "10829": {
+    "label": "Emotional intensity and physical manifestations of fear/anxiety",
+    "outputs": [
+      {
+        "id": 11515,
+        "label": "Narrative past tense or story continuation marker",
+        "weight": 0.1551
+      }
+    ]
+  },
+  "11012": {
+    "label": "Character introduction following descriptive noun phrase",
+    "outputs": [
+      {
+        "id": 11515,
+        "label": "Narrative past tense or story continuation marker",
+        "weight": 0.1587
+      }
+    ]
+  },
+  "3285": {
+    "label": "Medical professionals and healthcare workers",
+    "outputs": [
+      {
+        "id": 11576,
+        "label": "Healthcare services, medical procedures, and clinical diagnostics",
+        "weight": 0.1609
+      }
+    ]
+  },
+  "358": {
+    "label": "Existential or negation statements (is/are/no constructions)",
+    "outputs": [
+      {
+        "id": 11589,
+        "label": "Negation or absence of something expected or claimed",
+        "weight": 0.164
+      }
+    ]
+  },
+  "7285": {
+    "label": "Cellular organelles and biological processes (mitochondria, ribosomes, transcription, translation)",
+    "outputs": [
+      {
+        "id": 11824,
+        "label": "Mitosis stages and cellular division processes",
+        "weight": 0.1554
+      }
+    ]
+  },
+  "11741": {
+    "label": "Task or instruction formatting/prompting marker token",
+    "outputs": [
+      {
+        "id": 12172,
+        "label": "Feature label: Task transition or instruction prompt markers",
+        "weight": 0.1599
+      }
+    ]
+  },
+  "6985": {
+    "label": "Acronym or abbreviation introduction (following organizational/technical names)",
+    "outputs": [
+      {
+        "id": 12252,
+        "label": "Opening parenthesis following acronyms or abbreviations",
+        "weight": 0.1521
+      }
+    ]
+  }
+}
