@@ -15,38 +15,38 @@ def process_file(raw_path, out_path, label):
     """Process a raw activations file into feature contexts"""
     print(f"  Processing {label}...")
 
-    features = defaultdict(lambda: {"contexts": [], "decoding": None})
+    features = defaultdict(lambda: {"tokens": [], "decoding": None})
 
-    try:
-        with open(raw_path, "r") as f:
-            for line in f:
-                entry = json.loads(line)
-                fid = entry["feature_id"]
-                features[fid]["contexts"].append({
-                    "example_id": entry["example_id"],
-                    "activations": entry["activations"]
-                })
-    except FileNotFoundError:
-        print(f"    Skipping - file not found: {raw_path}")
-        return 0
+    with open(raw_path, "r") as f:
+        for line in f:
+            entry = json.loads(line)
+            fid = entry["feature_id"]
+            # get max activation for this example and collect tokens
+            max_act = max(act["activation"] for act in entry["activations"])
+            tokens = [act["token"] for act in entry["activations"]]
+            features[fid]["tokens"].append({
+                "max_act": max_act,
+                "tokens": tokens
+            })
 
     total_features = len(features)
 
     # filter out features that didn't fire enough times
     features = {fid: data for fid, data in features.items()
-                if len(data["contexts"]) >= MIN_ACTIVATED_TIMES}
+                if len(data["tokens"]) >= MIN_ACTIVATED_TIMES}
 
     filtered_count = total_features - len(features)
 
-    # keep only top k contexts per feature by max activation
+    # keep only top k contexts per feature by max activation, then flatten to just tokens
     for fid in features:
-        contexts = features[fid]["contexts"]
-        for ctx in contexts:
-            ctx["max_act"] = max(act["activation"] for act in ctx["activations"])
+        contexts = features[fid]["tokens"]
         contexts.sort(key=lambda x: x["max_act"], reverse=True)
-        features[fid]["contexts"] = contexts[:TOP_K]
-        for ctx in features[fid]["contexts"]:
-            del ctx["max_act"]
+        top_contexts = contexts[:TOP_K]
+        # flatten: just the tokens, no activation values or positions
+        all_tokens = []
+        for ctx in top_contexts:
+            all_tokens.extend(ctx["tokens"])
+        features[fid]["tokens"] = all_tokens
 
     features = {k: dict(v) for k, v in features.items()}
 
