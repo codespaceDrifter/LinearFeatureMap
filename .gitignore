@@ -3,3 +3,6 @@ data
 weights
 *.pyc
 __pycache__
+
+!data/features/
+!data/labels/
