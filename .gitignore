@@ -4,5 +4,5 @@ weights
 *.pyc
 __pycache__
 
-!data/features/
-!data/labels/
+!data/features
+!data/labels
