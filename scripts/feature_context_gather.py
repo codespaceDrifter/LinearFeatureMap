@@ -3,8 +3,8 @@ from collections import defaultdict
 import os
 from scripts.config import config, pathconfig
 
-TOP_K = 5  # top contexts to keep per feature
-MIN_ACTIVATED_TIMES = 15  # feature must fire in at least this many examples to be kept
+TOP_K = 4  # top contexts to keep per feature
+MIN_ACTIVATED_TIMES = 20  # feature must fire in at least this many examples to be kept
 
 os.makedirs("./data/contexts", exist_ok=True)
 

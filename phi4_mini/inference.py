@@ -4,7 +4,7 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 class Phi4Inference:
     def __init__(self, model_path="./weights/phi4-mini", device="cuda"):
         self.model = AutoModelForCausalLM.from_pretrained(
-            model_path, torch_dtype=torch.bfloat16, trust_remote_code=False
+            model_path, dtype=torch.bfloat16, trust_remote_code=False
         ).to(device)
         self.tokenizer = AutoTokenizer.from_pretrained(model_path, trust_remote_code=False)
         self.model.eval()
